@@ -1,5 +1,11 @@
 package test;
 
+import airport.Airport;
+import airport.Airports;
+import dao.ServerInterface;
+import flight.Flight;
+import flight.Flights;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -7,7 +13,9 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 
 public class HTTPServer {
     public static void main(String[] args) {
@@ -21,11 +29,34 @@ public class HTTPServer {
                 BufferedReader httpReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
                 String requestLine=httpReader.readLine();
                 String[] requestArray = requestLine.split(" ");
-//                System.out.println("Request: "+requestLine);
-                System.out.println(Arrays.toString(requestArray));
-//                String readStr = httpReader.readLine();
-//                String[] strs = readStr.split(" ");
-//                System.out.println(httpReader.toString());
+                String request = requestArray[1];
+                String[] requests = request.split("\\?");
+                HashMap<String, String> parameterPairs = new HashMap<>();
+                if (requests.length>1) {
+                    String[] parameters = requests[1].split("&");
+                    for (String parameter: parameters) {
+                        String[] pair = parameter.split("=");
+                        parameterPairs.put(pair[0], pair[1]);
+                    }
+                    System.out.println(parameterPairs);
+                    if (parameterPairs.get("action").equals("list")){
+                        if (parameterPairs.get("listType").equals("airports")) {
+                            Airports airports = ServerInterface.INSTANCE.getAirports(parameterPairs.get("teamName"));
+                            Collections.sort(airports);
+                            for (Airport airport : airports) {
+                                System.out.println(airport.toString());
+                            }
+                        }
+                        else if (parameterPairs.get("listType").equals("departing") || parameterPairs.get("listType").equals("arriving")) {
+                            Flights flights = ServerInterface.INSTANCE.getFlights(parameterPairs.get("teamName"), parameterPairs.get("listType"), parameterPairs.get("airport"), parameterPairs.get("day"));
+                            Collections.sort(flights);
+                            for (Flight flight: flights) {
+                                System.out.println(flight.toString());
+                            }
+                        }
+                    }
+                }
+//                System.out.println(Arrays.toString(requestArray));
                 OutputStream os = socket.getOutputStream();
 
                 os.write("HTTP/1.1 200 OK\r\n".getBytes());
@@ -35,8 +66,8 @@ public class HTTPServer {
                 os.write(("Date:"+new Date()+"\r\n").getBytes());
                 os.write("\r\n".getBytes());
                 os.write("<body>".getBytes());
-                os.write("<h1>hello!</h1>".getBytes());
-                os.write("<h3>HTTP服务器!</h3>".getBytes("utf-8"));
+                os.write("<h1>hello! </h1>".getBytes());
+                os.write("<h3>HTTP Server! </h3>".getBytes("utf-8"));
                 os.write("</body>".getBytes());
                 os.close();
                 socket.close();
