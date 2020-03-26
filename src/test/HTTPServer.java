@@ -49,7 +49,7 @@ public class HTTPServer {
                                 StringBuilder ssss = null;
                                 for (Airport airport : airports) {
                                     ssss.append(airport.toString()).append("\r\n");
-                                    System.out.println(airport.toString());
+//                                    System.out.println(airport.toString());
                                 }
                             }
                             else if (parameterPairs.get("listType").equals("departing") || parameterPairs.get("listType").equals("arriving")) {
@@ -60,7 +60,7 @@ public class HTTPServer {
                                 for (Flight flight: flights) {
                                     ssss.append(flight.toJson()).append(",");
 //                                    os.write((flight.toJson()+",").getBytes());
-                                    System.out.println(flight.toJson());
+//                                    System.out.println(flight.toJson());
                                 }
                                 ssss.append("]");
                                 System.out.println(ssss);
