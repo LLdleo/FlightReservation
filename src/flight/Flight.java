@@ -211,6 +211,25 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 	}
 
 	/**
+	 * Convert object to printable string of format "Code, (lat, lon), Name"
+	 *
+	 * @return the object formatted as String to display
+	 */
+	public String toJson() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("{");
+		sb.append("\"Number\":\"").append(mNumber).append("\",");
+		sb.append("\"Airplane\":\"").append(mAirplane).append("\",");
+		sb.append("\"DepartureCode\":\"").append(mDeparture.code).append("\",");
+		sb.append("\"DepartureTime\":\"").append(mDeparture.time).append("\",");
+		sb.append("\"ArrivalCode\":\"").append(mArrival.code).append("\",");
+		sb.append("\"ArrivalTime\":\"").append(mArrival.time).append("\"");
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	/**
 	 * get the airport name
 	 *
 	 * @return Airport name
