@@ -382,7 +382,7 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 			return false;
 
 		// If we don't have a 3 character code, object isn't valid
-		return (mNumber != null) && (mNumber.length() >= 3) && (mNumber.length() <= 4);
+		return (mNumber != null) && (mNumber.length() >= 4) && (mNumber.length() <= 5);
 	}
 	
 	/**
