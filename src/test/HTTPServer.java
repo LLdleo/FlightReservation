@@ -67,15 +67,11 @@ public class HTTPServer {
 
                                 OutputStream os = socket.getOutputStream();
                                 os.write("HTTP/1.1 200 OK\r\n".getBytes());
-                                os.write("Content-Type:json;charset=utf-8\r\n".getBytes());
+                                os.write("Content-Type:application/json;charset=utf-8\r\n".getBytes());
                                 os.write("Server:gybs\r\n".getBytes());
                                 os.write(("Date:"+new Date()+"\r\n").getBytes());
                                 os.write("\r\n".getBytes());
-                                os.write("<body>".getBytes());
-                                os.write("<a>".getBytes());
                                 os.write(ssss.toString().getBytes());
-                                os.write("</a>".getBytes());
-                                os.write("</body>".getBytes());
                                 os.close();
                             }
                         }
