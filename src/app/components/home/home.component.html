@@ -1,0 +1,66 @@
+<div class="container">
+    <form [formGroup]="flightForm" (ngSubmit)="searchFlights()" novalidate>
+      <div *ngIf="validMessage != ''">
+        <h3 class="has-info">{{validMessage}}</h3>
+      </div>
+      <div class="form-group">
+        <label>Date and airport type</label>
+        <select class="form-control" formControlName="dateType" required>
+          <option value="departing">departure</option>
+          <option value="arriving">arrival</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Airport</label>
+        <select class="form-control" formControlName="airport" required>
+            <option value="">Please select an airport</option>
+            <option *ngFor="let a of airports"
+                    [value]="a">
+                    {{a}}
+            </option>
+          </select>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" class="form-control" formControlName="date" required/>
+      </div>
+
+      <button type="submit" class="btn btn-primary" >Search</button>
+    </form>
+  </div>
+  <div class="container">
+    <table class="table table-bordered table-inverse">
+      <tr>
+        <th>Airplane Model</th>
+        <th>Departure Airport</th>
+        <th>Departure Time</th>
+        <th>Arrival Airport</th>
+        <th>Arrival Time</th>
+        <th>First-class Price</th>
+        <th>Coach Price</th>
+      </tr>
+      <tr *ngFor="let flight of flights">
+        <td>
+          {{flight.mAirplane}}
+        </td>
+        <td>
+          {{flight.mDeparture.code}}
+        </td>
+        <td>
+            {{flight.mDeparture.time}}
+        </td>
+        <td>
+          {{flight.mArrival.code}}
+        </td>
+        <td>
+            {{flight.mArrival.time}}
+        </td>
+        <td>
+          {{flight.mSeating.firstClassPrice}}
+        </td>
+        <td>
+            {{flight.mSeating.coachPrice}}
+        </td>
+      </tr>
+    </table>
+  </div>
