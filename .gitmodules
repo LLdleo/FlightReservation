@@ -1,0 +1,3 @@
+[submodule "cs509Angular"]
+	path = cs509Angular
+	url = https://github.com/jjpowell99/cs509Angular.git
