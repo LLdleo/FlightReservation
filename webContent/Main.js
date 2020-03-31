@@ -4,7 +4,7 @@ $(document).ready(function(){
     $("#search").click(function(){
         var airport = $("#departureAirport").val();
         var date = $("#departureDate").val();
-        URL = "http://127.0.0.1:8080/?action=list&listType=departing&teamName=PoLYmer&airport="+airport+"&day="+date;
+        URL = "http://127.0.0.1:88/?action=list&listType=departing&teamName=PoLYmer&airport="+airport+"&day="+date;
         $.ajax({
             url: URL,
             type: "get",

@@ -236,11 +236,11 @@ implements java.lang.Comparable&lt;<a href="../airport/Airport.html" title="clas
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../airport/Airport.html#compare-airport.Airport-airport.Airport-">compare</a></span>(<a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;flight1,
-       <a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;flight2)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../airport/Airport.html#compare-airport.Airport-airport.Airport-">compare</a></span>(<a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;connectingLeg1,
+       <a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;connectingLeg2)</code>
 <div class="block">Compare two airports alphabetically for sorting, ordering
  
- Delegates to flight1.compareTo for ordering by 3 character code</div>
+ Delegates to connectingLeg1.compareTo for ordering by 3 character code</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -691,19 +691,19 @@ implements java.lang.Comparable&lt;<a href="../airport/Airport.html" title="clas
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public&nbsp;int&nbsp;compare(<a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;flight1,
-                   <a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;flight2)</pre>
+<pre>public&nbsp;int&nbsp;compare(<a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;connectingLeg1,
+                   <a href="../airport/Airport.html" title="class in airport">Airport</a>&nbsp;connectingLeg2)</pre>
 <div class="block">Compare two airports alphabetically for sorting, ordering
  
- Delegates to flight1.compareTo for ordering by 3 character code</div>
+ Delegates to connectingLeg1.compareTo for ordering by 3 character code</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>compare</code>&nbsp;in interface&nbsp;<code>java.util.Comparator&lt;<a href="../airport/Airport.html" title="class in airport">Airport</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>flight1</code> - the first airport for comparison</dd>
-<dd><code>flight2</code> - the second / other airport for comparison</dd>
+<dd><code>connectingLeg1</code> - the first airport for comparison</dd>
+<dd><code>connectingLeg2</code> - the second / other airport for comparison</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>-1 if flight1  less than flight2, +1 if flight1 greater than flight2, zero ==</dd>
+<dd>-1 if connectingLeg1  less than connectingLeg2, +1 if connectingLeg1 greater than connectingLeg2, zero ==</dd>
 </dl>
 </li>
 </ul>

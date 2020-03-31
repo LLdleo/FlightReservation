@@ -1,7 +1,7 @@
 /**
  * 
  */
-package flight;
+package leg;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @since 2016-02-24
  *
  */
-public class Flights extends ArrayList<Flight> {
+public class ConnectingLegs extends ArrayList<ConnectingLeg> {
 	private static final long serialVersionUID = 1L;
 	
 	

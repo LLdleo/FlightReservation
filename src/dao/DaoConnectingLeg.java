@@ -3,11 +3,8 @@
  */
 package dao;
 
-import flight.Departure;
-import flight.Arrival;
-import flight.Seating;
-import flight.Flight;
-import flight.Flights;
+import leg.*;
+import leg.ConnectingLeg;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -25,7 +22,7 @@ import java.io.StringReader;
  * @since 2020-03-12
  *
  */
-public class DaoFlight {
+public class DaoConnectingLeg {
 	/**
 	 * Builds a collection of airports from airports described in XML
 	 * 
@@ -44,8 +41,8 @@ public class DaoFlight {
 	 * @pre the xmlAirports string adheres to the format specified by the server API
 	 * @post the [possibly empty] set of Airports in the XML string are added to collection
 	 */
-	public static Flights addAll (String xmlFlights) throws NullPointerException {
-		Flights flights = new Flights();
+	public static ConnectingLegs addAll (String xmlFlights) throws NullPointerException {
+		ConnectingLegs connectingLegs = new ConnectingLegs();
 		
 		// Load the XML string into a DOM tree for ease of processing
 		// then iterate over all nodes adding each airport to our collection
@@ -54,14 +51,14 @@ public class DaoFlight {
 		
 		for (int i = 0; i < nodesFlights.getLength(); i++) {
 			Element elementFlight = (Element) nodesFlights.item(i);
-			Flight flight = buildFlight (elementFlight);
+			ConnectingLeg connectingLeg = buildFlight (elementFlight);
 			
-			if (flight.isValid()) {
-				flights.add(flight);
+			if (connectingLeg.isValid()) {
+				connectingLegs.add(connectingLeg);
 			}
 		}
 		
-		return flights;
+		return connectingLegs;
 	}
 
 	/**
@@ -74,7 +71,7 @@ public class DaoFlight {
 	 * @pre nodeAirport is of format specified by CS509 server API
 	 * @post airport object instantiated. Caller responsible for deallocating memory.
 	 */
-	static private Flight buildFlight (Node nodeFlight) {
+	static private ConnectingLeg buildFlight (Node nodeFlight) {
 		String airplane;
 		String flightTime;
 		String number;
@@ -127,16 +124,16 @@ public class DaoFlight {
 		/**
 		 * Instantiate an empty Airport object and initialize with data from XML node
 		 */
-		Flight flight = new Flight();
+		ConnectingLeg connectingLeg = new ConnectingLeg();
 
-		flight.airplane(airplane);
-		flight.flightTime(flightTime);
-		flight.number(number);
-		flight.departure(departure);
-		flight.arrival(arrival);
-		flight.seating(seating);
+		connectingLeg.airplane(airplane);
+		connectingLeg.flightTime(flightTime);
+		connectingLeg.number(number);
+		connectingLeg.departure(departure);
+		connectingLeg.arrival(arrival);
+		connectingLeg.seating(seating);
 
-		return flight;
+		return connectingLeg;
 	}
 
 	/**

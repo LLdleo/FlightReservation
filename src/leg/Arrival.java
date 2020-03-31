@@ -1,4 +1,4 @@
-package flight;
+package leg;
 
 public class Arrival {
     /* 3 character code of arrival airport */

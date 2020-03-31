@@ -7,8 +7,8 @@ import java.util.Collections;
 
 import airport.Airport;
 import airport.Airports;
-import flight.Flight;
-import flight.Flights;
+import leg.ConnectingLeg;
+import leg.ConnectingLegs;
 import dao.ServerInterface;
 
 import org.apache.commons.cli.*;
@@ -91,10 +91,10 @@ public class Driver {
 				}
 			}
 			else if (listType.equals("departing") || listType.equals("arriving")) {
-				Flights flights = ServerInterface.INSTANCE.getFlights(teamName, listType, airportCode, day);
-				Collections.sort(flights);
-				for (Flight flight: flights) {
-					System.out.println(flight.toString());
+				ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getFlights(teamName, listType, airportCode, day);
+				Collections.sort(connectingLegs);
+				for (ConnectingLeg connectingLeg : connectingLegs) {
+					System.out.println(connectingLeg.toString());
 				}
 			}
 		}

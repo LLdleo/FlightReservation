@@ -1,7 +1,7 @@
 /**
  * 
  */
-package flight;
+package leg;
 
 import java.util.Comparator;
 
@@ -16,7 +16,7 @@ import java.util.Comparator;
  * @since 2020-02-12
  * 
  */
-public class Flight implements Comparable<Flight>, Comparator<Flight> {
+public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<ConnectingLeg> {
 	
 	/**
 	 * Airport attributes as defined by the CS509 server interface XML
@@ -49,7 +49,7 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 	 * @pre None
 	 * @post member attributes are initialized to invalid default values
 	 */	
-	public Flight() {
+	public ConnectingLeg() {
 		mAirplane = "";
 		mFlightTime = "";
 		mNumber = "";
@@ -76,9 +76,9 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 	 * @post member attributes are initialized with input parameter values
 	 * @throws IllegalArgumentException if any parameter is determined invalid
 	 */
-	public Flight(String airplane, String flightTime, String number, String departureCode, String departureTime,
-				  String arrivalCode, String arrivalTime, String firstClassPrice, Integer firstClassReserved,
-				  String coachPrice, Integer coachReserved) {
+	public ConnectingLeg(String airplane, String flightTime, String number, String departureCode, String departureTime,
+						 String arrivalCode, String arrivalTime, String firstClassPrice, Integer firstClassReserved,
+						 String coachPrice, Integer coachReserved) {
 		if (!isValidAirplane(airplane))
 			throw new IllegalArgumentException(airplane);
 		if (!isValidFlightTime(flightTime))
@@ -135,9 +135,9 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 	 * @post member attributes are initialized with input parameter values
 	 * @throws IllegalArgumentException is any parameter is invalid
 	 */
-	public Flight(String airplane, String flightTime, String number, String departureCode, String departureTime,
-				  String arrivalCode, String arrivalTime, String firstClassPrice, String firstClassReserved,
-				  String coachPrice, String coachReserved) {
+	public ConnectingLeg(String airplane, String flightTime, String number, String departureCode, String departureTime,
+						 String arrivalCode, String arrivalTime, String firstClassPrice, String firstClassReserved,
+						 String coachPrice, String coachReserved) {
 		Integer tmpFirstClassReserved, tmpCoachReserved;
 		try {
 			tmpFirstClassReserved = Integer.parseInt(firstClassReserved);
@@ -303,7 +303,7 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 	 * This implementation delegates to the case insensitive version of string compareTo
 	 * @return results of String.compareToIgnoreCase
 	 */
-	public int compareTo(Flight other) {
+	public int compareTo(ConnectingLeg other) {
 		return this.mNumber.compareToIgnoreCase(other.mNumber);
 	}
 	
@@ -312,12 +312,12 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 	 * 
 	 * Delegates to airport1.compareTo for ordering by 3 character code
 	 * 
-	 * @param flight1 the first airport for comparison
-	 * @param flight2 the second / other airport for comparison
+	 * @param connectingLeg1 the first airport for comparison
+	 * @param connectingLeg2 the second / other airport for comparison
 	 * @return -1 if airport1  less than airport2, +1 if airport1 greater than airport2, zero ==
 	 */
-	public int compare(Flight flight1, Flight flight2) {
-		return flight1.compareTo(flight2);
+	public int compare(ConnectingLeg connectingLeg1, ConnectingLeg connectingLeg2) {
+		return connectingLeg1.compareTo(connectingLeg2);
 	}
 	
 	
@@ -342,11 +342,11 @@ public class Flight implements Comparable<Flight>, Comparator<Flight> {
 			return false;
 		
 		// can't be equal if obj is not an instance of Airport
-		if (!(obj instanceof Flight))
+		if (!(obj instanceof ConnectingLeg))
 			return false;
 		
 		// if all fields are equal, the Airports are the same
-		Flight rhs = (Flight) obj;
+		ConnectingLeg rhs = (ConnectingLeg) obj;
 		if ((rhs.mAirplane.equalsIgnoreCase(mAirplane)) &&
 				(rhs.mFlightTime.equalsIgnoreCase(mFlightTime)) &&
 				(rhs.mNumber.equalsIgnoreCase(mNumber)) &&

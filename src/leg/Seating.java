@@ -1,4 +1,4 @@
-package flight;
+package leg;
 
 public class Seating {
     /* First class price as attribute */

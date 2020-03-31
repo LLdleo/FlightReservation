@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import airport.Airports;
-import flight.Flights;
+import leg.ConnectingLegs;
 import utils.QueryFactory;
 
 
@@ -101,7 +101,7 @@ public enum ServerInterface {
 	 * @param teamName identifies the name of the team requesting the collection of airports
 	 * @return collection of Airports from server or null if error.
 	 */
-	public Flights getFlights (String teamName, String listType, String airportCode, String day) {
+	public ConnectingLegs getFlights (String teamName, String listType, String airportCode, String day) {
 
 		URL url;
 		HttpURLConnection connection;
@@ -110,7 +110,7 @@ public enum ServerInterface {
 		StringBuffer result = new StringBuffer();
 
 		String xmlFlights;
-		flight.Flights flights;
+		ConnectingLegs connectingLegs;
 
 		try {
 			/**
@@ -147,8 +147,8 @@ public enum ServerInterface {
 		}
 
 		xmlFlights = result.toString();
-		flights = DaoFlight.addAll(xmlFlights);
-		return flights;
+		connectingLegs = DaoConnectingLeg.addAll(xmlFlights);
+		return connectingLegs;
 
 	}
 	

@@ -1,4 +1,4 @@
-package flight;
+package leg;
 
 public class Departure {
     /* 3 character code of departing airport */

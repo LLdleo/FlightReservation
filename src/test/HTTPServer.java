@@ -3,16 +3,13 @@ package test;
 import airport.Airport;
 import airport.Airports;
 import dao.ServerInterface;
-import flight.Flight;
-import flight.Flights;
+import leg.ConnectingLeg;
+import leg.ConnectingLegs;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,12 +50,12 @@ public class HTTPServer {
                                 }
                             }
                             else if (parameterPairs.get("listType").equals("departing") || parameterPairs.get("listType").equals("arriving")) {
-                                Flights flights = ServerInterface.INSTANCE.getFlights(parameterPairs.get("teamName"), parameterPairs.get("listType"), parameterPairs.get("airport"), parameterPairs.get("day"));
-                                Collections.sort(flights);
+                                ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getFlights(parameterPairs.get("teamName"), parameterPairs.get("listType"), parameterPairs.get("airport"), parameterPairs.get("day"));
+                                Collections.sort(connectingLegs);
                                 StringBuilder ssss = new StringBuilder("[");
 //                                os.write("[".getBytes());
-                                for (Flight flight: flights) {
-                                    ssss.append(flight.toJson()).append(",");
+                                for (ConnectingLeg connectingLeg : connectingLegs) {
+                                    ssss.append(connectingLeg.toJson()).append(",");
 //                                    os.write((flight.toJson()+",").getBytes());
 //                                    System.out.println(flight.toJson());
                                 }
