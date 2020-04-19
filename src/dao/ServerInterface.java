@@ -13,7 +13,11 @@ import java.net.URL;
 
 import airport.Airports;
 import leg.ConnectingLegs;
+import org.json.JSONException;
 import utils.QueryFactory;
+import org.json.JSONObject;
+
+import javax.swing.*;
 
 
 /**
@@ -90,6 +94,64 @@ public enum ServerInterface {
 		airports = DaoAirport.addAll(xmlAirports);
 		return airports;
 		
+	}
+
+
+	/**
+	 * Return a collection of all the airplanes from server
+	 *
+	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
+	 *
+	 * @param teamName identifies the name of the team requesting the collection of airplanes
+	 * @return collection of Airplanes from server or null if error.
+	 */
+	public String getAirplanes (String teamName) {
+
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+
+		String Airplanes;
+
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET
+			 * QueryFactory provides the parameter annotations for the HTTP GET query string
+			 */
+			url = new URL(mUrlBase + QueryFactory.getAirplanes(teamName));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", teamName);
+
+			/**
+			 * If response code of SUCCESS read the XML string returned
+			 * line by line to build the full return string
+			 */
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		Airplanes = result.toString();
+		return Airplanes;
+
 	}
 
 
@@ -259,12 +321,10 @@ public enum ServerInterface {
 	}
 
 	/**
-	 * Unlock the database previous locked by specified team. The operation will succeed if the server lock is held by the specified
+	 * Reset the database to the initial stage, no reservation is made
 	 * team or if the server is not currently locked. If the lock is held be another team, the operation will fail.
 	 *
 	 * The server interface to unlock the server interface uses HTTP POST protocol
-	 *
-	 * @post database unlocked if specified teamName was previously holding lock
 	 *
 	 * @param teamName is the name of the team holding the lock
 	 * @return true if the server was successfully unlocked.
@@ -314,5 +374,66 @@ public enum ServerInterface {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Return a collection of all the airports from server
+	 *
+	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
+	 *
+	 * @param teamName identifies the name of the team requesting the collection of airports
+	 * @return collection of Airports from server or null if error.
+	 */
+	public JSONObject getTimezone (String teamName, String APIKey, String latitude, String longitude) throws JSONException {
+
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+
+		String xmlAirports;
+		Airports airports;
+
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET
+			 * QueryFactory provides the parameter annotations for the HTTP GET query string
+			 */
+			String ipUrlBase = "https://api.ipgeolocation.io/timezone";
+			url = new URL(ipUrlBase + QueryFactory.getTimezone(APIKey, latitude, longitude));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", teamName);
+			connection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
+
+			/**
+			 * If response code of SUCCESS read the XML string returned
+			 * line by line to build the full return string
+			 */
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		JSONObject jsonObject= new JSONObject(result.toString());
+		System.out.println(Integer.parseInt(jsonObject.get("timezone_offset").toString()) + Integer.parseInt(jsonObject.get("dst_savings").toString()));
+		return jsonObject;
+
 	}
 }

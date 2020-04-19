@@ -22,6 +22,16 @@ public class QueryFactory {
 	}
 
 	/**
+	 * Return a query string that can be passed to HTTP URL to request list of airports
+	 *
+	 * @param teamName is the name of the team to specify the data copy on server
+	 * @return the query String which can be appended to URL to form HTTP GET request
+	 */
+	public static String getAirplanes(String teamName) {
+		return "?team=" + teamName + "&action=list&list_type=airplanes";
+	}
+
+	/**
 	 * Return a query string that can be passed to HTTP URL to request list of legs
 	 *
 	 * @param teamName is the name of the team to specify the data copy on server
@@ -72,6 +82,16 @@ public class QueryFactory {
 	 * @return the String written to the HTTP POST to reset server database
 	 */
 	public static String resetDB (String teamName) {
-		return "team=" + teamName + "&action=resetDB";
+		return "?team=" + teamName + "&action=resetDB";
+	}
+
+	/**
+	 * Reset the server database after updates are written
+	 *
+	 * @param APIKey is the name of the team handling the database
+	 * @return the String written to the HTTP POST to reset server database
+	 */
+	public static String getTimezone (String APIKey, String latitude, String longitude) {
+		return "?apiKey=" + APIKey + "&lat=" + latitude + "&long=" + longitude;
 	}
 }
