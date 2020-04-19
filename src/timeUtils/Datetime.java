@@ -1,4 +1,4 @@
-package datetime;
+package timeUtils;
 
 public class Datetime {
     String year;
@@ -6,19 +6,22 @@ public class Datetime {
     String day;
     String time;
     String timeZone;
+    HourMinute hourMinute;
 
-    public void setDatetime(String year, String month, String day, String time, String timeZone){
+    public void setDatetime(String year, String month, String day, String time, String timeZone, String hour, String minute){
         this.year = year;
         this.month = month;
         this.day = day;
         this.time = time;
         this.timeZone = timeZone;
+        this.hourMinute.setHourMinute(hour, minute);
     }
 
     public void setDatetimeFromString(String datetime){
         String[] datetimeArray = datetime.split(" ");
         if (isValid(datetimeArray)) {
-            setDatetime(datetimeArray[0], datetimeArray[1], datetimeArray[2], datetimeArray[3], datetimeArray[4]);
+            String[] hmArray = datetimeArray[3].split(":");
+            setDatetime(datetimeArray[0], datetimeArray[1], datetimeArray[2], datetimeArray[3], datetimeArray[4], hmArray[0], hmArray[1]);
         }
     }
 
