@@ -4,7 +4,7 @@
 package utils;
 
 /**
- * @author blake
+ * @author blake, Jackson Powell
  * @version 1.2
  * @since 2016-02-24
  *
@@ -50,6 +50,16 @@ public class QueryFactory {
 	public static String unlock (String teamName) {
 		return "team=" + teamName + "&action=unlockDB";
 	}
-	
+
+	/**
+	 * Get the timezone offset to convert to/from local time
+	 *
+	 * @param latitude The latitude of the airport to get the timezone offset for
+	 * @param longitude The longitude of the airport to get the timezone offset for
+	 * @return The query string which can be appended to URL to form HTTP GET request
+	 */
+	public static String getTimezoneOffset(double latitude, double longitude){
+		return "&lat=" + latitude + "&long=" + longitude;
+	}
 
 }

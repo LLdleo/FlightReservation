@@ -61,9 +61,11 @@ public class HTTPServer {
                                 }
                                 ssss.append("]");
                                 System.out.println(ssss);
+                                ssss.deleteCharAt(ssss.length()-2);
 
                                 OutputStream os = socket.getOutputStream();
                                 os.write("HTTP/1.1 200 OK\r\n".getBytes());
+                                os.write("Access-Control-Allow-Origin: *\r\n".getBytes());
                                 os.write("Content-Type:application/json;charset=utf-8\r\n".getBytes());
                                 os.write("Server:gybs\r\n".getBytes());
                                 os.write(("Date:"+new Date()+"\r\n").getBytes());
@@ -76,7 +78,7 @@ public class HTTPServer {
 
                 }
                 catch (Exception e) {
-                    System.out.println(e);;
+                    System.out.println(e.toString());
                 }
                 socket.close();
             }
