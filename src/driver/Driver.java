@@ -47,11 +47,11 @@ public class Driver {
 		options.addOption(teamNameOption);
 
 		Option airportCodeOption = new Option("c", "airport", true, "airport code");
-		airportCodeOption.setRequired(true);
+		airportCodeOption.setRequired(false);
 		options.addOption(airportCodeOption);
 
 		Option dayOption = new Option("d", "day", true, "day");
-		dayOption.setRequired(true);
+		dayOption.setRequired(false);
 		options.addOption(dayOption);
 
 		CommandLineParser parser = new DefaultParser();
@@ -91,7 +91,7 @@ public class Driver {
 				}
 			}
 			else if (listType.equals("departing") || listType.equals("arriving")) {
-				ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getFlights(teamName, listType, airportCode, day);
+				ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getLegs(teamName, listType, airportCode, day);
 				Collections.sort(connectingLegs);
 				for (ConnectingLeg connectingLeg : connectingLegs) {
 					System.out.println(connectingLeg.toString());
