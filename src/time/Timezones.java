@@ -8,13 +8,13 @@ import java.util.Map;
  * @since 2020-20-04
  * Responsibilities: Cache the timezone offsets for locations
  */
-public enum Timezones {
+enum Timezones {
     INSTANCE;
     /**
      * locationMapToOffset is the simple hashmap in-memory structure used for caching timezone offsets.
      * The key is the concatenation of latitude, ",", and longitude and the value is the timezone offset in hours from GMT.
      */
-    private static Map<String, Double> locationMapToOffset = new HashMap<String,Double>();
+    private static Map<String, Double> locationMapToOffset = new HashMap<>();
     /**
      * Determine if the timezone of the given latitude and longitude has already been retrieved and cached
      *
