@@ -33,11 +33,32 @@ public enum TimezoneInterface {
      * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation or local cache
      *
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
+     * @post Timezone offset for location is cached if not already cached.
      * @param latitude  The latitude of a location to get the timezone offset for.
      * @param longitude The longitude of a location to get the timezone offset for.
      * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
      */
-    public Double getTimezoneOffset(double latitude, double longitude) {
+    public Double getTimezoneOffset(double latitude, double longitude){
+        if(Timezones.INSTANCE.isLocationCached(latitude, longitude)){
+            return Timezones.INSTANCE.getOffset(latitude, longitude);
+        }
+        else{
+            Double offset = getTimezoneOffsetFromAPI(latitude, longitude);
+            Timezones.INSTANCE.cacheTimezoneForLocation(latitude,longitude,offset);
+            return offset;
+        }
+    }
+    /**
+     * Retrieve the GMT offset of a location from ipgeolocation
+     * <p>
+     * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation
+     *
+     * @pre Latitude is in range [-90,90] and longitude is in range [-180,180]. Location has not been cached.
+     * @param latitude  The latitude of a location to get the timezone offset for.
+     * @param longitude The longitude of a location to get the timezone offset for.
+     * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
+     */
+    private Double getTimezoneOffsetFromAPI(double latitude, double longitude) {
         URL url;
         HttpURLConnection connection;
         BufferedReader reader;
