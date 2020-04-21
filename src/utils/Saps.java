@@ -19,5 +19,11 @@ public class Saps {
 	public static final double MIN_LATITUDE = -90.0;
 	public static final double MAX_LONGITUDE = 180.0;
 	public static final double MIN_LONGITUDE = -180.0;
+	/**
+	 * Constant values used for flight validation
+	 */
+	public static final int MAX_LEGS = 3;
+	public static final int MAX_LAYOVER_TIME_HOURS = 4;
+	public static final double MIN_LAYOVER_TIME_HOURS = 0.5;
 	
 }
