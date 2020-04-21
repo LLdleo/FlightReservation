@@ -1,5 +1,6 @@
 package dao;
 
+import airport.Airports;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -12,8 +13,12 @@ public class ServerInterfaceTest {
     public static void main(String[] args) throws JSONException {
 //        JSONObject jsonObject = ServerInterface.INSTANCE.getTimezone("PoLYmer", "6605a2073bfb4fdb9efdf98ab5c29e9a", "42.272099", "-71.812028");
 //        System.out.println(jsonObject);
-        String airplanes = ServerInterface.INSTANCE.getAirplanes("PoLYmer");
-        System.out.println(airplanes);
+
+//        String airplanes = ServerInterface.INSTANCE.getAirplanes("PoLYmer");
+//        System.out.println(airplanes);
+
+        Airports airports = ServerInterface.INSTANCE.getAirports("PoLYmer");
+        System.out.println(airports);
 
     }
 

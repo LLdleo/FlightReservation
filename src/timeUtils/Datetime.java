@@ -1,12 +1,14 @@
 package timeUtils;
 
+import java.util.Arrays;
+
 public class Datetime {
     String year;
     String month;
     String day;
     String time;
     String timeZone;
-    HourMinute hourMinute;
+    HourMinute hourMinute = new HourMinute();
 
     public void setDatetime(String year, String month, String day, String time, String timeZone, String hour, String minute){
         this.year = year;
@@ -27,5 +29,25 @@ public class Datetime {
 
     public boolean isValid(String[] array){
         return array.length == 5 & array[0].equals("2020") & array[2].length() == 2 & array[3].length() == 5;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public HourMinute getHourMinute() {
+        return hourMinute;
     }
 }

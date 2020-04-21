@@ -11,6 +11,22 @@ public class Departure {
         this.time = time;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 //    /** Departure Info */
 //    public Departure(){
 //        this.code = "";

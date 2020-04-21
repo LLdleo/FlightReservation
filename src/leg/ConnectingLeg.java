@@ -6,7 +6,7 @@ package leg;
 import java.util.Comparator;
 
 /**
- * This class holds values pertaining to a single Airport. Class member attributes
+ * This class holds values pertaining to a single ConnectingLeg. Class member attributes
  * are the same as defined by the CS509 server API and store values after conversion from
  * XML received from the server to Java primitives. Attributes are accessed via getter and 
  * setter methods.
@@ -17,10 +17,6 @@ import java.util.Comparator;
  * 
  */
 public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<ConnectingLeg> {
-	
-	/**
-	 * Airport attributes as defined by the CS509 server interface XML
-	 */
 
 	/** Airplane type as an attribute */
 	private String mAirplane;
@@ -216,17 +212,15 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	 * @return the object formatted as String to display
 	 */
 	public String toJson() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("{");
-		sb.append("\"Number\":\"").append(mNumber).append("\",");
-		sb.append("\"Airplane\":\"").append(mAirplane).append("\",");
-		sb.append("\"DepartureCode\":\"").append(mDeparture.code).append("\",");
-		sb.append("\"DepartureTime\":\"").append(mDeparture.time).append("\",");
-		sb.append("\"ArrivalCode\":\"").append(mArrival.code).append("\",");
-		sb.append("\"ArrivalTime\":\"").append(mArrival.time).append("\"");
-		sb.append("}");
 
-		return sb.toString();
+		return "{" +
+				"\"Number\":\"" + mNumber + "\"," +
+				"\"Airplane\":\"" + mAirplane + "\"," +
+				"\"DepartureCode\":\"" + mDeparture.code + "\"," +
+				"\"DepartureTime\":\"" + mDeparture.time + "\"," +
+				"\"ArrivalCode\":\"" + mArrival.code + "\"," +
+				"\"ArrivalTime\":\"" + mArrival.time + "\"" +
+				"}";
 	}
 
 	/**
@@ -347,18 +341,13 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 		
 		// if all fields are equal, the Airports are the same
 		ConnectingLeg rhs = (ConnectingLeg) obj;
-		if ((rhs.mAirplane.equalsIgnoreCase(mAirplane)) &&
+		return (rhs.mAirplane.equalsIgnoreCase(mAirplane)) &&
 				(rhs.mFlightTime.equalsIgnoreCase(mFlightTime)) &&
 				(rhs.mNumber.equalsIgnoreCase(mNumber)) &&
 				(rhs.mDeparture.code.equalsIgnoreCase(mDeparture.code)) &&
 				(rhs.mDeparture.time.equalsIgnoreCase(mDeparture.time)) &&
 				(rhs.mArrival.code.equalsIgnoreCase(mArrival.code)) &&
-				(rhs.mArrival.time.equalsIgnoreCase(mArrival.time)))
-		{
-			return true;
-		}
-		
-		return false;	
+				(rhs.mArrival.time.equalsIgnoreCase(mArrival.time));
 	}
 	
 	/**
