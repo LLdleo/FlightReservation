@@ -91,7 +91,7 @@ public class MyTime {
      * @param other The second time to compare to this object.
      * @return The time difference of this object and other.
      */
-    public double timespan(MyTime other){ //TODO: check if this works in unit tests.
+    public double timespan(MyTime other){
         Duration diff = Duration.between(this.gmtTime,other.gmtTime);
         return diff.toHours() + ((double)(diff.toMinutes()%60))/60;
     }
