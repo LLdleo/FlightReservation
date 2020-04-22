@@ -11,13 +11,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import airplane.Airplanes;
 import airport.Airports;
 import leg.ConnectingLegs;
-import org.json.JSONException;
+//import org.json.JSONException;
 import utils.QueryFactory;
-import org.json.JSONObject;
+//import org.json.JSONObject;
 
-import javax.swing.*;
 
 
 /**
@@ -105,7 +105,7 @@ public enum ServerInterface {
 	 * @param teamName identifies the name of the team requesting the collection of airplanes
 	 * @return collection of Airplanes from server or null if error.
 	 */
-	public String getAirplanes (String teamName) {
+	public Airplanes getAirplanes (String teamName) {
 
 		URL url;
 		HttpURLConnection connection;
@@ -150,7 +150,7 @@ public enum ServerInterface {
 		}
 
 		Airplanes = result.toString();
-		return Airplanes;
+		return DaoAirplane.addAll(Airplanes);
 
 	}
 
@@ -384,56 +384,56 @@ public enum ServerInterface {
 	 * @param teamName identifies the name of the team requesting the collection of airports
 	 * @return collection of Airports from server or null if error.
 	 */
-	public JSONObject getTimezone (String teamName, String APIKey, String latitude, String longitude) throws JSONException {
+//	public JSONObject getTimezone (String teamName, String APIKey, String latitude, String longitude) throws JSONException {
+//
+//		URL url;
+//		HttpURLConnection connection;
+//		BufferedReader reader;
+//		String line;
+//		StringBuffer result = new StringBuffer();
+//
+//		String xmlAirports;
+//		Airports airports;
+//
+//		try {
+//			/**
+//			 * Create an HTTP connection to the server for a GET
+//			 * QueryFactory provides the parameter annotations for the HTTP GET query string
+//			 */
+//			String ipUrlBase = "https://api.ipgeolocation.io/timezone";
+//			url = new URL(ipUrlBase + QueryFactory.getTimezone(APIKey, latitude, longitude));
+//			connection = (HttpURLConnection) url.openConnection();
+//			connection.setRequestMethod("GET");
+//			connection.setRequestProperty("User-Agent", teamName);
+//			connection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
+//
+//			/**
+//			 * If response code of SUCCESS read the XML string returned
+//			 * line by line to build the full return string
+//			 */
+//			int responseCode = connection.getResponseCode();
+//			if (responseCode >= HttpURLConnection.HTTP_OK) {
+//				InputStream inputStream = connection.getInputStream();
+//				String encoding = connection.getContentEncoding();
+//				encoding = (encoding == null ? "UTF-8" : encoding);
+//
+//				reader = new BufferedReader(new InputStreamReader(inputStream));
+//				while ((line = reader.readLine()) != null) {
+//					result.append(line);
+//				}
+//				reader.close();
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return null;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//
+//		JSONObject jsonObject= new JSONObject(result.toString());
+//		System.out.println(Integer.parseInt(jsonObject.get("timezone_offset").toString()) + Integer.parseInt(jsonObject.get("dst_savings").toString()));
+//		return jsonObject;
 
-		URL url;
-		HttpURLConnection connection;
-		BufferedReader reader;
-		String line;
-		StringBuffer result = new StringBuffer();
-
-		String xmlAirports;
-		Airports airports;
-
-		try {
-			/**
-			 * Create an HTTP connection to the server for a GET
-			 * QueryFactory provides the parameter annotations for the HTTP GET query string
-			 */
-			String ipUrlBase = "https://api.ipgeolocation.io/timezone";
-			url = new URL(ipUrlBase + QueryFactory.getTimezone(APIKey, latitude, longitude));
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", teamName);
-			connection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
-
-			/**
-			 * If response code of SUCCESS read the XML string returned
-			 * line by line to build the full return string
-			 */
-			int responseCode = connection.getResponseCode();
-			if (responseCode >= HttpURLConnection.HTTP_OK) {
-				InputStream inputStream = connection.getInputStream();
-				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "UTF-8" : encoding);
-
-				reader = new BufferedReader(new InputStreamReader(inputStream));
-				while ((line = reader.readLine()) != null) {
-					result.append(line);
-				}
-				reader.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		JSONObject jsonObject= new JSONObject(result.toString());
-		System.out.println(Integer.parseInt(jsonObject.get("timezone_offset").toString()) + Integer.parseInt(jsonObject.get("dst_savings").toString()));
-		return jsonObject;
-
-	}
+//	}
 }

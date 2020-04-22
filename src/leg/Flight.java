@@ -1,5 +1,6 @@
 package leg;
 
+import airplane.Airplanes;
 import dao.ServerInterface;
 import time.MyTime;
 import utils.Saps;
@@ -134,8 +135,8 @@ public class Flight {
      */
     public boolean allSeatsStillAvailable(SeatTypeEnum seatType){
         int totalLegsCount = this.connectingLegs.size();
-        Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
-        int availableLegsCount = ;
+        // TODO: Get airplanes to check seat availability by: Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
+        int availableLegsCount = totalLegsCount;
         return totalLegsCount == availableLegsCount;
     }
 }

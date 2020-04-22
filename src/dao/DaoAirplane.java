@@ -3,8 +3,8 @@
  */
 package dao;
 
-import airport.Airport;
-import airport.Airports;
+import airplane.Airplane;
+import airplane.Airplanes;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -17,90 +17,80 @@ import java.io.IOException;
 import java.io.StringReader;
 
 /**
- * @author PoLYmer
+ * @author Jackson Powell
  * @version 1.0
- * @since 2020-04-20
+ * @since 2020-04-22
  *
  */
 public class DaoAirplane {
 	/**
-	 * Builds a collection of airports from airports described in XML
+	 * Builds a collection of airplanes from airplanes described in XML
 	 * 
-	 * Parses an XML string to read each of the airports and adds each valid airport 
+	 * Parses an XML string to read each of the airplanes and adds each valid airplanes
 	 * to the collection. The method uses Java DOM (Document Object Model) to convert
 	 * from XML to Java primitives. 
 	 * 
-	 * Method iterates over the set of Airport nodes in the XML string and builds
-	 * an Airport object from the XML node string and add the Airport object instance to
-	 * the Airports collection.
+	 * Method iterates over the set of airplanes nodes in the XML string and builds
+	 * an airplanes object from the XML node string and add the airplanes object instance to
+	 * the airplanes collection.
 	 * 
-	 * @param xmlAirports XML string containing set of airports 
-	 * @return [possibly empty] collection of Airports in the xml string
+	 * @param xmlAirplanes XML string containing set of airplanes
+	 * @return [possibly empty] collection of Airplanes in the xml string
 	 * @throws NullPointerException included to keep signature consistent with other addAll methods
 	 * 
-	 * @pre the xmlAirports string adheres to the format specified by the server API
-	 * @post the [possibly empty] set of Airports in the XML string are added to collection
+	 * @pre the xmlAirplanes string adheres to the format specified by the server API
+	 * @post the [possibly empty] set of Airplanes in the XML string are added to collection
 	 */
-	public static Airports addAll (String xmlAirports) throws NullPointerException {
-		Airports airports = new Airports();
+	public static Airplanes addAll (String xmlAirplanes) throws NullPointerException {
+		Airplanes airplanes = new Airplanes();
 		
 		// Load the XML string into a DOM tree for ease of processing
 		// then iterate over all nodes adding each airport to our collection
-		Document docAirports = buildDomDoc (xmlAirports);
-		NodeList nodesAirports = docAirports.getElementsByTagName("Airport");
+		Document docAirplanes = buildDomDoc (xmlAirplanes);
+		NodeList nodesAirplanes = docAirplanes.getElementsByTagName("Airplane");
 		
-		for (int i = 0; i < nodesAirports.getLength(); i++) {
-			Element elementAirport = (Element) nodesAirports.item(i);
-			Airport airport = buildAirport (elementAirport);
+		for (int i = 0; i < nodesAirplanes.getLength(); i++) {
+			Element elementAirport = (Element) nodesAirplanes.item(i);
+			Airplane airplane = buildAirplane(elementAirport);
 			
-			if (airport.isValid()) {
-				airports.add(airport);
+			if (airplane.isValid()) {
+				airplanes.add(airplane);
 			}
 		}
 		
-		return airports;
+		return airplanes;
 	}
 
 	/**
-	 * Creates an Airport object from a DOM node
+	 * Creates an Airplane object from a DOM node
 	 * 
-	 * Processes a DOM Node that describes an Airport and creates an Airport object from the information
-	 * @param nodeAirport is a DOM Node describing an Airport
-	 * @return Airport object created from the DOM Node representation of the Airport
+	 * Processes a DOM Node that describes an Airplane and creates an Airplane object from the information
+	 * @param nodeAirplane is a DOM Node describing an Airplane
+	 * @return Airplane object created from the DOM Node representation of the Airport
 	 * 
-	 * @pre nodeAirport is of format specified by CS509 server API
-	 * @post airport object instantiated. Caller responsible for deallocating memory.
+	 * @pre nodeAirplane is of format specified by CS509 server API
+	 * @post Airplane object instantiated. Caller responsible for deallocating memory.
 	 */
-	static private Airport buildAirport (Node nodeAirport) {
-		String name;
-		String code;
-		double latitude;
-		double longitude;
+	static private Airplane buildAirplane (Node nodeAirplane) {
+		String manufacturer;
+		String model;
+		Integer firstClassSeats;
+		Integer coachSeats;
 		
-		// The airport element has attributes of Name and 3 character airport code
-		Element elementAirport = (Element) nodeAirport;
-		name = elementAirport.getAttributeNode("Name").getValue();
-		code = elementAirport.getAttributeNode("Code").getValue();
+		// The airplane element has attributes of Manufacturer and model
+		Element elementAirplane = (Element) nodeAirplane;
+		manufacturer = elementAirplane.getAttributeNode("Manufacturer").getValue();
+		model = elementAirplane.getAttributeNode("Model").getValue();
 		
-		// The latitude and longitude are child elements
-		Element elementLatLng;
-		elementLatLng = (Element)elementAirport.getElementsByTagName("Latitude").item(0);
-		latitude = Double.parseDouble(getCharacterDataFromElement(elementLatLng));
-		
-		elementLatLng = (Element)elementAirport.getElementsByTagName("Longitude").item(0);
-		longitude = Double.parseDouble(getCharacterDataFromElement(elementLatLng));
+		// The first class and coach seats are child elements
+		Element elementSeats;
+		elementSeats = (Element)elementAirplane.getElementsByTagName("FirstClassSeats").item(0);
+		firstClassSeats = Integer.parseInt(getCharacterDataFromElement(elementSeats));
 
-		/**
-		 * Instantiate an empty Airport object and initialize with data from XML node
-		 */
-		Airport airport = new Airport();
+		elementSeats = (Element)elementAirplane.getElementsByTagName("CoachSeats").item(0);
+		coachSeats = Integer.parseInt(getCharacterDataFromElement(elementSeats));
 
-		airport.name(name);
-		airport.code(code);
-		airport.latitude(latitude);
-		airport.longitude(longitude);
-		
-		return airport;
+		return new Airplane(manufacturer,model,firstClassSeats,coachSeats);
 	}
 
 	/**

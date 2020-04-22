@@ -30,11 +30,11 @@ public class Trip {
      */
     public boolean reserveSeats(){
         ServerInterface.INSTANCE.lock(Saps.TEAMNAME); // TODO: add handling for when lock can't be acquired.
-        if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){
+        if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){ // TODO: Maybe put this responsibility on the caller because otherwise would need to get confirmation from here
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }
-        ServerInterface.INSTANCE.reserve(this.outgoingFlight, this.seatType);
+        // TODO: Add actual reservations by something like ServerInterface.INSTANCE.reserve(this.outgoingFlight, this.seatType);
         ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
         return true;
     }
