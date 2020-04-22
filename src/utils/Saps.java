@@ -29,5 +29,9 @@ public class Saps {
 	 * Format string for times in WPI server (Y=year, M=month, D=day, H=hour, M=minute)
 	 */
 	public static final String TIME_FORMAT = "uuuu MMM dd HH:mm";
+	/**
+	 * Team name for which server to access
+	 */
+	public static final String TEAMNAME = "PoLYmer";
 	
 }

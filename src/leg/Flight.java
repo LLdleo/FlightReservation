@@ -1,9 +1,10 @@
 package leg;
 
+import dao.ServerInterface;
 import time.MyTime;
 import utils.Saps;
 
-import java.time.Duration;
+import java.util.stream.Collectors;
 
 /**
  * @author Jackson Powell
@@ -88,6 +89,7 @@ public class Flight {
      * Calculate the travel time of this flight in hours
      * Calculate the travel time of this flight in hours as the timespan from the first leg's scheduled departure time to the last leg's scheduled arrival time.
      *
+     * @pre The flight is fully constructed from the desired start airport to the desired end airport. Otherwise partial calculation is returned.
      * @return The travel time of the flight in hours from the first departure to the last arrival
      */
     public double calculateTravelTime(){
@@ -96,4 +98,44 @@ public class Flight {
         return firstDeparture.timespan(lastArrival);
     }
 
+    /**
+     * Get the total cost of the connecting legs based on the given seat type
+     *
+     * @pre The flight is fully constructed from the desired start airport to the desired end airport. Otherwise partial calculation is returned.
+     * @param seatType The seat type to calculate the cost of the seats for.
+     * @return The total cost of a seat of the given seat type on each leg in the flight.
+     */
+    public double getPrice(SeatTypeEnum seatType){
+        return this.connectingLegs.stream().map(leg -> getLegPrice(leg,seatType)).collect(Collectors.summingDouble(Double::valueOf));
+    }
+
+    /**
+     * Get price of a type of seat on a connecting leg
+     *
+     * @param leg The connecting leg to get the price of.
+     * @param seatType The type of seat to check the price for.
+     * @return The price of a seat of the seat type on the given leg.
+     */
+    private double getLegPrice(ConnectingLeg leg, SeatTypeEnum seatType){
+        switch(seatType) {
+            case FIRSTCLASS:
+                return leg.seating().getFirstClassPrice();
+            default: // Contains coach class which is default if no seatType provided
+                return leg.seating().getCoachPrice();
+        }
+    }
+    /**
+     * Checks if there are still seats for this flight available.
+     *
+     * @pre The database is locked to guarantee consistent execution.
+     * @inv The database state is constant throughout execution.
+     * @post The database is still in th same state as when called.
+     * @return True if there are seats available on the trip's seat type for every leg of the trip's outgoing flight
+     */
+    public boolean allSeatsStillAvailable(SeatTypeEnum seatType){
+        int totalLegsCount = this.connectingLegs.size();
+        Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
+        int availableLegsCount = ;
+        return totalLegsCount == availableLegsCount;
+    }
 }

@@ -1,5 +1,10 @@
 package leg;
 
+/**
+ * @author Lidian Lin, Jackson Powell
+ * @since 2020-04-22
+ * Responsibilities: Store information about a connecting leg's seating information
+ */
 public class Seating {
     /* First class price as attribute */
     String firstClassPrice;
@@ -15,5 +20,24 @@ public class Seating {
         this.firstClassReserved = firstClassReserved;
         this.coachPrice = coachPrice;
         this.coachReserved = coachReserved;
+    }
+
+    /**
+     * Parse and return the price of a first class seat in dollars.
+     *
+     * @pre The string representation of the price is a valid representation of a dollar amount, such as '$24.12' or '21.32'
+     * @return The price of a first class seat in dollars
+     */
+    public double getFirstClassPrice(){
+        return Double.parseDouble(this.firstClassPrice.replace('$',' '));
+    }
+    /**
+     * Parse and return the price of a coach seat in dollars.
+     *
+     * @pre The string representation of the price is a valid representation of a dollar amount, such as '$24.12' or '21.32'
+     * @return The price of a coach seat in dollars
+     */
+    public double getCoachPrice(){
+        return Double.parseDouble(this.coachPrice.replace('$',' '));
     }
 }

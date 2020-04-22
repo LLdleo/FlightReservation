@@ -1,5 +1,8 @@
 package leg;
 
+import dao.ServerInterface;
+import utils.Saps;
+
 /**
  * @author Jackson Powell
  * @since 2020-04-21
@@ -12,6 +15,7 @@ public class Trip {
     /**
      * Constructor for a trip with the given outgoing flight
      *
+     * @pre outgoingFlight was already validated as a Flight by flight
      * @param outgoingFlight The the outgoing flight for a trip.
      */
     public Trip(Flight outgoingFlight, SeatTypeEnum seatType){
@@ -25,9 +29,14 @@ public class Trip {
      * @return True if the reservation was successful, false otherwise
      */
     public boolean reserveSeats(){
-
+        ServerInterface.INSTANCE.lock(Saps.TEAMNAME); // TODO: add handling for when lock can't be acquired.
+        if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){
+            ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
+            return false;
+        }
+        ServerInterface.INSTANCE.reserve(this.outgoingFlight, this.seatType);
+        ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
+        return true;
     }
-    protected boolean isValid(){
 
-    }
 }
