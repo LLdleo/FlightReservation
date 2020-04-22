@@ -1,7 +1,10 @@
 package time;
 
+import utils.Saps;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Jackson Powell
@@ -28,17 +31,44 @@ public class MyTime {
     /**
      * Constructor for MyTime object without knowing local time before-hand
      *
+     * @throws IllegalArgumentException If Latitude is not in range [-90,90] or longitude is not in range [-180, 180]
      * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time)
      * @param assocLatitude The latitude coordinate of the location associated with this time.
      * @param assocLongitude The longitude coordinate of the location associated with this time.
      */
-    public MyTime(LocalDateTime gmtTime, double assocLatitude, double assocLongitude){
+    public MyTime(LocalDateTime gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException{
+        if (assocLatitude < Saps.MIN_LATITUDE || assocLatitude > Saps.MAX_LATITUDE){
+            throw new IllegalArgumentException("Latitude not in range ["+Saps.MIN_LATITUDE+","+Saps.MAX_LATITUDE+"]: " + assocLatitude);
+        }
+        if (assocLongitude< Saps.MIN_LONGITUDE || assocLatitude > Saps.MAX_LONGITUDE){
+            throw new IllegalArgumentException("Longitude not in range ["+Saps.MIN_LONGITUDE+","+Saps.MAX_LONGITUDE+"]: " + assocLongitude);
+        }
         this.gmtTime = gmtTime;
         this.assocLatitude = assocLatitude;
         this.assocLongitude = assocLongitude;
         this.localTime = calculateLocalTime(gmtTime, assocLatitude, assocLongitude);
     }
 
+    /**
+     *
+     * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time) in the string format of WPI server (YYYY MMM DD HH:MM)
+     * @param assocLatitude The latitude coordinate of the location associated with this time.
+     * @param assocLongitude The longitude coordinate of the location associated with this time.
+     * @throws IllegalArgumentException
+     */
+    public MyTime(String gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException{
+        if (assocLatitude < Saps.MIN_LATITUDE || assocLatitude > Saps.MAX_LATITUDE){
+            throw new IllegalArgumentException("Latitude not in range ["+Saps.MIN_LATITUDE+","+Saps.MAX_LATITUDE+"]: " + assocLatitude);
+        }
+        if (assocLongitude< Saps.MIN_LONGITUDE || assocLatitude > Saps.MAX_LONGITUDE){
+            throw new IllegalArgumentException("Longitude not in range ["+Saps.MIN_LONGITUDE+","+Saps.MAX_LONGITUDE+"]: " + assocLongitude);
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
+        this.gmtTime = LocalDateTime.parse(gmtTime,formatter);
+        this.assocLatitude = assocLatitude;
+        this.assocLongitude = assocLongitude;
+        this.localTime = calculateLocalTime(this.gmtTime, assocLatitude, assocLongitude);
+    }
     /**
      * Calculate the local time given the GMT time and location information
      *
@@ -55,12 +85,14 @@ public class MyTime {
     }
 
     /**
-     * Calculate the time between two times.
+     * Calculate the time between two times in hours.
+     * Calculate the time between the start (this object) to the end (other)
      *
      * @param other The second time to compare to this object.
-     * @return The absolute value of the time difference between this object and other
+     * @return The time difference of this object and other.
      */
-    public Duration timespan(MyTime other){
-        return Duration.between(this.gmtTime,other.gmtTime);
+    public double timespan(MyTime other){ //TODO: check if this works in unit tests.
+        Duration diff = Duration.between(this.gmtTime,other.gmtTime);
+        return diff.toHours() + ((double)(diff.toMinutes()%60))/60;
     }
 }

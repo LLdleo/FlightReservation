@@ -25,5 +25,9 @@ public class Saps {
 	public static final int MAX_LEGS = 3;
 	public static final int MAX_LAYOVER_TIME_HOURS = 4;
 	public static final double MIN_LAYOVER_TIME_HOURS = 0.5;
+	/**
+	 * Format string for times in WPI server (Y=year, M=month, D=day, H=hour, M=minute)
+	 */
+	public static final String TIME_FORMAT = "uuuu MMM dd HH:mm";
 	
 }
