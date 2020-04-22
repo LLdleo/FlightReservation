@@ -13,9 +13,9 @@ import java.util.Comparator;
  * XML received from the server to Java primitives. Attributes are accessed via getter and 
  * setter methods.
  * 
- * @author PoLYmer
+ * @author Lidian Lin, Jackson Powell
  * @version 1.0
- * @since 2020-04-19
+ * @since 2020-04-22
  * 
  */
 public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
