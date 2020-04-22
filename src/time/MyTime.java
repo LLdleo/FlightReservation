@@ -69,6 +69,19 @@ public class MyTime {
         this.assocLongitude = assocLongitude;
         this.localTime = calculateLocalTime(this.gmtTime, assocLatitude, assocLongitude);
     }
+
+    /**
+     * Constructor for MyTime that only cares about GMT time and defaults latitude and longitude to 0
+     *
+     * @param gmtTime The string representation of the GMT time as 'yyyy MMM dd HH:mm'
+     */
+    public MyTime(String gmtTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
+        this.gmtTime = LocalDateTime.parse(gmtTime,formatter);
+        this.assocLongitude = 0;
+        this.assocLatitude = 0;
+        this.localTime = this.gmtTime;
+    }
     /**
      * Calculate the local time given the GMT time and location information
      *
