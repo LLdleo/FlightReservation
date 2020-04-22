@@ -50,7 +50,7 @@ public class HTTPServer {
                                 }
                             }
                             else if (parameterPairs.get("listType").equals("departing") || parameterPairs.get("listType").equals("arriving")) {
-                                ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getFlights(parameterPairs.get("teamName"), parameterPairs.get("listType"), parameterPairs.get("airport"), parameterPairs.get("day"));
+                                ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getLegs(parameterPairs.get("teamName"), parameterPairs.get("listType"), parameterPairs.get("airport"), parameterPairs.get("day"));
                                 Collections.sort(connectingLegs);
                                 StringBuilder ssss = new StringBuilder("[");
 //                                os.write("[".getBytes());
