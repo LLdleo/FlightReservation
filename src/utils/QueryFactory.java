@@ -4,7 +4,7 @@
 package utils;
 
 /**
- * @author blake
+ * @author blake, Jackson Powell
  * @version 1.2
  * @since 2016-02-24
  *
@@ -75,6 +75,18 @@ public class QueryFactory {
 		return "team=" + teamName + "&action=unlockDB";
 	}
 
+
+	/**
+	 * Get the timezone offset to convert to/from local time
+	 *
+	 * @param latitude The latitude of the airport to get the timezone offset for
+	 * @param longitude The longitude of the airport to get the timezone offset for
+	 * @return The query string which can be appended to URL to form HTTP GET request
+	 */
+	public static String getTimezoneOffset(double latitude, double longitude){
+		return "&lat=" + latitude + "&long=" + longitude;
+	}
+
 	/**
 	 * Reset the server database after updates are written
 	 *
@@ -85,13 +97,5 @@ public class QueryFactory {
 		return "?team=" + teamName + "&action=resetDB";
 	}
 
-	/**
-	 * Reset the server database after updates are written
-	 *
-	 * @param APIKey is the name of the team handling the database
-	 * @return the String written to the HTTP POST to reset server database
-	 */
-	public static String getTimezone (String APIKey, String latitude, String longitude) {
-		return "?apiKey=" + APIKey + "&lat=" + latitude + "&long=" + longitude;
-	}
+
 }
