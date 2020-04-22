@@ -75,6 +75,7 @@ public class QueryFactory {
 		return "team=" + teamName + "&action=unlockDB";
 	}
 
+
 	/**
 	 * Get the timezone offset to convert to/from local time
 	 *
@@ -95,5 +96,6 @@ public class QueryFactory {
 	public static String resetDB (String teamName) {
 		return "?team=" + teamName + "&action=resetDB";
 	}
+
 
 }
