@@ -11,6 +11,14 @@ import java.time.format.DateTimeFormatter;
  * Responsibilities: Convert between local/GMT and calculate timespans
  */
 public class MyTime {
+    public LocalDateTime getGmtTime() {
+        return gmtTime;
+    }
+
+    public LocalDateTime getLocalTime() {
+        return localTime;
+    }
+
     /**
      * gmtTime is the time in GMT (Greenwich Mean Time)
      */
@@ -50,11 +58,14 @@ public class MyTime {
     }
 
     /**
+     * Constructor for MyTime where gmtTime is provided as a string in the format given by server.
      *
+     * @see Saps for latitude and longitude constraints as well as TIME_FORMAT for the string format.
+     * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
      * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time) in the string format of WPI server (YYYY MMM DD HH:MM)
      * @param assocLatitude The latitude coordinate of the location associated with this time.
      * @param assocLongitude The longitude coordinate of the location associated with this time.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException If the latitude or longitude are not in ranges [-90,90] and [-180,180] respectively.
      */
     public MyTime(String gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException{
         if (assocLatitude < Saps.MIN_LATITUDE || assocLatitude > Saps.MAX_LATITUDE){
@@ -77,7 +88,7 @@ public class MyTime {
      */
     public MyTime(String gmtTime){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
-        this.gmtTime = LocalDateTime.parse(gmtTime,formatter);
+        this.gmtTime = LocalDateTime.parse(gmtTime.replaceAll(" GMT",""),formatter);
         this.assocLongitude = 0;
         this.assocLatitude = 0;
         this.localTime = this.gmtTime;
@@ -108,4 +119,15 @@ public class MyTime {
         Duration diff = Duration.between(this.gmtTime,other.gmtTime);
         return diff.toHours() + ((double)(diff.toMinutes()%60))/60;
     }
+
+    /**
+     * Calculate the time from this time to the start of the next GMT date in hours.
+     *
+     * @return The number of hours from this gmt time to the start of the next GMT date.
+     */
+    public double getTimeToNextDay(){
+        MyTime nextDayStart = new MyTime(this.gmtTime.toLocalDate().plusDays(1).atStartOfDay(),this.assocLatitude, this.assocLongitude);
+        return this.timespan(nextDayStart);
+    }
+
 }

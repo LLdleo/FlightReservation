@@ -7,6 +7,8 @@ import utils.Saps;
 
 import java.util.stream.Collectors;
 
+import static leg.SeatTypeEnum.FIRSTCLASS;
+
 /**
  * @author Jackson Powell
  * @since 2020-04-21
@@ -111,19 +113,15 @@ public class Flight {
     }
 
     /**
-     * Get price of a type of seat on a connecting leg
+     * Get price of a type of seat on a connecting leg. Defaults to coach if illegal seatType given.
      *
      * @param leg The connecting leg to get the price of.
      * @param seatType The type of seat to check the price for.
      * @return The price of a seat of the seat type on the given leg.
      */
     private double getLegPrice(ConnectingLeg leg, SeatTypeEnum seatType){
-        switch(seatType) {
-            case FIRSTCLASS:
-                return leg.seating().getFirstClassPrice();
-            default: // Contains coach class which is default if no seatType provided
-                return leg.seating().getCoachPrice();
-        }
+        if (seatType == FIRSTCLASS){return leg.seating().getFirstClassPrice();}
+        return leg.seating().getCoachPrice();
     }
     /**
      * Checks if there are still seats for this flight available.
@@ -138,5 +136,23 @@ public class Flight {
         // TODO: Get airplanes to check seat availability by: Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
         int availableLegsCount = totalLegsCount;
         return totalLegsCount == availableLegsCount;
+    }
+    public String getArrivalAirportCode(){
+        return this.connectingLegs.get(this.connectingLegs.size()-1).arrival().code;
+    }
+    public MyTime getArrivalTime(){
+        return new MyTime(this.connectingLegs.get(this.connectingLegs.size()-1).arrival().time);
+    }
+    public Flight shallowCopy(){
+        ConnectingLegs copy = new ConnectingLegs();
+        copy.addAll(this.connectingLegs);
+        return new Flight(copy);
+    }
+    public String toString(){
+        String toReturn = "Flight: ";
+        for(ConnectingLeg leg: this.connectingLegs){
+            toReturn += "\t" + leg.departure().code + " " + leg.arrival().code + " " + leg.departure().time + " " + leg.arrival().time + "\n";
+        }
+        return toReturn;
     }
 }

@@ -10,4 +10,8 @@ public class Arrival {
         this.code = code;
         this.time = time;
     }
+
+    public String getCode() {
+        return code;
+    }
 }
