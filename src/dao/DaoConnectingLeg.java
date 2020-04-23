@@ -113,8 +113,7 @@ public class DaoConnectingLeg {
 		coachPrice = elementCoach.getAttributeNode("Price").getValue();
 		coachReserved = Integer.parseInt(elementCoach.getFirstChild().getNodeValue());
 
-		Departure departure = new Departure();
-		departure.departure(departureCode, departureTime);
+		Departure departure = new Departure(departureCode, departureTime);
 
 		Arrival arrival = new Arrival();
 		arrival.arrival(arrivalCode, arrivalTime);

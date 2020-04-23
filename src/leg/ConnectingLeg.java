@@ -32,7 +32,7 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	private String mNumber;
 
 	/** Departure Info */
-	private Departure mDeparture = new Departure();
+	private Departure mDeparture;
 
 	/** Arrival Info */
 	private Arrival mArrival = new Arrival();

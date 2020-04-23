@@ -1,5 +1,6 @@
 package search;
 
+import airport.Airport;
 import airport.Airports;
 import dao.ServerInterface;
 import leg.Flight;
@@ -7,10 +8,8 @@ import flight.Flights;
 import leg.ConnectingLeg;
 import leg.ConnectingLegs;
 import time.MyTime;
+import time.TimezoneInterface;
 import utils.Saps;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -60,11 +59,20 @@ public class CreatePossibleFlights {
     public Flights createPossibleConnectingLegCombinations(){
         Flights availableFlights = new Flights();
         Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
-
+        Airport depAirport = airports.getAirportByCode(criteria.getDepartureAirportCode());
+        double depLat = depAirport.latitude();
+        double depLong = depAirport.longitude();
+        double depAirportOffset = TimezoneInterface.INSTANCE.getTimezoneOffset(depLat,depLong);
+        int dateOffset = -(int) (depAirportOffset / Math.abs(depAirportOffset));
+        LocalDate secondDate = criteria.getFlightDate().plusDays(dateOffset);
         // Assume departure TODO: add arrival and account for local date
         ConnectingLegs firstLegs = queryServer(criteria.getDepartureAirportCode(),criteria.getFlightDate(),criteria.isSelectedDateForDeparture(), false);
+        firstLegs.addAll(queryServer(criteria.getDepartureAirportCode(),secondDate,criteria.isSelectedDateForDeparture(), false));
+        List<ConnectingLeg> localFirstLegs = firstLegs.stream().filter(leg ->
+                (new MyTime(leg.departure().getTime(),depLat, depLong)).getLocalTime().toLocalDate().isEqual(criteria.getFlightDate())).collect(Collectors.toList());
+
         Flights firstLegFlights = new Flights();
-        for(ConnectingLeg leg : firstLegs){
+        for(ConnectingLeg leg : localFirstLegs){
             if(leg.arrival().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())){
                 availableFlights.add(new Flight(leg));
             }

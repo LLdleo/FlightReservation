@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * @author Jackson Powell
+ * @since 2020-04-23
  * Responsibilities: Convert between local/GMT and calculate timespans
  */
 public class MyTime {
@@ -60,7 +61,7 @@ public class MyTime {
     /**
      * Constructor for MyTime where gmtTime is provided as a string in the format given by server.
      *
-     * @see Saps for latitude and longitude constraints as well as TIME_FORMAT for the string format.
+     * @see Saps for latitude and longitude constraints
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
      * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time) in the string format of WPI server (YYYY MMM DD HH:MM)
      * @param assocLatitude The latitude coordinate of the location associated with this time.
@@ -74,8 +75,7 @@ public class MyTime {
         if (assocLongitude< Saps.MIN_LONGITUDE || assocLatitude > Saps.MAX_LONGITUDE){
             throw new IllegalArgumentException("Longitude not in range ["+Saps.MIN_LONGITUDE+","+Saps.MAX_LONGITUDE+"]: " + assocLongitude);
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
-        this.gmtTime = LocalDateTime.parse(gmtTime,formatter);
+        this.gmtTime = parseServerDateTimeString(gmtTime);
         this.assocLatitude = assocLatitude;
         this.assocLongitude = assocLongitude;
         this.localTime = calculateLocalTime(this.gmtTime, assocLatitude, assocLongitude);
@@ -87,8 +87,7 @@ public class MyTime {
      * @param gmtTime The string representation of the GMT time as 'yyyy MMM dd HH:mm'
      */
     public MyTime(String gmtTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
-        this.gmtTime = LocalDateTime.parse(gmtTime.replaceAll(" GMT",""),formatter);
+        this.gmtTime = parseServerDateTimeString(gmtTime);
         this.assocLongitude = 0;
         this.assocLatitude = 0;
         this.localTime = this.gmtTime;
@@ -128,6 +127,19 @@ public class MyTime {
     public double getTimeToNextDay(){
         MyTime nextDayStart = new MyTime(this.gmtTime.toLocalDate().plusDays(1).atStartOfDay(),this.assocLatitude, this.assocLongitude);
         return this.timespan(nextDayStart);
+    }
+
+    /**
+     * Parse the server GMT times to convert into LocalDateTimes
+     *
+     * @pre serverDateTime follows the format of "yyyy MMM dd HH:mm GMT".
+     * @see Saps for the expected format of the string of TIME_FORMAT.
+     * @param serverDateTime The string representation of a GMT time retrieved from the WPI server.
+     * @return A LocalDateTime representing the same date and time as given.
+     */
+    public static LocalDateTime parseServerDateTimeString(String serverDateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
+        return LocalDateTime.parse(serverDateTime.replaceAll(" GMT",""),formatter);
     }
 
 }
