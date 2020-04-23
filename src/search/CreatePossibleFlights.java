@@ -25,12 +25,38 @@ import java.util.stream.Collectors;
  * Responsibilities: Calculate possible connecting leg combinations based on search criteria
  */
 public class CreatePossibleFlights {
-    SearchCriteria criteria;
-    Map<String, ConnectingLegs> memo;
+    /**
+     * criteria is the search criteria to retrieve flights based on whether they match this criteria
+     */
+    private SearchCriteria criteria;
+    /**
+     * Hashmap for server queries about connecting legs to prevent duplicate calls to WPI server.
+     * Assumes number of seats won't change drastically while searching.
+     */
+    private Map<String, ConnectingLegs> memo;
+
+    /**
+     * Constructor for searching on some criteria.
+     *
+     * Constructor to create an object that can search for flights based on some criteria.
+     * Note: this object should not be re-used for the same searches over a long period of time as the cache won't be refreshed.
+     * TODO: maybe implement better caching technology that will eliminate stale entries.
+     * @post CreatePossibleFlights object will be instantiated and ready to search for matching flights.
+     * @param criteria Search criteria to search flights based on.
+     */
     public CreatePossibleFlights(SearchCriteria criteria){
         this.criteria = criteria;
         this.memo = new HashMap<>();
     }
+
+    /**
+     * Calculate all possible flight combinations matching search criteria
+     *
+     * Calculate all possible flight combinations matching search criteria where layover times are between a half and 4 hours,
+     * the initial departure airport is not returned to, and flights have at most 3 connecting legs.
+     *
+     * @return all possible flight combinations matching search criteria.
+     */
     public Flights createPossibleConnectingLegCombinations(){
         Flights availableFlights = new Flights();
         Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
@@ -97,12 +123,40 @@ public class CreatePossibleFlights {
 
         return availableFlights;
     }
+
+    /**
+     * Create the hash string of the server query for caching or retrieving cached results.
+     *
+     * @param airportCode The 3-letter string of the code for the airport being queried for departing or arriving connecting legs.
+     * @param flightDate The GMT date of the flights either departing or arriving.
+     * @param isDeparture True if the query is for departing connecting legs, false if the query is for arriving connecting legs.
+     * @param isLastLeg True if the query results have been filtered to only include flights ending at an arrival airport or starting at a departure airport depending on criteria.
+     * @return The hash string of the server query for caching or retrieving cached results.
+     */
     private String hash(String airportCode, LocalDate flightDate, boolean isDeparture, boolean isLastLeg){
         return airportCode + getStringDate(flightDate) + (isDeparture ? "t" : "f") + (isLastLeg ? "t" : "f");
     }
+
+    /**
+     * Convert a date to the string format needed for querying the server.
+     *
+     * @param date The LocalDate to be converted.
+     * @return The string representation of the given date in the string format of the date to query the WPI server with.
+     */
     private String getStringDate(LocalDate date){
         return date.format(DateTimeFormatter.ofPattern(Saps.SERVER_DATE_FORMAT));
     }
+
+    /**
+     * Return the results for a query to the server, may be from cache
+     *
+     * @param airportCode The 3-letter string of the airport to query about connecting legs departing from or arriving at.
+     * @param flightDate The GMT date to query about legs departing or arriving on.
+     * @param isDeparture True if the query seeks the legs departing from an airport on a certain date, false if query is seeking legs arriving at an airport on a certain date.
+     * @param isLastLeg True if the query wants the results filtered to only include legs arriving at the arrival airport if the departure date was selected or
+     *                  only include legs departing from the departure airport if the arrival date was selected in the criteria.
+     * @return The results for the connecting legs either departing or arriving (based on isDeparture) from/at an airport with a given airport code on a given flightDate.
+     */
     private ConnectingLegs queryServer(String airportCode, LocalDate flightDate, boolean isDeparture, boolean isLastLeg){
         String key = hash(airportCode, flightDate, isDeparture, isLastLeg);
         if(this.memo.containsKey(key)){return this.memo.get(key);}
@@ -110,25 +164,21 @@ public class CreatePossibleFlights {
         List<ConnectingLeg> intermediateList;
         if(isDeparture){
             intermediateList = result.stream().filter(leg -> !leg.arrival().getCode().equalsIgnoreCase(criteria.getDepartureAirportCode())).collect(Collectors.toList());
-            result.clear();
-            result.addAll(intermediateList);
         }
         else{
             intermediateList = result.stream().filter(leg -> !leg.departure().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
-            result.clear();
-            result.addAll(intermediateList);
         }
+        result.clear();
+        result.addAll(intermediateList);
         if(isLastLeg){
             if(isDeparture){
                 intermediateList = result.stream().filter(leg -> leg.arrival().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
-                result.clear();
-                result.addAll(intermediateList);
             }
             else{
                 intermediateList = result.stream().filter(leg -> leg.departure().getCode().equalsIgnoreCase(criteria.getDepartureAirportCode())).collect(Collectors.toList());
-                result.clear();
-                result.addAll(intermediateList);
             }
+            result.clear();
+            result.addAll(intermediateList);
         }
         this.memo.put(key,result);
         return result;
