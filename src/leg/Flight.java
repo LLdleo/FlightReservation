@@ -2,9 +2,11 @@ package leg;
 
 import airplane.Airplanes;
 import dao.ServerInterface;
+import search.CreatePossibleFlights;
 import time.MyTime;
 import utils.Saps;
 
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 import static leg.SeatTypeEnum.FIRSTCLASS;
@@ -152,11 +154,28 @@ public class Flight {
      */
     public boolean allSeatsStillAvailable(SeatTypeEnum seatType){
         int totalLegsCount = this.connectingLegs.size();
-        // TODO: Get airplanes to check seat availability by: Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
-        int availableLegsCount = totalLegsCount;
+        Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
+        refresh();
+        int availableLegsCount = this.connectingLegs.stream().filter(leg ->
+                leg.seating().getNumReserved(seatType) < airplanes.getAirplaneByModel(leg.airplane()).getNumSeats(seatType)).collect(Collectors.toList()).size();
         return totalLegsCount == availableLegsCount;
     }
 
+    /**
+     * Update this flights list of connecting legs with the latest number of reserved seats.
+     * @pre The connecting legs of this flight have been validated and still exist in the WPI server.
+     * @post The connecting legs of this flight will have the latest reservation data.
+     */
+    private void refresh(){
+        ConnectingLegs newList = new ConnectingLegs();
+        for(ConnectingLeg leg: this.connectingLegs){
+            ConnectingLegs results =
+                    ServerInterface.INSTANCE.getLegs(Saps.TEAMNAME,"departing",leg.departure().code,
+                            CreatePossibleFlights.getStringDate(new MyTime(leg.departure().time).getGmtTime().toLocalDate()));
+            newList.add(results.getLegByID(leg.number()));
+        }
+        this.connectingLegs = newList;
+    }
     /**
      * Get the airport code for the arrival of the last connecting leg of this flight.
      *
@@ -232,5 +251,13 @@ public class Flight {
             toReturn += "\t" + leg.departure().code + " " + leg.arrival().code + " " + leg.departure().time + " " + leg.arrival().time + "\n";
         }
         return toReturn;
+    }
+
+    /**
+     * Get an iterator for the legs that make up this flight.
+     * @return an iterator for the legs that make up this flight.
+     */
+    public Iterator<ConnectingLeg> getLegs(){
+        return this.connectingLegs.iterator();
     }
 }

@@ -3,6 +3,8 @@
  */
 package leg;
 
+import airport.Airport;
+
 import java.util.ArrayList;
 
 /**
@@ -17,6 +19,19 @@ import java.util.ArrayList;
  */
 public class ConnectingLegs extends ArrayList<ConnectingLeg> {
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * Get a connecting leg from a list of connecting leg using the id.
+	 *
+	 * @param connectingLegID The id of the connecting leg to get.
+	 * @return The connecting leg if found, null otherwise.
+	 */
+	public ConnectingLeg getLegByID(String connectingLegID){
+		for(ConnectingLeg leg: this){
+			if (leg.number().equalsIgnoreCase(connectingLegID)){
+				return leg;
+			}
+		}
+		return null;
+	}
 	
 }

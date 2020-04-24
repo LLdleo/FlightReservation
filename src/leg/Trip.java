@@ -9,9 +9,30 @@ import utils.Saps;
  * Responsibilities: Store one selected flight as a one-way trip
  */
 public class Trip {
+    /**
+     * outgoingFlight is the first/only flight for a round or one-way trip.
+     */
     private Flight outgoingFlight;
+    /**
+     * seatType is the type of seat that will be used for each leg on the flight. Different seatTypes cannot be used on different legs of the same flight.
+     */
     private SeatTypeEnum seatType;
 
+    /**
+     * Get the flight for this trip.
+     * @return the flight for this trip.
+     */
+    public Flight getOutgoingFlight() {
+        return outgoingFlight;
+    }
+
+    /**
+     * Get the seatType for the outgoing flight.
+     * @return the type of seat being used for the outgoing flight.
+     */
+    public SeatTypeEnum getSeatType() {
+        return seatType;
+    }
     /**
      * Constructor for a trip with the given outgoing flight
      *
@@ -30,11 +51,11 @@ public class Trip {
      */
     public boolean reserveSeats(){
         ServerInterface.INSTANCE.lock(Saps.TEAMNAME); // TODO: add handling for when lock can't be acquired.
-        if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){ // TODO: Maybe put this responsibility on the caller because otherwise would need to get confirmation from here
+        if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }
-        // TODO: Add actual reservations by something like ServerInterface.INSTANCE.reserve(this.outgoingFlight, this.seatType);
+        ServerInterface.INSTANCE.reserve(Saps.TEAMNAME,this);
         ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
         return true;
     }

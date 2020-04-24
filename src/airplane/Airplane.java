@@ -3,6 +3,7 @@
  */
 package airplane;
 
+import leg.SeatTypeEnum;
 import utils.Saps;
 
 import java.util.Comparator;
@@ -338,6 +339,16 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	public boolean isValidString(String string) {
 		// If the name is null or empty it can't be valid
 		return (string != null) && (!string.equals(""));
+	}
+
+	/**
+	 * Get the number of seats of a certain seatType on this airplane.
+	 *
+	 * @param seatType The type of seat to check for the number of seats.
+	 * @return The number of seats of a certain seatType on this airplane.
+	 */
+	public int getNumSeats(SeatTypeEnum seatType){
+		return seatType == SeatTypeEnum.FIRSTCLASS ? firstClassSeats() : coachSeats();
 	}
 
 }

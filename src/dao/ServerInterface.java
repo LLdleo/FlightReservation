@@ -10,12 +10,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 
 import airplane.Airplanes;
 import airport.Airports;
+import leg.ConnectingLeg;
 import leg.ConnectingLegs;
 //import org.json.JSONException;
+import leg.SeatTypeEnum;
+import leg.Trip;
 import utils.QueryFactory;
+import utils.Saps;
 //import org.json.JSONObject;
 
 
@@ -319,7 +325,65 @@ public enum ServerInterface {
 		}
 		return true;
 	}
+	/**
+	 * Reserve seats for a flight on the database.
+	 *
+	 * The server interface to reserve seats on the server uses HTTP POST protocol
+	 *
+	 * @pre Database is locked by this system.
+	 * @inv Database remains locked throughout this method.
+	 * @post Database is unlocked and has received the data and should update the number of reservations if successful.
+	 *
+	 * @param teamName is the name of the team holding the lock
+	 * @param flightToReserve is the legs to reserve each with the specified seat type.
+	 * @return true if the server was successfully unlocked.
+	 */
+	public boolean reserve (String teamName, Trip flightToReserve) {
+		URL url;
+		HttpURLConnection connection;
 
+		try {
+			url = new URL(mUrlBase);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+
+			String params = QueryFactory.reserve(Saps.TEAMNAME,tripToXML(flightToReserve));
+
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to unlock database");
+			System.out.println(("\nResponse Code : " + responseCode));
+
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line;
+				StringBuffer response = new StringBuffer();
+
+				while ((line = in.readLine()) != null) {
+					response.append(line);
+				}
+				in.close();
+
+				System.out.println(response.toString());
+			}
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * Reset the database to the initial stage, no reservation is made
 	 * team or if the server is not currently locked. If the lock is held be another team, the operation will fail.
@@ -376,6 +440,22 @@ public enum ServerInterface {
 		return true;
 	}
 
+	/**
+	 * Convert a trip into the xml string needed to reserve a seat of the trip's seat type on each connecting leg.
+	 *
+	 * @param tripToConvert The trip to convert into XML so that it can be reserved.
+	 * @return The XML string needed to reserve the seats for the trip.
+	 */
+	private String tripToXML(Trip tripToConvert){
+		String xmlString = "<Flight>";
+		String seatTypeString = tripToConvert.getSeatType()== SeatTypeEnum.FIRSTCLASS ? "FirstClass" : "Coach";
+		Iterator<ConnectingLeg> legs = tripToConvert.getOutgoingFlight().getLegs();
+		while(legs.hasNext()){
+			ConnectingLeg thisLeg = legs.next();
+			xmlString += "<Flight number=\"" + thisLeg.number() + "\" seating=\"" + seatTypeString + "\"/>";
+		}
+		return xmlString + "</Flights>";
+	}
 	/**
 	 * Return a collection of all the airports from server
 	 *

@@ -183,11 +183,11 @@ public class CreatePossibleFlights {
 
     /**
      * Convert a date to the string format needed for querying the server.
-     *
+     * TODO: Maybe move this somewhere else
      * @param date The LocalDate to be converted.
      * @return The string representation of the given date in the string format of the date to query the WPI server with.
      */
-    private String getStringDate(LocalDate date){
+    public static String getStringDate(LocalDate date){
         return date.format(DateTimeFormatter.ofPattern(Saps.SERVER_DATE_FORMAT));
     }
 
