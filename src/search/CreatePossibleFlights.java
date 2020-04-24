@@ -59,79 +59,115 @@ public class CreatePossibleFlights {
     public Flights createPossibleConnectingLegCombinations(){
         Flights availableFlights = new Flights();
         Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
-        Airport depAirport = airports.getAirportByCode(criteria.getDepartureAirportCode());
-        double depLat = depAirport.latitude();
-        double depLong = depAirport.longitude();
-        double depAirportOffset = TimezoneInterface.INSTANCE.getTimezoneOffset(depLat,depLong);
-        int dateOffset = -(int) (depAirportOffset / Math.abs(depAirportOffset));
+        Airport airport = airports.getAirportByCode(criteria.getSearchAirportCode());
+        double latitude = airport.latitude();
+        double longitude = airport.longitude();
+        double airportOffset = TimezoneInterface.INSTANCE.getTimezoneOffset(latitude,longitude);
+        int dateOffset = -(int) (airportOffset / Math.abs(airportOffset));
         LocalDate secondDate = criteria.getFlightDate().plusDays(dateOffset);
-        // Assume departure TODO: add arrival and account for local date
-        ConnectingLegs firstLegs = queryServer(criteria.getDepartureAirportCode(),criteria.getFlightDate(),criteria.isSelectedDateForDeparture(), false);
-        firstLegs.addAll(queryServer(criteria.getDepartureAirportCode(),secondDate,criteria.isSelectedDateForDeparture(), false));
+        ConnectingLegs firstLegs = queryServer(criteria.getSearchAirportCode(),criteria.getFlightDate(),criteria.isSelectedDateForDeparture(), false);
+        firstLegs.addAll(queryServer(criteria.getSearchAirportCode(),secondDate,criteria.isSelectedDateForDeparture(), false));
         List<ConnectingLeg> localFirstLegs = firstLegs.stream().filter(leg ->
-                (new MyTime(leg.departure().getTime(),depLat, depLong)).getLocalTime().toLocalDate().isEqual(criteria.getFlightDate())).collect(Collectors.toList());
+                (new MyTime(criteria.isSelectedDateForDeparture() ? leg.departure().getTime() : leg.arrival().getTime()
+                        ,latitude,longitude)).getLocalTime().toLocalDate().isEqual(criteria.getFlightDate())).collect(Collectors.toList());
 
         Flights firstLegFlights = new Flights();
         for(ConnectingLeg leg : localFirstLegs){
-            if(leg.arrival().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())){
+            if(legMatchesCriteria(leg,criteria.isSelectedDateForDeparture())){
                 availableFlights.add(new Flight(leg));
             }
             else {
                 firstLegFlights.add(new Flight(leg));
             }
-        } // TODO: Extract these two into helper to not duplicate
-        // Get second legs
-        Flights twoLegFlights = new Flights();
-        for(Flight first : firstLegFlights){
-            MyTime arrivalTime = first.getArrivalTime();
-            // Avoid unnecessary queries
-            double hoursToNextDay = arrivalTime.getTimeToNextDay();
-            ConnectingLegs secondLegs = new ConnectingLegs();
-            String arrivalCode = first.getArrivalAirportCode();
-            LocalDate arrivalDate = first.getArrivalTime().getGmtTime().toLocalDate();
-            if (hoursToNextDay >= Saps.MIN_LAYOVER_TIME_HOURS){
-                secondLegs.addAll(queryServer(arrivalCode,arrivalDate,true,false));
-            }
-            if(hoursToNextDay <= Saps.MAX_LAYOVER_TIME_HOURS){
-                secondLegs.addAll(queryServer(arrivalCode,arrivalDate.plusDays(1),true,false));
-            }
-            for(ConnectingLeg leg : secondLegs){
-                Flight twoLegs = first.shallowCopy();
-                if(twoLegs.addLeg(leg)){
-                    if(leg.arrival().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())){
-                        availableFlights.add(twoLegs);
-                    }
-                    else{
-                        twoLegFlights.add(twoLegs);
-                    }
-                }
-            }
         }
-        firstLegFlights.clear();
-        for(Flight second : twoLegFlights){
-            MyTime arrivalTime = second.getArrivalTime();
-            // Avoid unnecessary queries
-            double hoursToNextDay = arrivalTime.getTimeToNextDay();
-            ConnectingLegs secondLegs = new ConnectingLegs();
-            String arrivalCode = second.getArrivalAirportCode();
-            LocalDate arrivalDate = second.getArrivalTime().getGmtTime().toLocalDate();
-            if (hoursToNextDay >= Saps.MIN_LAYOVER_TIME_HOURS){
-                secondLegs.addAll(queryServer(arrivalCode,arrivalDate,true,true));
-            }
-            if(hoursToNextDay <= Saps.MAX_LAYOVER_TIME_HOURS){
-                secondLegs.addAll(queryServer(arrivalCode,arrivalDate.plusDays(1),true,true));
-            }
-            for(ConnectingLeg leg : secondLegs){
-                Flight twoLegs = second.shallowCopy();
-                if(twoLegs.addLeg(leg)){
-                    availableFlights.add(twoLegs);
-                }
-            }
-        }
-
+        Flights twoLegFlights = getNextLegCombinations(availableFlights,firstLegFlights,criteria.isSelectedDateForDeparture(),false);
+        getNextLegCombinations(availableFlights,twoLegFlights,criteria.isSelectedDateForDeparture(),true);
         return availableFlights;
     }
 
+    /**
+     * Retrieve the set of Flights that contains one more connecting leg each, but is still not complete.
+     *
+     * @post availableFlights will be populated by any Flights that match the search criteria and don't need to search further.
+     * @param availableFlights The list of complete flights which complete flights can be added to.
+     * @param previousCombinations The list of incomplete flights to get one more connecting leg each to append, creating combinations to try and get complete flights.
+     * @param isDeparture True if searching based on departure date, false if based on arrival date.
+     * @param isLastLeg True if getting the third set of connecting legs, which is the limit for the number of legs per flight, false otherwise. Indicates whether search criteria can be used to constrain connecting leg combinations.
+     * @return The set of Flights of combinations of the previousCombinations with one more connecting leg that don't meet the search criteria.
+     */
+    private Flights getNextLegCombinations(Flights availableFlights, Flights previousCombinations, boolean isDeparture, boolean isLastLeg){
+        Flights nextLegFlights = new Flights();
+        for(Flight last : previousCombinations){
+            ConnectingLegs nextLegs = getRelevantNextLegs(last,isDeparture,isLastLeg);
+            for(ConnectingLeg leg : nextLegs){
+                Flight moreLegs = last.shallowCopy();
+                if(moreLegs.addLeg(leg, isDeparture)){
+                    if(legMatchesCriteria(leg,isDeparture)){
+                        availableFlights.add(moreLegs);
+                    }
+                    else{
+                        nextLegFlights.add(moreLegs);
+                    }
+                }
+            }
+        }
+        return nextLegFlights;
+    }
+
+    /**
+     * Determine if the leg matches the search criteria such that the flight could end/start with this leg.
+     *
+     * @param legToCheck The leg to check whether it matches the search criteria.
+     * @param shouldMatchArrivalCriteria True if checking this leg's airport against the arrival airport criterion, false if checking the departure airports.
+     * @return True if the leg can end/start a flight by ending/starting in the required arrival/departure airport.
+     */
+    private boolean legMatchesCriteria(ConnectingLeg legToCheck, boolean shouldMatchArrivalCriteria){
+        if(shouldMatchArrivalCriteria){
+            return legToCheck.arrival().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode());
+        }
+        return legToCheck.departure().getCode().equalsIgnoreCase(criteria.getDepartureAirportCode());
+    }
+
+    /**
+     * Get the next set of connecting legs to combine with the FLight start.
+     *
+     * @param start The flight to get connecting legs to add to this flight.
+     * @param isDeparture True if searching for flights based on the departure date. False if based on the arrival date.
+     * @param isLastLeg True if getting the third set of legs, and thus searching should restrict results to those that meet the search criteria. False otherwise.
+     * @return The next set of connecting legs to combine with the flight start that will be constrained if this isLastLeg and will be searched in a direction based on isDeparture.
+     */
+    private ConnectingLegs getRelevantNextLegs(Flight start, boolean isDeparture, boolean isLastLeg){
+        ConnectingLegs nextLegs = new ConnectingLegs();
+        // Note: These could probably be combined using general functions like getFlightTime(), but I left that out for
+        // now because I thought it might be too unreadable.
+        if(isDeparture){
+            MyTime arrivalTime = start.getArrivalTime();
+            // Avoid unnecessary queries
+            double hoursToNextDay = arrivalTime.getTimeToNextDay();
+            String arrivalCode = start.getArrivalAirportCode();
+            LocalDate arrivalDate = start.getArrivalTime().getGmtTime().toLocalDate();
+            if (hoursToNextDay >= Saps.MIN_LAYOVER_TIME_HOURS){
+                nextLegs.addAll(queryServer(arrivalCode,arrivalDate,true,isLastLeg));
+            }
+            if(hoursToNextDay <= Saps.MAX_LAYOVER_TIME_HOURS){
+                nextLegs.addAll(queryServer(arrivalCode,arrivalDate.plusDays(1),true,isLastLeg));
+            }
+        }
+        else{
+            MyTime departureTime = start.getDepartureTime();
+            // Avoid unnecessary queries
+            double hoursToLastDay = departureTime.getTimeToLastDay();
+            String departureCode = start.getDepartureAirportCode();
+            LocalDate departureDate = start.getDepartureTime().getGmtTime().toLocalDate();
+            if (hoursToLastDay >= Saps.MIN_LAYOVER_TIME_HOURS){
+                nextLegs.addAll(queryServer(departureCode,departureDate,false,isLastLeg));
+            }
+            if(hoursToLastDay <= Saps.MAX_LAYOVER_TIME_HOURS){
+                nextLegs.addAll(queryServer(departureCode,departureDate.plusDays(-1),false,isLastLeg));
+            }
+        }
+        return nextLegs;
+    }
     /**
      * Create the hash string of the server query for caching or retrieving cached results.
      *

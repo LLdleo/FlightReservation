@@ -76,6 +76,7 @@ public class Flight {
     /**
      * Try to add new leg to the end of the current set of legs.
      *
+     * @post If this method returns true, then this flight has added newleg to the end. If false, this flight's connecting legs remain unchanged.
      * @param newLeg The new connecting leg to append to the end of the flight
      * @return True if the leg was added to the flight, false if adding would not make a valid flight and so was not added.
      */
@@ -88,6 +89,24 @@ public class Flight {
         return false;
     }
 
+    /**
+     * Try to add new leg to the end or start of the current set of legs.
+     *
+     * @post If this method returns true, then this flight has added newleg to the end or start of its connecting legs based on addAtEnd. If false, this flight's connecting legs remain unchanged.
+     * @param newLeg The new connecting leg to append to the end or start of the flight.
+     * @param addAtEnd True if newLeg should be appended at the end of the current list, false if newLeg should be appended at the start.
+     * @return True if the leg was added to the flight, false if adding would not make a valid flight and so was not added.
+     */
+    public boolean addLeg(ConnectingLeg newLeg, boolean addAtEnd){
+        if (addAtEnd)
+            return addLeg(newLeg);
+        this.connectingLegs.add(0,newLeg);
+        if(isValid(this.connectingLegs)){
+            return true;
+        }
+        this.connectingLegs.remove(0);
+        return false;
+    }
     /**
      * Calculate the travel time of this flight in hours
      * Calculate the travel time of this flight in hours as the timespan from the first leg's scheduled departure time to the last leg's scheduled arrival time.
@@ -137,17 +156,76 @@ public class Flight {
         int availableLegsCount = totalLegsCount;
         return totalLegsCount == availableLegsCount;
     }
+
+    /**
+     * Get the airport code for the arrival of the last connecting leg of this flight.
+     *
+     * @return the airport code for the arrival of the last connecting leg of this flight.
+     */
     public String getArrivalAirportCode(){
         return this.connectingLegs.get(this.connectingLegs.size()-1).arrival().code;
     }
+
+    /**
+     * Get the airport code for the departure of the first connecting leg of this flight.
+     *
+     * @return the airport code for the departure of the first connecting leg of this flight.
+     */
+    public String getDepartureAirportCode(){
+        return this.connectingLegs.get(0).departure().code;
+    }
+    /**
+     * Get the airport code for the arrival or departure of the last/first connecting leg of this flight.
+     *
+     * @param isDeparture True if the departure code should be returned, false if the arrival code should be returned.
+     * @return the airport code for the arrival or departure of the last/first connecting leg of this flight based on isDeparture.
+     */
+    public String getAirportCode(boolean isDeparture){
+        return isDeparture ? this.getDepartureAirportCode() : this.getArrivalAirportCode();
+    }
+    /**
+     * Get the time for the arrival of the last connecting leg of this flight.
+     *
+     * @return the time for the arrival of the last connecting leg of this flight.
+     */
     public MyTime getArrivalTime(){
         return new MyTime(this.connectingLegs.get(this.connectingLegs.size()-1).arrival().time);
     }
+    /**
+     * Get the time for the departure of the first connecting leg of this flight.
+     *
+     * @return the time for the departure of the first connecting leg of this flight.
+     */
+    public MyTime getDepartureTime(){
+        return new MyTime(this.connectingLegs.get(0).departure().time);
+    }
+    /**
+     * Get the time of the arrival or departure of the last/first connecting leg of this flight.
+     *
+     * @param isDeparture True if the departure time should be returned, false if the arrival time should be returned.
+     * @return the time of the arrival or departure of the last/first connecting leg of this flight based on isDeparture.
+     */
+    public MyTime getFlightTime(boolean isDeparture){
+        return isDeparture ? this.getDepartureTime() : this.getArrivalTime();
+    }
+
+    /**
+     * Make a copy of the flight that references the same connecting leg objects in a new list.
+     *
+     * @post A new Flight object is instantiated with a new list containing references to the same ConnectingLeg objects as the previous object.
+     * @return The new Flight referencing the same connecting leg objects.
+     */
     public Flight shallowCopy(){
         ConnectingLegs copy = new ConnectingLegs();
         copy.addAll(this.connectingLegs);
         return new Flight(copy);
     }
+
+    /**
+     * Create a string representation of this flight's information.
+     *
+     * @return a string representation of this flight's information.
+     */
     public String toString(){
         String toReturn = "Flight: ";
         for(ConnectingLeg leg: this.connectingLegs){

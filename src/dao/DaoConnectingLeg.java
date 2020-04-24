@@ -115,8 +115,8 @@ public class DaoConnectingLeg {
 
 		Departure departure = new Departure(departureCode, departureTime);
 
-		Arrival arrival = new Arrival();
-		arrival.arrival(arrivalCode, arrivalTime);
+		Arrival arrival = new Arrival(arrivalCode, arrivalTime);
+
 
 		Seating seating = new Seating();
 		seating.seating(firstClassPrice, firstClassReserved, coachPrice, coachReserved);

@@ -128,7 +128,15 @@ public class MyTime {
         MyTime nextDayStart = new MyTime(this.gmtTime.toLocalDate().plusDays(1).atStartOfDay(),this.assocLatitude, this.assocLongitude);
         return this.timespan(nextDayStart);
     }
-
+    /**
+     * Calculate the time from this time to the end of the last GMT date in hours.
+     *
+     * @return The number of hours from this gmt time to the end of the last GMT date. (Beginning of this date)
+     */
+    public double getTimeToLastDay(){
+        MyTime lastDayEnd = new MyTime(this.gmtTime.toLocalDate().atStartOfDay(),this.assocLatitude, this.assocLongitude);
+        return lastDayEnd.timespan(this);
+    }
     /**
      * Parse the server GMT times to convert into LocalDateTimes
      *

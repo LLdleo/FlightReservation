@@ -72,7 +72,14 @@ public class SearchCriteria {
         return seatType;
     }
 
-
+    /**
+     * Return the airport code of the airport that the search will be started on.
+     *
+     * @return the airport code of the airport that the search will be started on.
+     */
+    public String getSearchAirportCode(){
+        return isSelectedDateForDeparture ? departureAirportCode : arrivalAirportCode;
+    }
     /**
      * Constructor for search criteria to encapsulate different restrictions on returned flights.
      *

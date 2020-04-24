@@ -6,12 +6,12 @@ package leg;
  * Responsibilities: Store information about a connecting leg's departure event.
  */
 public class Departure {
-    /* 3 character code of departing airport */
+    /** 3 character code of departing airport */
     String code;
 
 
 
-    /* Date and time of departure in GMT */
+    /** Date and time of departure in GMT */
     String time;
 
     /**

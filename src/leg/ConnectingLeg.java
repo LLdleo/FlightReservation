@@ -35,7 +35,7 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	private Departure mDeparture;
 
 	/** Arrival Info */
-	private Arrival mArrival = new Arrival();
+	private Arrival mArrival;
 
 	/** Seating Info */
 	private Seating mSeating = new Seating();
