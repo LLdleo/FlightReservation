@@ -1,6 +1,7 @@
 package leg;
 
 import dao.ServerInterface;
+import reservation.ServerLockException;
 import utils.Saps;
 
 /**
@@ -49,15 +50,23 @@ public class Trip {
      *
      * @return True if the reservation was successful, false otherwise
      */
-    public boolean reserveSeats(){
-        ServerInterface.INSTANCE.lock(Saps.TEAMNAME); // TODO: add handling for when lock can't be acquired.
+    public boolean reserveSeats() throws ServerLockException {
+        boolean success = false;
+        long startLockTimer = System.currentTimeMillis();
+        long endLockTimer;
+        do {
+            success = ServerInterface.INSTANCE.lock(Saps.TEAMNAME);
+            endLockTimer = System.currentTimeMillis();
+        }while(!success && (endLockTimer - startLockTimer)/1000 < Saps.LOCK_TIMEOUT_SECONDS);
+        if(!success){throw new ServerLockException("System timed out after " + (endLockTimer - startLockTimer)/1000 + " seconds");}
+
         if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }
-        ServerInterface.INSTANCE.reserve(Saps.TEAMNAME,this);
+        success = ServerInterface.INSTANCE.reserve(Saps.TEAMNAME,this);
         ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
-        return true;
+        return success;
     }
 
 }

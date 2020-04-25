@@ -52,7 +52,7 @@ public class QueryFactory {
 	 * @return the query String which can be appended to URL to form HTTP GET request
 	 */
 	public static String reserve(String teamName, String xmlFlights) {
-		return "?team=" + teamName + "&action=buyTickets&flightData=" + xmlFlights;
+		return "team=" + teamName + "&action=buyTickets&flightData=" + xmlFlights;
 	}
 
 	/**

@@ -118,8 +118,7 @@ public class DaoConnectingLeg {
 		Arrival arrival = new Arrival(arrivalCode, arrivalTime);
 
 
-		Seating seating = new Seating();
-		seating.seating(firstClassPrice, firstClassReserved, coachPrice, coachReserved);
+		Seating seating = new Seating(firstClassPrice, firstClassReserved, coachPrice, coachReserved);
 		/**
 		 * Instantiate an empty Airport object and initialize with data from XML node
 		 */

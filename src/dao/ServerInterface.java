@@ -346,11 +346,13 @@ public enum ServerInterface {
 			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", teamName);
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-			String params = QueryFactory.reserve(Saps.TEAMNAME,tripToXML(flightToReserve));
+			String params = QueryFactory.reserve(teamName,tripToXML(flightToReserve));
 
 			connection.setDoOutput(true);
-			connection.setDoInput(true);
+			//connection.setDoInput(true);
 
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
 			writer.writeBytes(params);
@@ -358,7 +360,7 @@ public enum ServerInterface {
 			writer.close();
 
 			int responseCode = connection.getResponseCode();
-			System.out.println("\nSending 'POST' to unlock database");
+			System.out.println("\nSending 'POST' to reserve on the database");
 			System.out.println(("\nResponse Code : " + responseCode));
 
 			if (responseCode >= HttpURLConnection.HTTP_OK) {
@@ -447,7 +449,7 @@ public enum ServerInterface {
 	 * @return The XML string needed to reserve the seats for the trip.
 	 */
 	private String tripToXML(Trip tripToConvert){
-		String xmlString = "<Flight>";
+		String xmlString = "<Flights>";
 		String seatTypeString = tripToConvert.getSeatType()== SeatTypeEnum.FIRSTCLASS ? "FirstClass" : "Coach";
 		Iterator<ConnectingLeg> legs = tripToConvert.getOutgoingFlight().getLegs();
 		while(legs.hasNext()){

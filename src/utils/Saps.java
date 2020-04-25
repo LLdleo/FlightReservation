@@ -30,7 +30,13 @@ public class Saps {
 	 * Team name for which server to access
 	 */
 	public static final String TEAMNAME = "PoLYmer";
-
+	/**
+	 * Format string for dates used in query strings for WPI server
+	 */
 	public static final String SERVER_DATE_FORMAT = "yyyy_MM_dd";
-	
+	/**
+	 * The number of seconds that the system will try to acquire the lock before timing out.
+	 * @see reservation.ServerLockException For the exception thrown when this timeout is met.
+	 */
+	public static final int LOCK_TIMEOUT_SECONDS= 5;
 }
