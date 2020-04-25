@@ -3,6 +3,7 @@
  */
 package airplane;
 
+import leg.SeatTypeEnum;
 import utils.Saps;
 
 import java.util.Comparator;
@@ -13,9 +14,9 @@ import java.util.Comparator;
  * XML received from the server to Java primitives. Attributes are accessed via getter and 
  * setter methods.
  * 
- * @author PoLYmer
+ * @author Lidian Lin, Jackson Powell
  * @version 1.0
- * @since 2020-04-19
+ * @since 2020-04-22
  * 
  */
 public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
@@ -317,17 +318,16 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 */
 	public boolean isValid() {
 		
-		// If the name isn't valid, the object isn't valid
+		// If the manufacturer name isn't valid, the object isn't valid
 		if ((mManufacturer == null) || (mManufacturer.equals("")))
 			return false;
 		
-		// If we don't have a 3 character code, object isn't valid
-		if ((mModel == null) || (mModel.length() != 3))
+		// If the model isn't valid, object isn't valid
+		if ((mModel == null) || (mModel.equals("")))
 			return false;
 		
-		// Verify latitude and longitude are within range
-		return (!(mFirstClassSeats > Saps.MAX_LATITUDE)) && (!(mFirstClassSeats < Saps.MIN_LATITUDE)) &&
-				(!(mCoachSeats > Saps.MAX_LONGITUDE)) && (!(mCoachSeats < Saps.MIN_LONGITUDE));
+		// Verify that the max number of seats is non-negative
+		return ((mFirstClassSeats >= 0) && (mCoachSeats >= 0));
 	}
 	
 	/**
@@ -339,6 +339,16 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	public boolean isValidString(String string) {
 		// If the name is null or empty it can't be valid
 		return (string != null) && (!string.equals(""));
+	}
+
+	/**
+	 * Get the number of seats of a certain seatType on this airplane.
+	 *
+	 * @param seatType The type of seat to check for the number of seats.
+	 * @return The number of seats of a certain seatType on this airplane.
+	 */
+	public int getNumSeats(SeatTypeEnum seatType){
+		return seatType == SeatTypeEnum.FIRSTCLASS ? firstClassSeats() : coachSeats();
 	}
 
 }

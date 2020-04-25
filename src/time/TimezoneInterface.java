@@ -65,10 +65,14 @@ public enum TimezoneInterface {
         String line;
         StringBuffer result = new StringBuffer();
         try {
+            // ipgeolocation doesn't work with either coordinate as zero, so get approximation.
+            if (latitude == 0) latitude+=.0000001;
+            if (longitude == 0) longitude+=.0000001;
             /*
              * Create an HTTP connection to the server for a GET
              * QueryFactory provides the parameter annotations for the HTTP GET query string
              */
+
             url = new URL(mConnectionURL + QueryFactory.getTimezoneOffset(latitude, longitude));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

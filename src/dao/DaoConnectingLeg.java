@@ -113,14 +113,12 @@ public class DaoConnectingLeg {
 		coachPrice = elementCoach.getAttributeNode("Price").getValue();
 		coachReserved = Integer.parseInt(elementCoach.getFirstChild().getNodeValue());
 
-		Departure departure = new Departure();
-		departure.departure(departureCode, departureTime);
+		Departure departure = new Departure(departureCode, departureTime);
 
-		Arrival arrival = new Arrival();
-		arrival.arrival(arrivalCode, arrivalTime);
+		Arrival arrival = new Arrival(arrivalCode, arrivalTime);
 
-		Seating seating = new Seating();
-		seating.seating(firstClassPrice, firstClassReserved, coachPrice, coachReserved);
+
+		Seating seating = new Seating(firstClassPrice, firstClassReserved, coachPrice, coachReserved);
 		/**
 		 * Instantiate an empty Airport object and initialize with data from XML node
 		 */

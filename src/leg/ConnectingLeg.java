@@ -32,13 +32,13 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	private String mNumber;
 
 	/** Departure Info */
-	private Departure mDeparture = new Departure();
+	private Departure mDeparture;
 
 	/** Arrival Info */
-	private Arrival mArrival = new Arrival();
+	private Arrival mArrival;
 
 	/** Seating Info */
-	private Seating mSeating = new Seating();
+	private Seating mSeating;
 	
 	/**
 	 * Default constructor
@@ -87,17 +87,17 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 			throw new IllegalArgumentException(number);
 		if (!isValidCode(departureCode))
 			throw new IllegalArgumentException(departureCode);
-		if (isValidTime(departureTime))
+		if (!isValidTime(departureTime))
 			throw new IllegalArgumentException(departureTime);
 		if (!isValidCode(arrivalCode))
 			throw new IllegalArgumentException(arrivalCode);
-		if (isValidTime(arrivalTime))
+		if (!isValidTime(arrivalTime))
 			throw new IllegalArgumentException(arrivalTime);
-		if (isValidPrice(firstClassPrice))
+		if (!isValidPrice(firstClassPrice))
 			throw new IllegalArgumentException(firstClassPrice);
 		if (!isValidNumberReserved(firstClassReserved))
 			throw new IllegalArgumentException(String.valueOf(firstClassReserved));
-		if (isValidPrice(coachPrice))
+		if (!isValidPrice(coachPrice))
 			throw new IllegalArgumentException(coachPrice);
 		if (!isValidNumberReserved(coachReserved))
 			throw new IllegalArgumentException(String.valueOf(coachReserved));
@@ -105,14 +105,9 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 		mAirplane = airplane;
 		mFlightTime = flightTime;
 		mNumber = number;
-		mDeparture.code = departureCode;
-		mDeparture.time = departureTime;
-		mArrival.code = arrivalCode;
-		mArrival.time = arrivalTime;
-		mSeating.firstClassPrice = firstClassPrice;
-		mSeating.firstClassReserved = firstClassReserved;
-		mSeating.coachPrice = coachPrice;
-		mSeating.coachReserved = coachReserved;
+		mDeparture = new Departure(departureCode,departureTime);
+		mArrival = new Arrival(arrivalCode,arrivalTime);
+		mSeating = new Seating(firstClassPrice,firstClassReserved,coachPrice,coachReserved);
 	}
 	
 	/**
@@ -159,17 +154,17 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 			throw new IllegalArgumentException(number);
 		if (!isValidCode(departureCode))
 			throw new IllegalArgumentException(departureCode);
-		if (isValidTime(departureTime))
+		if (!isValidTime(departureTime))
 			throw new IllegalArgumentException(departureTime);
 		if (!isValidCode(arrivalCode))
 			throw new IllegalArgumentException(arrivalCode);
-		if (isValidTime(arrivalTime))
+		if (!isValidTime(arrivalTime))
 			throw new IllegalArgumentException(arrivalTime);
-		if (isValidPrice(firstClassPrice))
+		if (!isValidPrice(firstClassPrice))
 			throw new IllegalArgumentException(firstClassPrice);
 		if (!isValidNumberReserved(tmpFirstClassReserved))
 			throw new IllegalArgumentException(firstClassReserved);
-		if (isValidPrice(coachPrice))
+		if (!isValidPrice(coachPrice))
 			throw new IllegalArgumentException(coachPrice);
 		if (!isValidNumberReserved(tmpCoachReserved))
 			throw new IllegalArgumentException(coachReserved);
@@ -177,14 +172,9 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 		mAirplane = airplane;
 		mFlightTime = flightTime;
 		mNumber = number;
-		mDeparture.code = departureCode;
-		mDeparture.time = departureTime;
-		mArrival.code = arrivalCode;
-		mArrival.time = arrivalTime;
-		mSeating.firstClassPrice = firstClassPrice;
-		mSeating.firstClassReserved = tmpFirstClassReserved;
-		mSeating.coachPrice = coachPrice;
-		mSeating.coachReserved = tmpCoachReserved;
+		mDeparture = new Departure(departureCode,departureTime);
+		mArrival = new Arrival(arrivalCode,arrivalTime);
+		mSeating = new Seating(firstClassPrice,tmpFirstClassReserved,coachPrice,tmpCoachReserved);
 	}
 
 	/**

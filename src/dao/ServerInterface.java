@@ -10,14 +10,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 
+import airplane.Airplanes;
 import airport.Airports;
+import leg.ConnectingLeg;
 import leg.ConnectingLegs;
-import org.json.JSONException;
+//import org.json.JSONException;
+import leg.SeatTypeEnum;
+import leg.Trip;
 import utils.QueryFactory;
-import org.json.JSONObject;
+import utils.Saps;
+//import org.json.JSONObject;
 
-import javax.swing.*;
 
 
 /**
@@ -105,7 +111,7 @@ public enum ServerInterface {
 	 * @param teamName identifies the name of the team requesting the collection of airplanes
 	 * @return collection of Airplanes from server or null if error.
 	 */
-	public String getAirplanes (String teamName) {
+	public Airplanes getAirplanes (String teamName) {
 
 		URL url;
 		HttpURLConnection connection;
@@ -150,7 +156,7 @@ public enum ServerInterface {
 		}
 
 		Airplanes = result.toString();
-		return Airplanes;
+		return DaoAirplane.addAll(Airplanes);
 
 	}
 
@@ -319,7 +325,67 @@ public enum ServerInterface {
 		}
 		return true;
 	}
+	/**
+	 * Reserve seats for a flight on the database.
+	 *
+	 * The server interface to reserve seats on the server uses HTTP POST protocol
+	 *
+	 * @pre Database is locked by this system.
+	 * @inv Database remains locked throughout this method.
+	 * @post Database is unlocked and has received the data and should update the number of reservations if successful.
+	 *
+	 * @param teamName is the name of the team holding the lock
+	 * @param flightToReserve is the legs to reserve each with the specified seat type.
+	 * @return true if the server was successfully unlocked.
+	 */
+	public boolean reserve (String teamName, Trip flightToReserve) {
+		URL url;
+		HttpURLConnection connection;
 
+		try {
+			url = new URL(mUrlBase);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", teamName);
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+			String params = QueryFactory.reserve(teamName,tripToXML(flightToReserve));
+
+			connection.setDoOutput(true);
+			//connection.setDoInput(true);
+
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to reserve on the database");
+			System.out.println(("\nResponse Code : " + responseCode));
+
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line;
+				StringBuffer response = new StringBuffer();
+
+				while ((line = in.readLine()) != null) {
+					response.append(line);
+				}
+				in.close();
+
+				System.out.println(response.toString());
+			}
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * Reset the database to the initial stage, no reservation is made
 	 * team or if the server is not currently locked. If the lock is held be another team, the operation will fail.
@@ -377,6 +443,22 @@ public enum ServerInterface {
 	}
 
 	/**
+	 * Convert a trip into the xml string needed to reserve a seat of the trip's seat type on each connecting leg.
+	 *
+	 * @param tripToConvert The trip to convert into XML so that it can be reserved.
+	 * @return The XML string needed to reserve the seats for the trip.
+	 */
+	private String tripToXML(Trip tripToConvert){
+		String xmlString = "<Flights>";
+		String seatTypeString = tripToConvert.getSeatType()== SeatTypeEnum.FIRSTCLASS ? "FirstClass" : "Coach";
+		Iterator<ConnectingLeg> legs = tripToConvert.getOutgoingFlight().getLegs();
+		while(legs.hasNext()){
+			ConnectingLeg thisLeg = legs.next();
+			xmlString += "<Flight number=\"" + thisLeg.number() + "\" seating=\"" + seatTypeString + "\"/>";
+		}
+		return xmlString + "</Flights>";
+	}
+	/**
 	 * Return a collection of all the airports from server
 	 *
 	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
@@ -384,56 +466,56 @@ public enum ServerInterface {
 	 * @param teamName identifies the name of the team requesting the collection of airports
 	 * @return collection of Airports from server or null if error.
 	 */
-	public JSONObject getTimezone (String teamName, String APIKey, String latitude, String longitude) throws JSONException {
+//	public JSONObject getTimezone (String teamName, String APIKey, String latitude, String longitude) throws JSONException {
+//
+//		URL url;
+//		HttpURLConnection connection;
+//		BufferedReader reader;
+//		String line;
+//		StringBuffer result = new StringBuffer();
+//
+//		String xmlAirports;
+//		Airports airports;
+//
+//		try {
+//			/**
+//			 * Create an HTTP connection to the server for a GET
+//			 * QueryFactory provides the parameter annotations for the HTTP GET query string
+//			 */
+//			String ipUrlBase = "https://api.ipgeolocation.io/timezone";
+//			url = new URL(ipUrlBase + QueryFactory.getTimezone(APIKey, latitude, longitude));
+//			connection = (HttpURLConnection) url.openConnection();
+//			connection.setRequestMethod("GET");
+//			connection.setRequestProperty("User-Agent", teamName);
+//			connection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
+//
+//			/**
+//			 * If response code of SUCCESS read the XML string returned
+//			 * line by line to build the full return string
+//			 */
+//			int responseCode = connection.getResponseCode();
+//			if (responseCode >= HttpURLConnection.HTTP_OK) {
+//				InputStream inputStream = connection.getInputStream();
+//				String encoding = connection.getContentEncoding();
+//				encoding = (encoding == null ? "UTF-8" : encoding);
+//
+//				reader = new BufferedReader(new InputStreamReader(inputStream));
+//				while ((line = reader.readLine()) != null) {
+//					result.append(line);
+//				}
+//				reader.close();
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return null;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//
+//		JSONObject jsonObject= new JSONObject(result.toString());
+//		System.out.println(Integer.parseInt(jsonObject.get("timezone_offset").toString()) + Integer.parseInt(jsonObject.get("dst_savings").toString()));
+//		return jsonObject;
 
-		URL url;
-		HttpURLConnection connection;
-		BufferedReader reader;
-		String line;
-		StringBuffer result = new StringBuffer();
-
-		String xmlAirports;
-		Airports airports;
-
-		try {
-			/**
-			 * Create an HTTP connection to the server for a GET
-			 * QueryFactory provides the parameter annotations for the HTTP GET query string
-			 */
-			String ipUrlBase = "https://api.ipgeolocation.io/timezone";
-			url = new URL(ipUrlBase + QueryFactory.getTimezone(APIKey, latitude, longitude));
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", teamName);
-			connection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
-
-			/**
-			 * If response code of SUCCESS read the XML string returned
-			 * line by line to build the full return string
-			 */
-			int responseCode = connection.getResponseCode();
-			if (responseCode >= HttpURLConnection.HTTP_OK) {
-				InputStream inputStream = connection.getInputStream();
-				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "UTF-8" : encoding);
-
-				reader = new BufferedReader(new InputStreamReader(inputStream));
-				while ((line = reader.readLine()) != null) {
-					result.append(line);
-				}
-				reader.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		JSONObject jsonObject= new JSONObject(result.toString());
-		System.out.println(Integer.parseInt(jsonObject.get("timezone_offset").toString()) + Integer.parseInt(jsonObject.get("dst_savings").toString()));
-		return jsonObject;
-
-	}
+//	}
 }
