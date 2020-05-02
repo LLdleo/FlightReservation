@@ -98,6 +98,71 @@ public class ConnectingLeg {
         return newLeg;
     }
 
+    /**
+     * Get the airport that this leg departs from.
+     *
+     * @return the airport that this leg departs from.
+     */
+    public Airport getDepartureAirport() {
+        return departureAirport;
+    }
 
+    /**
+     * Get the airport that this leg arrives at.
+     * @return The airport that this leg arrives at.
+     */
+    public Airport getArrivalAirport() {
+        return arrivalAirport;
+    }
 
+    /**
+     * Get the airplane that this leg flies using.
+     *
+     * @return The airplane that this leg flies using.
+     */
+    public Airplane getAirplane() {
+        return airplane;
+    }
+
+    /**
+     * Get the seating info for this leg including the number of seats reserved and their prices.
+     *
+     * @return the seating info for this leg including the number of seats reserved and their prices.
+     */
+    public Seating getSeating() {
+        return seating;
+    }
+
+    /**
+     * Get the time (both local and gmt) that this leg departs.
+     * @return the time (both local and gmt) that this leg departs.
+     */
+    public MyTime getDepartureTime() {
+        return departureTime;
+    }
+
+    /**
+     * Get the time (both local and gmt) that this leg arrives.
+     * @return the time (both local and gmt) that this leg arrives.
+     */
+    public MyTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    /**
+     * Get the identifying flight number for this leg.
+     *
+     * @return The identifying flight number for this leg.
+     */
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    /**
+     * Get the time of the flight (in minutes).
+     * @return the time of the flight (in minutes).
+     */
+    public String getFlightTime() {
+        return flightTime;
+    }
 }

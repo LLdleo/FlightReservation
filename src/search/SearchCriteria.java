@@ -2,6 +2,7 @@ package search;
 
 import leg.SeatTypeEnum;
 
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -83,6 +84,7 @@ public class SearchCriteria {
     /**
      * Constructor for search criteria to encapsulate different restrictions on returned flights.
      *
+     * @throws InvalidParameterException If any parameter is null or if the two airport codes are the same.
      * @post A SearchCriteria object is instantiated which can be passed to CreatePossibleFlights as the criteria for the search.
      * @param departureAirportCode The 3-letter code for the departure airport criterion.
      * @param arrivalAirportCode The 3-letter code for the arrival airport criterion.
@@ -90,7 +92,16 @@ public class SearchCriteria {
      * @param isSelectedDateForDeparture True if the date is for departing, false if arriving.
      * @param seatType The type of seat to filter the flights for availability.
      */
-    public SearchCriteria(String departureAirportCode, String arrivalAirportCode, LocalDate flightDate, boolean isSelectedDateForDeparture, SeatTypeEnum seatType){
+    public SearchCriteria(String departureAirportCode, String arrivalAirportCode, LocalDate flightDate, boolean isSelectedDateForDeparture, SeatTypeEnum seatType) throws InvalidParameterException {
+        if(departureAirportCode.equalsIgnoreCase(arrivalAirportCode)){
+            throw new InvalidParameterException("Departure airport cannot be the same as arrival airport");
+        }
+        if(departureAirportCode.length() != 3 || arrivalAirportCode.length() != 3){
+            throw new InvalidParameterException("Airport codes must be 3 characters long");
+        }
+        if(flightDate == null || seatType == null){
+            throw new InvalidParameterException("All criteria must be provided for search");
+        }
         this.departureAirportCode = departureAirportCode;
         this.arrivalAirportCode = arrivalAirportCode;
         this.flightDate = flightDate;

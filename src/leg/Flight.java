@@ -6,6 +6,7 @@ import search.CreatePossibleFlights;
 import time.MyTime;
 import utils.Saps;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.stream.Collectors;
 
@@ -141,8 +142,9 @@ public class Flight {
      * @return The price of a seat of the seat type on the given leg.
      */
     private double getLegPrice(ConnectingLeg leg, SeatTypeEnum seatType){
-        if (seatType == FIRSTCLASS){return leg.seating().getFirstClassPrice();}
-        return leg.seating().getCoachPrice();
+        DecimalFormat format = new DecimalFormat("0.00");
+        if (seatType == FIRSTCLASS){return Math.round(100 * leg.seating().getFirstClassPrice())/100.0;}
+        return Math.round(leg.seating().getCoachPrice())/100.0;
     }
     /**
      * Checks if there are still seats for this flight available.
