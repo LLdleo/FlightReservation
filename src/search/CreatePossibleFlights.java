@@ -213,6 +213,7 @@ public class CreatePossibleFlights {
             intermediateList = result.stream().filter(leg -> !leg.departure().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
         }
         result.clear();
+        intermediateList = intermediateList.stream().filter(ConnectingLeg::hasAnySeatsLeft).collect(Collectors.toList());
         result.addAll(intermediateList);
         if(isLastLeg){
             if(isDeparture){
