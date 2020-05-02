@@ -2,17 +2,27 @@ package test;
 
 import airport.Airport;
 import airport.Airports;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.ServerInterface;
+import flight.Flights;
 import leg.ConnectingLeg;
 import leg.ConnectingLegs;
+import leg.SeatTypeEnum;
+import search.Flight;
+import search.SearchCriteria;
+import search.SearchOneWayTripFlights;
+import utils.Saps;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class HTTPServer {
     public static void main(String[] args) {
@@ -41,7 +51,7 @@ public class HTTPServer {
                         System.out.println(parameterPairs);
                         if (parameterPairs.get("action").equals("list")){
                             if (parameterPairs.get("listType").equals("airports")) {
-                                Airports airports = ServerInterface.INSTANCE.getAirports(parameterPairs.get("teamName"));
+                                Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
                                 Collections.sort(airports);
                                 StringBuilder ssss = null;
                                 for (Airport airport : airports) {
@@ -50,28 +60,36 @@ public class HTTPServer {
                                 }
                             }
                             else if (parameterPairs.get("listType").equals("departing") || parameterPairs.get("listType").equals("arriving")) {
-                                ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getLegs(parameterPairs.get("teamName"), parameterPairs.get("listType"), parameterPairs.get("airport"), parameterPairs.get("day"));
-                                Collections.sort(connectingLegs);
-                                StringBuilder ssss = new StringBuilder("[");
-//                                os.write("[".getBytes());
-                                for (ConnectingLeg connectingLeg : connectingLegs) {
-                                    ssss.append(connectingLeg.toJson()).append(",");
-//                                    os.write((flight.toJson()+",").getBytes());
-//                                    System.out.println(flight.toJson());
-                                }
-                                ssss.append("]");
-                                System.out.println(ssss);
-                                ssss.deleteCharAt(ssss.length()-2);
-
+                                SearchCriteria criteria = new SearchCriteria(parameterPairs.get("depAirport"), parameterPairs.get("arrAirport"),
+                                        LocalDate.parse(parameterPairs.get("day"), DateTimeFormatter.ofPattern(Saps.SERVER_DATE_FORMAT)),
+                                        parameterPairs.get("listType").equalsIgnoreCase("departing"));
+                                SearchOneWayTripFlights search = new SearchOneWayTripFlights(criteria);
+                                List<Flight> availableFlights = search.search();
+                                ObjectMapper mapper = new ObjectMapper();
+                                String jsonFlights;
                                 OutputStream os = socket.getOutputStream();
-                                os.write("HTTP/1.1 200 OK\r\n".getBytes());
-                                os.write("Access-Control-Allow-Origin: *\r\n".getBytes());
-                                os.write("Content-Type:application/json;charset=utf-8\r\n".getBytes());
-                                os.write("Server:gybs\r\n".getBytes());
-                                os.write(("Date:"+new Date()+"\r\n").getBytes());
-                                os.write("\r\n".getBytes());
-                                os.write(ssss.toString().getBytes());
-                                os.close();
+
+                                try{
+                                    jsonFlights = (mapper.writerWithDefaultPrettyPrinter().writeValueAsString(availableFlights));
+                                    os.write("HTTP/1.1 200 OK\r\n".getBytes());
+                                    os.write("Access-Control-Allow-Origin: *\r\n".getBytes());
+                                    os.write("Content-Type:application/json;charset=utf-8\r\n".getBytes());
+                                    os.write("Server:gybs\r\n".getBytes());
+                                    os.write(("Date:"+new Date()+"\r\n").getBytes());
+                                    os.write("\r\n".getBytes());
+                                    os.write(jsonFlights.getBytes());
+                                    os.close();
+                                }
+                                catch(Exception e){ // TODO: Create variations maybe for different exceptions
+                                    os.write("HTTP/1.1 400 BAD\r\n".getBytes());
+                                    os.write("Access-Control-Allow-Origin: *\r\n".getBytes());
+                                    os.write("Content-Type:application/json;charset=utf-8\r\n".getBytes());
+                                    os.write("Server:gybs\r\n".getBytes());
+                                    os.write(("Date:"+new Date()+"\r\n").getBytes());
+                                    os.write("\r\n".getBytes());
+                                    os.write(e.toString().getBytes());
+                                    os.close();
+                                }
                             }
                         }
                     }

@@ -39,7 +39,7 @@ public class Seating {
      * @return The price of a first class seat in dollars
      */
     public double getFirstClassPrice(){
-        return Double.parseDouble(this.firstClassPrice.replace('$',' '));
+        return Double.parseDouble(this.firstClassPrice.replace('$',' ').replace(",",""));
     }
     /**
      * Parse and return the price of a coach seat in dollars.
@@ -48,7 +48,7 @@ public class Seating {
      * @return The price of a coach seat in dollars
      */
     public double getCoachPrice(){
-        return Double.parseDouble(this.coachPrice.replace('$',' '));
+        return Double.parseDouble(this.coachPrice.replace('$',' ').replace(",",""));
     }
 
     /**

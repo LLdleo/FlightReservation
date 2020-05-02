@@ -1,5 +1,6 @@
 package search;
 
+import airplane.Airplanes;
 import airport.Airport;
 import airport.Airports;
 import dao.ServerInterface;
@@ -33,6 +34,10 @@ public class CreatePossibleFlights {
      * Assumes number of seats won't change drastically while searching.
      */
     private Map<String, ConnectingLegs> memo;
+    /**
+     * Cached list of airplanes to check that a leg has some seats left at least.
+     */
+    private static Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
 
     /**
      * Constructor for searching on some criteria.
@@ -207,13 +212,14 @@ public class CreatePossibleFlights {
         ConnectingLegs result = ServerInterface.INSTANCE.getLegs(Saps.TEAMNAME,(isDeparture ? "departing" : "arriving"), airportCode,getStringDate(flightDate));
         List<ConnectingLeg> intermediateList;
         if(isDeparture){
-            intermediateList = result.stream().filter(leg -> !leg.arrival().getCode().equalsIgnoreCase(criteria.getDepartureAirportCode())).collect(Collectors.toList());
+            intermediateList = result.stream().filter(leg -> leg.hasAnySeatsLeft(airplanes) &&
+                    !leg.arrival().getCode().equalsIgnoreCase(criteria.getDepartureAirportCode())).collect(Collectors.toList());
         }
         else{
-            intermediateList = result.stream().filter(leg -> !leg.departure().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
+            intermediateList = result.stream().filter(leg -> leg.hasAnySeatsLeft(airplanes) && !leg.departure().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
         }
         result.clear();
-        intermediateList = intermediateList.stream().filter(ConnectingLeg::hasAnySeatsLeft).collect(Collectors.toList());
+        //intermediateList = intermediateList.stream().filter(ConnectingLeg::hasAnySeatsLeft).collect(Collectors.toList());
         result.addAll(intermediateList);
         if(isLastLeg){
             if(isDeparture){

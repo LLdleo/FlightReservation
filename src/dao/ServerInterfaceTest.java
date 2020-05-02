@@ -29,8 +29,8 @@ public class ServerInterfaceTest {
 //        System.out.println(jsonObject);
         // Search test
         final long start = System.currentTimeMillis();
-        LocalDate depDate = LocalDate.of(2020,5,11);
-        List<Flight> flights = new SearchOneWayTripFlights(new SearchCriteria("CLE","BOS",depDate, false, SeatTypeEnum.COACH)).search();
+        LocalDate depDate = LocalDate.of(2020,5,10);
+        List<Flight> flights = new SearchOneWayTripFlights(new SearchCriteria("BOS","CLE",depDate, true)).search();
 //        for(search.Flight flight:flights){
 //            System.out.println(flight);
 //        }
