@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import utils.QueryFactory;
+import utils.Saps;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,40 +69,51 @@ public enum TimezoneInterface {
         BufferedReader reader;
         String line;
         StringBuffer result = new StringBuffer();
-        try {
-            // ipgeolocation doesn't work with either coordinate as zero, so get approximation.
-            if (latitude == 0) latitude+=.0000001;
-            if (longitude == 0) longitude+=.0000001;
-            /*
-             * Create an HTTP connection to the server for a GET
-             * QueryFactory provides the parameter annotations for the HTTP GET query string
-             */
+        boolean success = false;
+        long startLockTimer = System.currentTimeMillis();
+        long endLockTimer;
+        while(!success) {
+            try {
+                // ipgeolocation doesn't work with either coordinate as zero, so get approximation.
+                if (latitude == 0) latitude += .0000001;
+                if (longitude == 0) longitude += .0000001;
+                /*
+                 * Create an HTTP connection to the server for a GET
+                 * QueryFactory provides the parameter annotations for the HTTP GET query string
+                 */
 
-            url = new URL(mConnectionURL + QueryFactory.getTimezoneOffset(latitude, longitude));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+                url = new URL(mConnectionURL + QueryFactory.getTimezoneOffset(latitude, longitude));
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
 
             /* If response code of SUCCESS read the XML string returned
               line by line to build the full return string
              */
-            int responseCode = connection.getResponseCode();
-            if (responseCode >= HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = connection.getInputStream();
+                int responseCode = connection.getResponseCode();
+                if (responseCode >= HttpURLConnection.HTTP_OK) {
+                    InputStream inputStream = connection.getInputStream();
 
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    reader.close();
                 }
-                reader.close();
+                JSONObject data = (JSONObject) new JSONParser().parse(result.toString());
+                success = true;
+                return Double.parseDouble(data.get("timezone_offset").toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                endLockTimer = System.currentTimeMillis();
+                if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
+                    throw new ServerAccessException("There was an issue connecting with the timezone service");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                endLockTimer = System.currentTimeMillis();
+                if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
+                    throw new ServerAccessException("There was an issue interpreting the timezone for a request");
             }
-            JSONObject data = (JSONObject) new JSONParser().parse(result.toString());
-            return Double.parseDouble(data.get("timezone_offset").toString());
-        } catch (IOException e){
-            e.printStackTrace();
-            throw new ServerAccessException("There was an issue connecting with the timezone service");
-        }catch(ParseException e) {
-            e.printStackTrace();
-            throw new ServerAccessException("There was an issue interpreting the timezone for a request");
         }
+        return 0.0; //Shouldn't reach here. Not sure why compiler requires it.
     }
 }

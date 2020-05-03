@@ -39,4 +39,8 @@ public class Saps {
 	 * @see reservation.ServerLockException For the exception thrown when this timeout is met.
 	 */
 	public static final int LOCK_TIMEOUT_SECONDS= 5;
+	/**
+	 * The number of seconds that the system will try to reconnect to either the WPI or time server.
+	 */
+	public static final int CONNECTION_TIMEOUT_SECONDS = 5;
 }
