@@ -2,6 +2,7 @@
 package leg;
 
 import airplane.Airplane;
+import airplane.AirplaneCache;
 import airplane.Airplanes;
 import dao.ServerInterface;
 import utils.Saps;
@@ -463,12 +464,10 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	 * @pre This is a valid leg with a valid airplane model which has associated information in the WPI server.
 	 * @inv Server flight information is only accessed, not modified during this function
 	 * @post It is determined whether this leg could be included in a set of available flights that could be reserved.
-	 * @param airplanes The list of airplanes to avoid repeated access.
 	 * @return True if there is still at least one seat of any seat type that can be reserved.
 	 */
-	public boolean hasAnySeatsLeft(Airplanes airplanes){
-		Airplane airplane = airplanes.getAirplaneByModel(this.airplane());
-		if(airplane == null){return false;}
+	public boolean hasAnySeatsLeft(){
+		Airplane airplane = AirplaneCache.INSTANCE.getAirplaneByModel(this.airplane());
 		return this.mSeating.coachReserved < airplane.coachSeats() || this.mSeating.firstClassReserved < airplane.firstClassSeats();
 	}
 

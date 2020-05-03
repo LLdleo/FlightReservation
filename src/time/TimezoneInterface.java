@@ -1,7 +1,9 @@
 package time;
 
+import dao.ServerAccessException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import utils.QueryFactory;
 
 import java.io.BufferedReader;
@@ -32,13 +34,14 @@ public enum TimezoneInterface {
      * <p>
      * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation or local cache
      *
+     * @throws ServerAccessException if there was an issue connecting with ipgeolocation.
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
      * @post Timezone offset for location is cached if not already cached.
      * @param latitude  The latitude of a location to get the timezone offset for.
      * @param longitude The longitude of a location to get the timezone offset for.
      * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
      */
-    public Double getTimezoneOffset(double latitude, double longitude){
+    public Double getTimezoneOffset(double latitude, double longitude) throws ServerAccessException {
         if(Timezones.INSTANCE.isLocationCached(latitude, longitude)){
             return Timezones.INSTANCE.getOffset(latitude, longitude);
         }
@@ -53,12 +56,13 @@ public enum TimezoneInterface {
      * <p>
      * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation
      *
+     * @throws ServerAccessException if there was an issue connecting with ipgeolocation.
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180]. Location has not been cached.
      * @param latitude  The latitude of a location to get the timezone offset for.
      * @param longitude The longitude of a location to get the timezone offset for.
      * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
      */
-    private Double getTimezoneOffsetFromAPI(double latitude, double longitude) {
+    private Double getTimezoneOffsetFromAPI(double latitude, double longitude) throws ServerAccessException{
         URL url;
         HttpURLConnection connection;
         BufferedReader reader;
@@ -92,22 +96,12 @@ public enum TimezoneInterface {
             }
             JSONObject data = (JSONObject) new JSONParser().parse(result.toString());
             return Double.parseDouble(data.get("timezone_offset").toString());
-        } catch (IOException e) { // TODO: Maybe incorporate handleConnectionLost use case stuff
+        } catch (IOException e){
             e.printStackTrace();
-            return null;
-        } catch (Exception e) {
+            throw new ServerAccessException("There was an issue connecting with the timezone service");
+        }catch(ParseException e) {
             e.printStackTrace();
-            return null;
+            throw new ServerAccessException("There was an issue interpreting the timezone for a request");
         }
-
-    }
-
-    /**
-     * TODO: Figure out how we want to handle this
-     *
-     * @return
-     */
-    private boolean handleConnectionLost() {
-        return true;
     }
 }

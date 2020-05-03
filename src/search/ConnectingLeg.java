@@ -1,9 +1,12 @@
 package search;
 
 import airplane.Airplane;
+import airplane.AirplaneCache;
 import airplane.Airplanes;
 import airport.Airport;
+import airport.AirportCache;
 import airport.Airports;
+import dao.ServerAccessException;
 import dao.ServerInterface;
 import leg.Seating;
 import time.MyTime;
@@ -22,14 +25,6 @@ public class ConnectingLeg {
      * cache is the in-memory cache for already converted ConnectingLegs.
      */
     private static Map<leg.ConnectingLeg, ConnectingLeg> cache = new HashMap<>();
-    /**
-     * airports is the list of all possible airports that this leg could depart/arrive at. Cached here to avoid calling server repeatedly
-     */
-    private static Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
-    /**
-     * airplanes is the list of all possible airplanes that this leg could fly on. Cached here to avoid calling server repeatedly
-     */
-    private static Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
     /**
      * departureAirport is the airport that this leg is departing from, including all the airport's information.
      */
@@ -66,14 +61,15 @@ public class ConnectingLeg {
     /**
      * Constructor for a ConnectingLeg with all related information.
      *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @pre legToConvert's flight information has already been validate and is part of an available flight for some search. LegToConvert is not already in the cache
      * @post A new ConnectingLeg object is instantiated with the same, but extended, information as legToConvert
      * @param legToConvert The ConnectingLeg that only has key information for airports and airplanes.
      */
-    private ConnectingLeg(leg.ConnectingLeg legToConvert){
-        this.departureAirport = airports.getAirportByCode(legToConvert.departure().getCode());
-        this.arrivalAirport = airports.getAirportByCode(legToConvert.arrival().getCode());
-        this.airplane = airplanes.getAirplaneByModel(legToConvert.airplane());
+    private ConnectingLeg(leg.ConnectingLeg legToConvert) throws ServerAccessException {
+        this.departureAirport = AirportCache.INSTANCE.getAirportByCode(legToConvert.departure().getCode());
+        this.arrivalAirport = AirportCache.INSTANCE.getAirportByCode(legToConvert.arrival().getCode());
+        this.airplane = AirplaneCache.INSTANCE.getAirplaneByModel(legToConvert.airplane());
         this.departureTime = new MyTime(legToConvert.departure().getTime(),departureAirport.latitude(),departureAirport.longitude());
         this.arrivalTime = new MyTime(legToConvert.arrival().getTime(),arrivalAirport.latitude(),arrivalAirport.longitude());
         this.seating = legToConvert.seating();
@@ -84,12 +80,13 @@ public class ConnectingLeg {
     /**
      * Return the converted version of legToConvert with additional information.
      *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @pre legToConvert's flight information has already been validate and is part of an available flight for some search.
      * @post If legToConvert is not already in the cache, then a new object is instantiated and added to the cache.
      * @param legToConvert The ConnectingLeg that only has key information for airports and airplanes.
      * @return The converted ConnectingLeg object
      */
-    public static ConnectingLeg convertLeg(leg.ConnectingLeg legToConvert){
+    public static ConnectingLeg convertLeg(leg.ConnectingLeg legToConvert) throws ServerAccessException{
         if(cache.containsKey(legToConvert)){
             return cache.get(legToConvert);
         }

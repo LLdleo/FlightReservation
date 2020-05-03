@@ -3,6 +3,7 @@ package search;
 import airplane.Airplanes;
 import airport.Airport;
 import airport.Airports;
+import dao.ServerAccessException;
 import dao.ServerInterface;
 import leg.Flight;
 import flight.Flights;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  * @since 2020-04-23
  * Responsibilities: Calculate possible connecting leg combinations based on search criteria
  */
-public class CreatePossibleFlights {
+public class CreatePossibleFlights{
     /**
      * criteria is the search criteria to retrieve flights based on whether they match this criteria
      */
@@ -34,10 +35,6 @@ public class CreatePossibleFlights {
      * Assumes number of seats won't change drastically while searching.
      */
     private Map<String, ConnectingLegs> memo;
-    /**
-     * Cached list of airplanes to check that a leg has some seats left at least.
-     */
-    private static Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
 
     /**
      * Constructor for searching on some criteria.
@@ -59,9 +56,10 @@ public class CreatePossibleFlights {
      * Calculate all possible flight combinations matching search criteria where layover times are between a half and 4 hours,
      * the initial departure airport is not returned to, and flights have at most 3 connecting legs.
      *
+     * @throws ServerAccessException If there was a problem access the server for flight information.
      * @return all possible flight combinations matching search criteria.
      */
-    public Flights createPossibleConnectingLegCombinations(){
+    public Flights createPossibleConnectingLegCombinations() throws ServerAccessException {
         Flights availableFlights = new Flights();
         Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
         Airport airport = airports.getAirportByCode(criteria.getSearchAirportCode());
@@ -73,8 +71,15 @@ public class CreatePossibleFlights {
         ConnectingLegs firstLegs = queryServer(criteria.getSearchAirportCode(),criteria.getFlightDate(),criteria.isSelectedDateForDeparture(), false);
         firstLegs.addAll(queryServer(criteria.getSearchAirportCode(),secondDate,criteria.isSelectedDateForDeparture(), false));
         List<ConnectingLeg> localFirstLegs = firstLegs.stream().filter(leg ->
-                (new MyTime(criteria.isSelectedDateForDeparture() ? leg.departure().getTime() : leg.arrival().getTime()
-                        ,latitude,longitude)).getLocalTime().toLocalDate().isEqual(criteria.getFlightDate())).collect(Collectors.toList());
+        {
+            try {
+                return (new MyTime(criteria.isSelectedDateForDeparture() ? leg.departure().getTime() : leg.arrival().getTime()
+                        ,latitude,longitude)).getLocalTime().toLocalDate().isEqual(criteria.getFlightDate());
+            } catch (ServerAccessException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }).collect(Collectors.toList());
 
         Flights firstLegFlights = new Flights();
         for(ConnectingLeg leg : localFirstLegs){
@@ -93,6 +98,7 @@ public class CreatePossibleFlights {
     /**
      * Retrieve the set of Flights that contains one more connecting leg each, but is still not complete.
      *
+     * @throws ServerAccessException If there was an issue connecting to either the WPI or time server for some information
      * @post availableFlights will be populated by any Flights that match the search criteria and don't need to search further.
      * @param availableFlights The list of complete flights which complete flights can be added to.
      * @param previousCombinations The list of incomplete flights to get one more connecting leg each to append, creating combinations to try and get complete flights.
@@ -100,7 +106,7 @@ public class CreatePossibleFlights {
      * @param isLastLeg True if getting the third set of connecting legs, which is the limit for the number of legs per flight, false otherwise. Indicates whether search criteria can be used to constrain connecting leg combinations.
      * @return The set of Flights of combinations of the previousCombinations with one more connecting leg that don't meet the search criteria.
      */
-    private Flights getNextLegCombinations(Flights availableFlights, Flights previousCombinations, boolean isDeparture, boolean isLastLeg){
+    private Flights getNextLegCombinations(Flights availableFlights, Flights previousCombinations, boolean isDeparture, boolean isLastLeg) throws ServerAccessException{
         Flights nextLegFlights = new Flights();
         for(Flight last : previousCombinations){
             ConnectingLegs nextLegs = getRelevantNextLegs(last,isDeparture,isLastLeg);
@@ -136,12 +142,13 @@ public class CreatePossibleFlights {
     /**
      * Get the next set of connecting legs to combine with the FLight start.
      *
+     * @throws ServerAccessException If there was an issue connecting to either the WPI or time server for some information
      * @param start The flight to get connecting legs to add to this flight.
      * @param isDeparture True if searching for flights based on the departure date. False if based on the arrival date.
      * @param isLastLeg True if getting the third set of legs, and thus searching should restrict results to those that meet the search criteria. False otherwise.
      * @return The next set of connecting legs to combine with the flight start that will be constrained if this isLastLeg and will be searched in a direction based on isDeparture.
      */
-    private ConnectingLegs getRelevantNextLegs(Flight start, boolean isDeparture, boolean isLastLeg){
+    private ConnectingLegs getRelevantNextLegs(Flight start, boolean isDeparture, boolean isLastLeg) throws ServerAccessException{
         ConnectingLegs nextLegs = new ConnectingLegs();
         // Note: These could probably be combined using general functions like getFlightTime(), but I left that out for
         // now because I thought it might be too unreadable.
@@ -199,6 +206,7 @@ public class CreatePossibleFlights {
     /**
      * Return the results for a query to the server, may be from cache
      *
+     * @throws ServerAccessException If there was an issue connecting to either the WPI or time server for some information
      * @param airportCode The 3-letter string of the airport to query about connecting legs departing from or arriving at.
      * @param flightDate The GMT date to query about legs departing or arriving on.
      * @param isDeparture True if the query seeks the legs departing from an airport on a certain date, false if query is seeking legs arriving at an airport on a certain date.
@@ -206,17 +214,17 @@ public class CreatePossibleFlights {
      *                  only include legs departing from the departure airport if the arrival date was selected in the criteria.
      * @return The results for the connecting legs either departing or arriving (based on isDeparture) from/at an airport with a given airport code on a given flightDate.
      */
-    private ConnectingLegs queryServer(String airportCode, LocalDate flightDate, boolean isDeparture, boolean isLastLeg){
+    private ConnectingLegs queryServer(String airportCode, LocalDate flightDate, boolean isDeparture, boolean isLastLeg) throws ServerAccessException{
         String key = hash(airportCode, flightDate, isDeparture, isLastLeg);
         if(this.memo.containsKey(key)){return this.memo.get(key);}
         ConnectingLegs result = ServerInterface.INSTANCE.getLegs(Saps.TEAMNAME,(isDeparture ? "departing" : "arriving"), airportCode,getStringDate(flightDate));
         List<ConnectingLeg> intermediateList;
         if(isDeparture){
-            intermediateList = result.stream().filter(leg -> leg.hasAnySeatsLeft(airplanes) &&
+            intermediateList = result.stream().filter(leg -> leg.hasAnySeatsLeft() &&
                     !leg.arrival().getCode().equalsIgnoreCase(criteria.getDepartureAirportCode())).collect(Collectors.toList());
         }
         else{
-            intermediateList = result.stream().filter(leg -> leg.hasAnySeatsLeft(airplanes) && !leg.departure().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
+            intermediateList = result.stream().filter(leg -> leg.hasAnySeatsLeft() && !leg.departure().getCode().equalsIgnoreCase(criteria.getArrivalAirportCode())).collect(Collectors.toList());
         }
         result.clear();
         //intermediateList = intermediateList.stream().filter(ConnectingLeg::hasAnySeatsLeft).collect(Collectors.toList());

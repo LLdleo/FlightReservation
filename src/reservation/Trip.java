@@ -1,6 +1,9 @@
-package leg;
+package reservation;
 
+import dao.ServerAccessException;
 import dao.ServerInterface;
+import leg.Flight;
+import leg.SeatTypeEnum;
 import reservation.ServerLockException;
 import utils.Saps;
 
@@ -48,9 +51,12 @@ public class Trip {
     /**
      * Reserve a seat of the trip's seatType on each connectingLeg of the trip's flight
      *
+     * @see Saps For the timeouts for trying to acquire the lock and connect to the server.
+     * @throws ServerLockException If the lock for the WPI server cannot be acquired.
+     * @throws ServerAccessException If there is an issue connecting to the WPI server when refreshing the connecting leg information.
      * @return True if the reservation was successful, false otherwise
      */
-    public boolean reserveSeats() throws ServerLockException {
+    public boolean reserveSeats() throws ServerLockException, ServerAccessException {
         boolean success = false;
         long startLockTimer = System.currentTimeMillis();
         long endLockTimer;

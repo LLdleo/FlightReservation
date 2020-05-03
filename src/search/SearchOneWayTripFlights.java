@@ -1,5 +1,6 @@
 package search;
 
+import dao.ServerAccessException;
 import flight.Flights;
 
 import java.util.ArrayList;
@@ -35,10 +36,11 @@ public class SearchOneWayTripFlights {
     /**
      * Search for flights that meet the input search criteria.
      *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @post Refreshes the list of available flights with the latest search results.
      * @return a list of flights that meet the input search criteria.
      */
-    public List<search.Flight> search(){
+    public List<search.Flight> search() throws ServerAccessException{
         this.availableFlights = new ArrayList<>();
         CreatePossibleFlights flightCreater = new CreatePossibleFlights(this.input);
         Flights flights = flightCreater.createPossibleConnectingLegCombinations();

@@ -1,6 +1,8 @@
 package leg;
 
+import airplane.AirplaneCache;
 import airplane.Airplanes;
+import dao.ServerAccessException;
 import dao.ServerInterface;
 import search.CreatePossibleFlights;
 import time.MyTime;
@@ -149,26 +151,28 @@ public class Flight {
     /**
      * Checks if there are still seats for this flight available.
      *
+     * @throws ServerAccessException If there was an issue connecting to the WPI server
      * @pre The database is locked to guarantee consistent execution.
      * @inv The database state is constant throughout execution.
      * @post The database is still in th same state as when called.
      * @return True if there are seats available on the trip's seat type for every leg of the trip's outgoing flight
      */
-    public boolean allSeatsStillAvailable(SeatTypeEnum seatType){
+    public boolean allSeatsStillAvailable(SeatTypeEnum seatType) throws ServerAccessException{
         int totalLegsCount = this.connectingLegs.size();
-        Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
         refresh();
         int availableLegsCount = this.connectingLegs.stream().filter(leg ->
-                leg.seating().getNumReserved(seatType) < airplanes.getAirplaneByModel(leg.airplane()).getNumSeats(seatType)).collect(Collectors.toList()).size();
+                leg.seating().getNumReserved(seatType) < AirplaneCache.INSTANCE.getAirplaneByModel(leg.airplane()).getNumSeats(seatType)).collect(Collectors.toList()).size();
         return totalLegsCount == availableLegsCount;
     }
 
     /**
      * Update this flights list of connecting legs with the latest number of reserved seats.
+     *
+     * @throws ServerAccessException If there is an issue connecting with the WPI server
      * @pre The connecting legs of this flight have been validated and still exist in the WPI server.
      * @post The connecting legs of this flight will have the latest reservation data.
      */
-    private void refresh(){
+    private void refresh() throws ServerAccessException{
         ConnectingLegs newList = new ConnectingLegs();
         for(ConnectingLeg leg: this.connectingLegs){
             ConnectingLegs results =

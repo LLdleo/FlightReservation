@@ -11,18 +11,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
 
 import airplane.Airplanes;
 import airport.Airports;
 import leg.ConnectingLeg;
 import leg.ConnectingLegs;
-//import org.json.JSONException;
+
 import leg.SeatTypeEnum;
-import leg.Trip;
+import reservation.Trip;
 import utils.QueryFactory;
-import utils.Saps;
-//import org.json.JSONObject;
+
 
 
 
@@ -47,11 +45,12 @@ public enum ServerInterface {
 	 * Return a collection of all the airports from server
 	 * 
 	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
-	 * 
+	 *
+	 * @throws ServerAccessException if there was an issue connecting with the WPI server
 	 * @param teamName identifies the name of the team requesting the collection of airports
 	 * @return collection of Airports from server or null if error.
 	 */
-	public Airports getAirports (String teamName) {
+	public Airports getAirports (String teamName) throws ServerAccessException {
 
 		URL url;
 		HttpURLConnection connection;
@@ -90,10 +89,10 @@ public enum ServerInterface {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			throw new ServerAccessException("System could not access the list of airports from the WPI Server");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new ServerAccessException("System could not access the list of airports from the WPI Server for some other reason");
 		}
 
 		xmlAirports = result.toString();
@@ -108,10 +107,11 @@ public enum ServerInterface {
 	 *
 	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
 	 *
+	 * @throws ServerAccessException if there was an issue connecting with the WPI server
 	 * @param teamName identifies the name of the team requesting the collection of airplanes
 	 * @return collection of Airplanes from server or null if error.
 	 */
-	public Airplanes getAirplanes (String teamName) {
+	public Airplanes getAirplanes (String teamName) throws ServerAccessException {
 
 		URL url;
 		HttpURLConnection connection;
@@ -149,10 +149,10 @@ public enum ServerInterface {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			throw new ServerAccessException("System could not access the list of airplanes from the WPI Server");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new ServerAccessException("System could not access the list of airplanes from the WPI Server for some other reason");
 		}
 
 		Airplanes = result.toString();
@@ -166,10 +166,11 @@ public enum ServerInterface {
 	 *
 	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
 	 *
+	 * @throws ServerAccessException if there is an issue connecting with the WPI server
 	 * @param teamName identifies the name of the team requesting the collection of airports
 	 * @return collection of Airports from server or null if error.
 	 */
-	public ConnectingLegs getLegs(String teamName, String listType, String airportCode, String day) {
+	public ConnectingLegs getLegs(String teamName, String listType, String airportCode, String day) throws ServerAccessException {
 
 		URL url;
 		HttpURLConnection connection;
@@ -208,10 +209,10 @@ public enum ServerInterface {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			throw new ServerAccessException("System could not access the list of connecting legs from the WPI Server");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new ServerAccessException("System could not access the list of connecting legs from the WPI Server for some other reason");
 		}
 
 		xmlFlights = result.toString();
@@ -458,64 +459,4 @@ public enum ServerInterface {
 		}
 		return xmlString + "</Flights>";
 	}
-	/**
-	 * Return a collection of all the airports from server
-	 *
-	 * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
-	 *
-	 * @param teamName identifies the name of the team requesting the collection of airports
-	 * @return collection of Airports from server or null if error.
-	 */
-//	public JSONObject getTimezone (String teamName, String APIKey, String latitude, String longitude) throws JSONException {
-//
-//		URL url;
-//		HttpURLConnection connection;
-//		BufferedReader reader;
-//		String line;
-//		StringBuffer result = new StringBuffer();
-//
-//		String xmlAirports;
-//		Airports airports;
-//
-//		try {
-//			/**
-//			 * Create an HTTP connection to the server for a GET
-//			 * QueryFactory provides the parameter annotations for the HTTP GET query string
-//			 */
-//			String ipUrlBase = "https://api.ipgeolocation.io/timezone";
-//			url = new URL(ipUrlBase + QueryFactory.getTimezone(APIKey, latitude, longitude));
-//			connection = (HttpURLConnection) url.openConnection();
-//			connection.setRequestMethod("GET");
-//			connection.setRequestProperty("User-Agent", teamName);
-//			connection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
-//
-//			/**
-//			 * If response code of SUCCESS read the XML string returned
-//			 * line by line to build the full return string
-//			 */
-//			int responseCode = connection.getResponseCode();
-//			if (responseCode >= HttpURLConnection.HTTP_OK) {
-//				InputStream inputStream = connection.getInputStream();
-//				String encoding = connection.getContentEncoding();
-//				encoding = (encoding == null ? "UTF-8" : encoding);
-//
-//				reader = new BufferedReader(new InputStreamReader(inputStream));
-//				while ((line = reader.readLine()) != null) {
-//					result.append(line);
-//				}
-//				reader.close();
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return null;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//
-//		JSONObject jsonObject= new JSONObject(result.toString());
-//		System.out.println(Integer.parseInt(jsonObject.get("timezone_offset").toString()) + Integer.parseInt(jsonObject.get("dst_savings").toString()));
-//		return jsonObject;
-
-//	}
 }

@@ -1,6 +1,7 @@
 package search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dao.ServerAccessException;
 import leg.SeatTypeEnum;
 
 import java.util.ArrayList;
@@ -37,11 +38,12 @@ public class Flight {
     /**
      * Constructor for a flight with extended information.
      *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @pre flightToConvert has already been validated as a valid flight that meets the search criteria.
      * @post A new Flight object is instantiated that has calculated information necessary for sorting and filtering.
      * @param flightToConvert The validated flight to convert into a flight with connecting legs with more information.
      */
-    public Flight(leg.Flight flightToConvert){
+    public Flight(leg.Flight flightToConvert) throws ServerAccessException {
         this.connectingLegList = new ConnectingLegs();
         Iterator<leg.ConnectingLeg> iter = flightToConvert.getLegs();
         while(iter.hasNext()){
