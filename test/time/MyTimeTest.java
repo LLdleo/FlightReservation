@@ -14,8 +14,8 @@ public class MyTimeTest {
 
     @Test
     public void testTimespan() {
-        MyTime time1 = new MyTime("2020 May 10 20:45",0,0);
-        MyTime time2 = new MyTime("2020 May 11 00:15",0,0);
+        MyTime time1 = new MyTime("2020 May 10 20:45");
+        MyTime time2 = new MyTime("2020 May 11 00:15");
         double expectedDiff = 3.5;
         double actualDiff = time1.timespan(time2);
         Assert.assertEquals(expectedDiff,actualDiff,0);
@@ -27,8 +27,8 @@ public class MyTimeTest {
 
     @Test
     public void testLongTimespan() {
-        MyTime time1 = new MyTime("2020 May 10 20:45",0,0);
-        MyTime time2 = new MyTime("2020 May 12 05:00",0,0);
+        MyTime time1 = new MyTime("2020 May 10 20:45");
+        MyTime time2 = new MyTime("2020 May 12 05:00");
         double expectedDiff = 32.25;
         double actualDiff = time1.timespan(time2);
         Assert.assertEquals(expectedDiff,actualDiff,0);

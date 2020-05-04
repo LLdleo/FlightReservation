@@ -1,8 +1,11 @@
 package time;
 
+import dao.ServerAccessException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import utils.QueryFactory;
+import utils.Saps;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,13 +35,14 @@ public enum TimezoneInterface {
      * <p>
      * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation or local cache
      *
+     * @throws ServerAccessException if there was an issue connecting with ipgeolocation.
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
      * @post Timezone offset for location is cached if not already cached.
      * @param latitude  The latitude of a location to get the timezone offset for.
      * @param longitude The longitude of a location to get the timezone offset for.
      * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
      */
-    public Double getTimezoneOffset(double latitude, double longitude){
+    public Double getTimezoneOffset(double latitude, double longitude) throws ServerAccessException {
         if(Timezones.INSTANCE.isLocationCached(latitude, longitude)){
             return Timezones.INSTANCE.getOffset(latitude, longitude);
         }
@@ -53,61 +57,63 @@ public enum TimezoneInterface {
      * <p>
      * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation
      *
+     * @throws ServerAccessException if there was an issue connecting with ipgeolocation.
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180]. Location has not been cached.
      * @param latitude  The latitude of a location to get the timezone offset for.
      * @param longitude The longitude of a location to get the timezone offset for.
      * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
      */
-    private Double getTimezoneOffsetFromAPI(double latitude, double longitude) {
+    private Double getTimezoneOffsetFromAPI(double latitude, double longitude) throws ServerAccessException{
         URL url;
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
         StringBuffer result = new StringBuffer();
-        try {
-            // ipgeolocation doesn't work with either coordinate as zero, so get approximation.
-            if (latitude == 0) latitude+=.0000001;
-            if (longitude == 0) longitude+=.0000001;
-            /*
-             * Create an HTTP connection to the server for a GET
-             * QueryFactory provides the parameter annotations for the HTTP GET query string
-             */
+        boolean success = false;
+        long startLockTimer = System.currentTimeMillis();
+        long endLockTimer;
+        while(!success) {
+            try {
+                // ipgeolocation doesn't work with either coordinate as zero, so get approximation.
+                if (latitude == 0) latitude += .0000001;
+                if (longitude == 0) longitude += .0000001;
+                /*
+                 * Create an HTTP connection to the server for a GET
+                 * QueryFactory provides the parameter annotations for the HTTP GET query string
+                 */
 
-            url = new URL(mConnectionURL + QueryFactory.getTimezoneOffset(latitude, longitude));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+                url = new URL(mConnectionURL + QueryFactory.getTimezoneOffset(latitude, longitude));
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
 
             /* If response code of SUCCESS read the XML string returned
               line by line to build the full return string
              */
-            int responseCode = connection.getResponseCode();
-            if (responseCode >= HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = connection.getInputStream();
+                int responseCode = connection.getResponseCode();
+                if (responseCode >= HttpURLConnection.HTTP_OK) {
+                    InputStream inputStream = connection.getInputStream();
 
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    reader.close();
                 }
-                reader.close();
+                JSONObject data = (JSONObject) new JSONParser().parse(result.toString());
+                success = true;
+                return Double.parseDouble(data.get("timezone_offset").toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                endLockTimer = System.currentTimeMillis();
+                if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
+                    throw new ServerAccessException("There was an issue connecting with the timezone service");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                endLockTimer = System.currentTimeMillis();
+                if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
+                    throw new ServerAccessException("There was an issue interpreting the timezone for a request");
             }
-            JSONObject data = (JSONObject) new JSONParser().parse(result.toString());
-            return Double.parseDouble(data.get("timezone_offset").toString());
-        } catch (IOException e) { // TODO: Maybe incorporate handleConnectionLost use case stuff
-            e.printStackTrace();
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
-
-    }
-
-    /**
-     * TODO: Figure out how we want to handle this
-     *
-     * @return
-     */
-    private boolean handleConnectionLost() {
-        return true;
+        return 0.0; //Shouldn't reach here. Not sure why compiler requires it.
     }
 }

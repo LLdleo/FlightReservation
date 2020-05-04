@@ -240,6 +240,42 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	}
 
 	/**
+	 * Get the manufacturer of the airplane
+	 *
+	 * @return the manufacturer of the airplane
+	 */
+	public String getmManufacturer() {
+		return mManufacturer;
+	}
+
+	/**
+	 * Get the model of the airplane.
+	 *
+	 * @return the model of the airplane.
+	 */
+	public String getmModel() {
+		return mModel;
+	}
+
+	/**
+	 * Get the maximum number of first class seats on the airplane
+	 *
+	 * @return the maximum number of first class seats on the airplane
+	 */
+	public Integer getmFirstClassSeats() {
+		return mFirstClassSeats;
+	}
+
+	/**
+	 * Get the maximum number of coach seats on the airplane.
+	 *
+	 * @return the maximum number of coach seats on the airplane.
+	 */
+	public Integer getmCoachSeats() {
+		return mCoachSeats;
+	}
+
+	/**
 	 * Get the coachSeats for the airplane
 	 *
 	 * @return The coachSeats for the airplane

@@ -1,5 +1,6 @@
 package time;
 
+import dao.ServerAccessException;
 import utils.Saps;
 
 import java.time.Duration;
@@ -41,11 +42,12 @@ public class MyTime {
      * Constructor for MyTime object without knowing local time before-hand
      *
      * @throws IllegalArgumentException If Latitude is not in range [-90,90] or longitude is not in range [-180, 180]
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time)
      * @param assocLatitude The latitude coordinate of the location associated with this time.
      * @param assocLongitude The longitude coordinate of the location associated with this time.
      */
-    public MyTime(LocalDateTime gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException{
+    public MyTime(LocalDateTime gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException, ServerAccessException{
         if (assocLatitude < Saps.MIN_LATITUDE || assocLatitude > Saps.MAX_LATITUDE){
             throw new IllegalArgumentException("Latitude not in range ["+Saps.MIN_LATITUDE+","+Saps.MAX_LATITUDE+"]: " + assocLatitude);
         }
@@ -67,8 +69,9 @@ public class MyTime {
      * @param assocLatitude The latitude coordinate of the location associated with this time.
      * @param assocLongitude The longitude coordinate of the location associated with this time.
      * @throws IllegalArgumentException If the latitude or longitude are not in ranges [-90,90] and [-180,180] respectively.
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      */
-    public MyTime(String gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException{
+    public MyTime(String gmtTime, double assocLatitude, double assocLongitude) throws IllegalArgumentException, ServerAccessException{
         if (assocLatitude < Saps.MIN_LATITUDE || assocLatitude > Saps.MAX_LATITUDE){
             throw new IllegalArgumentException("Latitude not in range ["+Saps.MIN_LATITUDE+","+Saps.MAX_LATITUDE+"]: " + assocLatitude);
         }
@@ -95,12 +98,13 @@ public class MyTime {
     /**
      * Calculate the local time given the GMT time and location information
      *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server.
      * @param gmtTime The GMT time to be converted.
      * @param latitude The latitude of the location in the local timezone to convert to.
      * @param longitude The longitude of the location in the local timezone to convert to.
      * @return The converted time in the timezone of the location with latitude and longitude coordinates.
      */
-    public static LocalDateTime calculateLocalTime(LocalDateTime gmtTime, double latitude, double longitude){
+    public static LocalDateTime calculateLocalTime(LocalDateTime gmtTime, double latitude, double longitude) throws ServerAccessException {
         double offset = TimezoneInterface.INSTANCE.getTimezoneOffset(latitude, longitude);
         long offsetHours = (long) offset;
         long offsetMinutes = (long)((offset % 1) * 60);
@@ -122,23 +126,27 @@ public class MyTime {
     /**
      * Calculate the time from this time to the start of the next GMT date in hours.
      *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @return The number of hours from this gmt time to the start of the next GMT date.
      */
-    public double getTimeToNextDay(){
+    public double getTimeToNextDay() throws ServerAccessException{
         MyTime nextDayStart = new MyTime(this.gmtTime.toLocalDate().plusDays(1).atStartOfDay(),this.assocLatitude, this.assocLongitude);
         return this.timespan(nextDayStart);
     }
     /**
      * Calculate the time from this time to the end of the last GMT date in hours.
      *
+     *
+     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @return The number of hours from this gmt time to the end of the last GMT date. (Beginning of this date)
      */
-    public double getTimeToLastDay(){
+    public double getTimeToLastDay() throws ServerAccessException{
         MyTime lastDayEnd = new MyTime(this.gmtTime.toLocalDate().atStartOfDay(),this.assocLatitude, this.assocLongitude);
         return lastDayEnd.timespan(this);
     }
     /**
      * Parse the server GMT times to convert into LocalDateTimes
+     *
      *
      * @pre serverDateTime follows the format of "yyyy MMM dd HH:mm GMT".
      * @see Saps for the expected format of the string of TIME_FORMAT.

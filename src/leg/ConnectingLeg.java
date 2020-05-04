@@ -1,7 +1,11 @@
-/**
- * 
- */
+
 package leg;
+
+import airplane.Airplane;
+import airplane.AirplaneCache;
+import airplane.Airplanes;
+import dao.ServerInterface;
+import utils.Saps;
 
 import java.util.Comparator;
 
@@ -451,6 +455,20 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	public boolean isValidNumber(String number) {
 		// If we don't have a 3 character code it can't be valid valid
 		return (number != null) && (number.length() >= 4) && (number.length() <= 5);
+	}
+
+	/**
+	 * Check if this leg has any seats that could still be reserved (coach or first class)
+	 *
+	 * @see SeatTypeEnum For the possible seats that could be reserved that this function checks.
+	 * @pre This is a valid leg with a valid airplane model which has associated information in the WPI server.
+	 * @inv Server flight information is only accessed, not modified during this function
+	 * @post It is determined whether this leg could be included in a set of available flights that could be reserved.
+	 * @return True if there is still at least one seat of any seat type that can be reserved.
+	 */
+	public boolean hasAnySeatsLeft(){
+		Airplane airplane = AirplaneCache.INSTANCE.getAirplaneByModel(this.airplane());
+		return this.mSeating.coachReserved < airplane.coachSeats() || this.mSeating.firstClassReserved < airplane.firstClassSeats();
 	}
 
 }

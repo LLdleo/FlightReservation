@@ -81,23 +81,27 @@ public class Driver {
 		
 //		String teamName = args[0];
 		// Try to get a list of airports
+try {
 
-		if (action.equals("list")) {
-			if (listType.equals("airports")) {
-				Airports airports = ServerInterface.INSTANCE.getAirports(teamName);
-				Collections.sort(airports);
-				for (Airport airport : airports) {
-					System.out.println(airport.toString());
-				}
+	if (action.equals("list")) {
+		if (listType.equals("airports")) {
+			Airports airports = ServerInterface.INSTANCE.getAirports(teamName);
+			Collections.sort(airports);
+			for (Airport airport : airports) {
+				System.out.println(airport.toString());
 			}
-			else if (listType.equals("departing") || listType.equals("arriving")) {
-				ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getLegs(teamName, listType, airportCode, day);
-				Collections.sort(connectingLegs);
-				for (ConnectingLeg connectingLeg : connectingLegs) {
-					System.out.println(connectingLeg.toString());
-				}
+		} else if (listType.equals("departing") || listType.equals("arriving")) {
+			ConnectingLegs connectingLegs = ServerInterface.INSTANCE.getLegs(teamName, listType, airportCode, day);
+			Collections.sort(connectingLegs);
+			for (ConnectingLeg connectingLeg : connectingLegs) {
+				System.out.println(connectingLeg.toString());
 			}
 		}
+	}
+}
+catch (Exception e){
+	e.printStackTrace();
+}
 
 	}
 }
