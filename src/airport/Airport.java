@@ -13,7 +13,7 @@ import utils.Saps;
  * XML received from the server to Java primitives. Attributes are accessed via getter and 
  * setter methods.
  * 
- * @author blake
+ * @author blake, Jackson Powell
  * @version 1.3 2019-01-21
  * @since 2016-02-24
  * 
@@ -416,4 +416,39 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		return isValidLongitude (lon);
 	}
 
+	/**
+	 * Get the name of the airport
+	 *
+	 * @return the name of the airport.
+	 */
+	public String getmName() {
+		return mName;
+	}
+
+	/**
+	 * Get the 3-letter code of the airport.
+	 *
+	 * @return the 3-letter code of the airport.
+	 */
+	public String getmCode() {
+		return mCode;
+	}
+
+	/**
+	 * Get the latitude of the airport.
+	 *
+	 * @return the latitude of the airport.
+	 */
+	public double getmLatitude() {
+		return mLatitude;
+	}
+
+	/**
+	 * Get the longitude of the airport.
+	 *
+	 * @return the longitude of the airport.
+	 */
+	public double getmLongitude() {
+		return mLongitude;
+	}
 }

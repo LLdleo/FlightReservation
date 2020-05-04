@@ -18,10 +18,17 @@ public class Trip {
      */
     private Flight outgoingFlight;
     /**
-     * seatType is the type of seat that will be used for each leg on the flight. Different seatTypes cannot be used on different legs of the same flight.
+     * seatType is the type of seat that will be used for each leg on the outgoing flight. Different seatTypes cannot be used on different legs of the same flight.
      */
     private SeatTypeEnum seatType;
-
+    /**
+     * returnFlight is the second flight for a round trip. Will be null for one-way trips
+     */
+    private Flight returnFlight;
+    /**
+     * returnSeatType is the type of seat that will be used for each leg on the return flight.  Different seatTypes cannot be used on different legs of the same flight.
+     */
+    private SeatTypeEnum returnSeatType;
     /**
      * Get the flight for this trip.
      * @return the flight for this trip.
@@ -37,6 +44,24 @@ public class Trip {
     public SeatTypeEnum getSeatType() {
         return seatType;
     }
+
+    /**
+     * Get the return flight of a round trip.
+     * @return the return flight of a round trip.
+     */
+    public Flight getReturnFlight() {
+        return returnFlight;
+    }
+
+    /**
+     * Get the seatType for the return flight.
+     *
+     * @return the seatType for the return flight
+     */
+    public SeatTypeEnum getReturnSeatType() {
+        return returnSeatType;
+    }
+
     /**
      * Constructor for a trip with the given outgoing flight
      *
@@ -46,6 +71,21 @@ public class Trip {
     public Trip(Flight outgoingFlight, SeatTypeEnum seatType){
         this.outgoingFlight = outgoingFlight;
         this.seatType = seatType;
+    }
+    /**
+     * Constructor for a round trip with the given outgoing and return flights
+     *
+     * @pre outgoingFlight and returnFlight were already validated as flights
+     * @param outgoingFlight The the outgoing flight for a trip.
+     * @param returnFlight The return flight for a round trip.
+     * @param outSeatType The seat type used for each leg on the outgoing flight.
+     * @param returnSeatType The seat type used for each leg on the return flight.
+     */
+    public Trip(Flight outgoingFlight,Flight returnFlight, SeatTypeEnum outSeatType, SeatTypeEnum returnSeatType){
+        this.outgoingFlight = outgoingFlight;
+        this.seatType = outSeatType;
+        this.returnFlight = returnFlight;
+        this.returnSeatType = returnSeatType;
     }
 
     /**
@@ -67,6 +107,10 @@ public class Trip {
         if(!success){throw new ServerLockException("System timed out after " + (endLockTimer - startLockTimer)/1000 + " seconds");}
 
         if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){
+            ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
+            return false;
+        }
+        if(this.returnFlight != null && this.returnFlight.allSeatsStillAvailable(this.returnSeatType)){
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }

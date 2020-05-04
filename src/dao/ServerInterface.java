@@ -27,7 +27,7 @@ import utils.Saps;
  * This class provides an interface to the CS509 server. It provides sample methods to perform
  * HTTP GET and HTTP POSTS
  *
- * @author blake
+ * @author blake, Lidian Lin, Jackson Powell
  * @version 1.1
  * @since 2016-02-24
  *
@@ -157,7 +157,9 @@ public enum ServerInterface {
                         result.append(line);
                     }
                     reader.close();
+
                 }
+                success = true;
             } catch (IOException e) {
                 e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
@@ -225,7 +227,9 @@ public enum ServerInterface {
                         result.append(line);
                     }
                     reader.close();
+
                 }
+                success = true;
             } catch (IOException e) {
                 e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
@@ -475,6 +479,14 @@ public enum ServerInterface {
         while (legs.hasNext()) {
             ConnectingLeg thisLeg = legs.next();
             xmlString += "<Flight number=\"" + thisLeg.number() + "\" seating=\"" + seatTypeString + "\"/>";
+        }
+        if(tripToConvert.getReturnFlight() != null){
+            String returnSeatTypeString = tripToConvert.getReturnSeatType() == SeatTypeEnum.FIRSTCLASS ? "FirstClass" : "Coach";
+            legs = tripToConvert.getReturnFlight().getLegs();
+            while (legs.hasNext()) {
+                ConnectingLeg thisLeg = legs.next();
+                xmlString += "<Flight number=\"" + thisLeg.number() + "\" seating=\"" + returnSeatTypeString + "\"/>";
+            }
         }
         return xmlString + "</Flights>";
     }

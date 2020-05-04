@@ -146,7 +146,7 @@ public class Flight {
     private double getLegPrice(ConnectingLeg leg, SeatTypeEnum seatType){
         //DecimalFormat format = new DecimalFormat("0.00");
         if (seatType == FIRSTCLASS){return Math.round(100 * leg.seating().getFirstClassPrice())/100.0;}
-        return Math.round(leg.seating().getCoachPrice())/100.0;
+        return Math.round(100 * leg.seating().getCoachPrice())/100.0;
     }
     /**
      * Checks if there are still seats for this flight available.
