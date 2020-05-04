@@ -16,6 +16,7 @@ import reservation.Trip;
 import search.Flight;
 import search.SearchCriteria;
 import search.SearchOneWayTripFlights;
+import time.MyTime;
 import utils.Saps;
 
 import java.io.*;
@@ -68,6 +69,10 @@ public class HTTPServer {
                                         parameterPairs.get("listType").equalsIgnoreCase("departing"));
                                 SearchOneWayTripFlights search = new SearchOneWayTripFlights(criteria);
                                 List<Flight> availableFlights = search.search();
+                                if (parameterPairs.containsKey("onlyAfterGMT")){
+                                    MyTime after = new MyTime(parameterPairs.get("onlyAfterGMT").replace("_"," "));
+                                    availableFlights = availableFlights.stream().filter(flight -> (flight.getConnectingLegList().get(flight.getNumLegs()-1).getDepartureTime().timespan(after)) < 0).collect(Collectors.toList());
+                                }
                                 ObjectMapper mapper = new ObjectMapper();
                                 String jsonFlights;
                                 OutputStream os = socket.getOutputStream();
@@ -211,7 +216,9 @@ public class HTTPServer {
                                 }
                                 os.close();
 
-                            } catch (Exception e) { // TODO: Create variations maybe for different exceptions
+                            }
+
+                            catch (Exception e) { // TODO: Create variations maybe for different exceptions
                                 os.write("HTTP/1.1 400 BAD\r\n".getBytes());
                                 os.write("Access-Control-Allow-Origin: *\r\n".getBytes());
                                 os.write("Content-Type:application/json;charset=utf-8\r\n".getBytes());
