@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Lidian Lin, Jackson Powell
  * @version 1.0
  * @since 2020-04-24
- *
+ * Significant associations: Airplane and ArrayList for the contained objects and functionality.
  */
 
 public class Airplanes extends ArrayList<Airplane> {
@@ -20,6 +20,8 @@ public class Airplanes extends ArrayList<Airplane> {
     /**
      * Get an airplane from a list of airplanes using the model.
      *
+     * @pre There is exactly one airplane with the given model given
+     * @inv The list of airplanes remains unchanged during throughout this method.
      * @param airplaneModel The model of the airplane to get.
      * @return The airplane if found, null otherwise.
      */

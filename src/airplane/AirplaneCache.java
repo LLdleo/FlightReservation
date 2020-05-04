@@ -10,6 +10,7 @@ import java.io.IOException;
  * @author Jackson Powell
  * @since 2020-05-03
  * Responsibilities: Hold a cache of airplanes to reduce repeated calls to the server for static information
+ * Significant associations: Airplanes and Airplane since this is just a cache for those objects and needs to know how to lookup an airplane.
  */
 public enum AirplaneCache {
     INSTANCE;
@@ -26,6 +27,11 @@ public enum AirplaneCache {
         }
     }
 
+    /**
+     * Singleton constructor that throws an initialization error if there was a ServerAccessException when getting the list of airplanes.
+     *
+     * @throws ExceptionInInitializerError When there is a ServerAccessException when trying to populate the cache.
+     */
     AirplaneCache(
     ) throws ExceptionInInitializerError {
     }
@@ -33,8 +39,9 @@ public enum AirplaneCache {
     /**
      * Provide access to an airplane from the cache.
      *
-     * @see Airplanes For the function that actually implemenets this.
+     * @see Airplanes Airplanes::getAirplaneByModel for the function that this delegates to.
      * @pre There is exactly one airplane in the server with a given model
+     * @inv The cache remains unchanged during throughout this method.
      * @param model The model of the airplane to get.
      * @return The airplane from the cache with the given model.
      */

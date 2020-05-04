@@ -183,10 +183,10 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	}
 	
 	/**
-	 * Set the firstClassSeats for the airport
+	 * Set the firstClassSeats for the airplane
 	 * 
-	 * @param firstClassSeats The north/south coordinate of the airport
-	 * @throws IllegalArgumentException if firstClassSeats is invalid
+	 * @param firstClassSeats The max number of first class seats on a certain airplane.
+	 * @throws IllegalArgumentException if firstClassSeats is invalid, <= 0
 	 */
 	public void firstClassSeats(Integer firstClassSeats) {
 		if (firstClassSeats > 0)
@@ -194,7 +194,12 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 		else
 			throw new IllegalArgumentException (Double.toString(firstClassSeats));
 	}
-	
+	/**
+	 * Set the firstClassSeats for the airplane
+	 *
+	 * @param firstClassSeats The max number of first class seats on a certain airplane.
+	 * @throws IllegalArgumentException if firstClassSeats is invalid, <= 0
+	 */
 	public void firstClassSeats(String firstClassSeats) {
 		try {
 			int tmp = Integer.parseInt(firstClassSeats);
@@ -218,8 +223,8 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	/**
 	 * Set the coachSeats for the airplane
 	 *
-	 * @param coachSeats The north/south coordinate of the airport
-	 * @throws IllegalArgumentException if coachSeats is invalid
+	 * @param coachSeats The maximum number of coach seats on this airplane.
+	 * @throws IllegalArgumentException if coachSeats is invalid, <= 0
 	 */
 	public void coachSeats(Integer coachSeats) {
 		if (coachSeats > 0)
@@ -227,7 +232,12 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 		else
 			throw new IllegalArgumentException (Double.toString(coachSeats));
 	}
-
+	/**
+	 * Set the coachSeats for the airplane
+	 *
+	 * @param coachSeats The maximum number of coach seats on this airplane.
+	 * @throws IllegalArgumentException if coachSeats is invalid, <= 0
+	 */
 	public void coachSeats(String coachSeats) {
 		try {
 			int tmp = Integer.parseInt(coachSeats);
@@ -285,7 +295,6 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	}
 
 	/**
-	 * TODO: not sure about this part
 	 * Compare two airports based on 3 character code
 	 * 
 	 * This implementation delegates to the case insensitive version of string compareTo
@@ -298,7 +307,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	/**
 	 * Compare two airports alphabetically for sorting, ordering
 	 * 
-	 * Delegates to airplane1.compareTo for ordering by 3 character code
+	 * Delegates to airplane1.compareTo for ordering by manufacturer and model
 	 * 
 	 * @param airplane1 the first airport for comparison
 	 * @param airplane2 the second / other airport for comparison

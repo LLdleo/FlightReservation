@@ -10,7 +10,7 @@ import utils.Saps;
 /**
  * @author Jackson Powell
  * @since 2020-04-21
- * Responsibilities: Store one selected flight as a one-way trip
+ * Responsibilities: Store one or two selected flights as a one-way or round trip
  */
 public class Trip {
     /**
