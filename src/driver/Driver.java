@@ -14,10 +14,10 @@ import dao.ServerInterface;
 import org.apache.commons.cli.*;
 
 /**
- * @author PoLYmer
+ * @author Lidian Lin
  * @since 2020-03-12
  * @version 1.0
- *
+ * @deprecated This entry point does not support current operations search, filter, sort, and reservation operations.
  */
 public class Driver {
 

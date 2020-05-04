@@ -43,4 +43,9 @@ public class Saps {
 	 * The number of seconds that the system will try to reconnect to either the WPI or time server.
 	 */
 	public static final int CONNECTION_TIMEOUT_SECONDS = 5;
+	/**
+	 * Exception messages
+	 */
+	public static final String CONNECTION_EXCEPTION_MESSAGE= "connection lost with external service";
+
 }

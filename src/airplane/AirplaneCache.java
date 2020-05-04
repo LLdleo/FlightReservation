@@ -23,7 +23,7 @@ public enum AirplaneCache {
             airplanes = ServerInterface.INSTANCE.getAirplanes(Saps.TEAMNAME);
         } catch (ServerAccessException e) {
             e.printStackTrace();
-            throw new ExceptionInInitializerError();
+            throw new ExceptionInInitializerError(Saps.CONNECTION_EXCEPTION_MESSAGE);
         }
     }
 

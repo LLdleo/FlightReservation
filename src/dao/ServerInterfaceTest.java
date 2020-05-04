@@ -10,6 +10,10 @@ import search.SearchOneWayTripFlights;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * @author Jackson Powell, Lidian Lin
+ * @deprecated This class is for manual testing during development.
+ */
 public class ServerInterfaceTest {
     public static void main(String[] args){
 //        JSONObject jsonObject = ServerInterface.INSTANCE.getTimezone("PoLYmer", "6605a2073bfb4fdb9efdf98ab5c29e9a", "42.272099", "-71.812028");
