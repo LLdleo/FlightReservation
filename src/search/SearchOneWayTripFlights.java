@@ -1,7 +1,7 @@
 package search;
 
 import dao.ServerAccessException;
-import flight.Flights;
+import leg.Flights;
 
 import java.util.ArrayList;
 import java.util.List;

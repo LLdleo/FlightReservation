@@ -1,4 +1,4 @@
-package flight;
+package leg;
 
 import java.util.ArrayList;
 public class Flights extends ArrayList<leg.Flight> {

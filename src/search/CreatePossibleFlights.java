@@ -1,12 +1,11 @@
 package search;
 
-import airplane.Airplanes;
 import airport.Airport;
 import airport.Airports;
 import dao.ServerAccessException;
 import dao.ServerInterface;
 import leg.Flight;
-import flight.Flights;
+import leg.Flights;
 import leg.ConnectingLeg;
 import leg.ConnectingLegs;
 import time.MyTime;

@@ -2,10 +2,9 @@ package test;
 
 import airport.Airport;
 import airport.Airports;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.ServerInterface;
-import flight.Flights;
+import leg.Flights;
 import leg.ConnectingLeg;
 import leg.ConnectingLegs;
 import leg.SeatTypeEnum;
