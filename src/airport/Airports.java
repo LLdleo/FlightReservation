@@ -21,6 +21,8 @@ public class Airports extends ArrayList<Airport> {
 	/**
 	 * Get an airport from a list of airports using the code.
 	 *
+	 * @pre There is exactly one airport in the server with a given code
+	 * @inv The cache remains unchanged throughout this function.
 	 * @param airportCode The 3-letter code of the airport to get.
 	 * @return The airport if found, null otherwise.
 	 */

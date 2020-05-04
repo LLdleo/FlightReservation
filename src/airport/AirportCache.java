@@ -10,6 +10,7 @@ import utils.Saps;
  * @author Jackson Powell
  * @since 2020-05-03
  * Responsibilities: Hold a cache of airports to reduce repeated calls to the server for static information
+ * Significant associations: Airport for the object being cached and retrieved and Airports for the cache's data structure.
  */
 public enum AirportCache {
     INSTANCE;
@@ -25,7 +26,11 @@ public enum AirportCache {
             throw new ExceptionInInitializerError();
         }
     }
-
+    /**
+     * Singleton constructor that throws an initialization error if there was a ServerAccessException when getting the list of airports.
+     *
+     * @throws ExceptionInInitializerError When there is a ServerAccessException when trying to populate the cache.
+     */
     AirportCache(
     ) throws ExceptionInInitializerError {
     }
@@ -33,8 +38,9 @@ public enum AirportCache {
     /**
      * Provide access to an airport from the cache.
      *
-     * @see Airports For the function that actually implements this.
+     * @see Airports Airports::getAirportByCode for the function that this function delegates to.
      * @pre There is exactly one airport in the server with a given code
+     * @inv The cache remains unchanged throughout this function.
      * @param code The 3-letter code of the airport  to get.
      * @return The airport from the cache with the given code.
      */
