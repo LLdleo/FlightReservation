@@ -22,7 +22,7 @@ import java.util.Comparator;
  */
 public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<ConnectingLeg> {
 	
-	/**
+	/*
 	 * Airport attributes as defined by the CS509 server interface XML
 	 */
 
@@ -187,41 +187,13 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	 * @return the object formatted as String to display
 	 */
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		
-		sb.append(mAirplane).append(", ");
-		sb.append(mFlightTime).append(", ");
-		sb.append(mNumber).append(", ");
-		sb.append(mDeparture.code).append(", ");
-		sb.append(mDeparture.time).append(", ");
-		sb.append(mArrival.code).append(", ");
-		sb.append(mArrival.time).append(", ");
-		sb.append(mSeating.firstClassPrice).append(", ");
-		sb.append(mSeating.firstClassReserved).append(", ");
-		sb.append(mSeating.coachPrice).append(", ");
-		sb.append(mSeating.coachReserved).append(", ");
-
-		return sb.toString();
+		return mAirplane + ", " + mFlightTime + ", " + mNumber + ", "
+				+ mDeparture.code + ", " + mDeparture.time + ", " +
+				mArrival.code + ", " + mArrival.time + ", " +
+				mSeating.firstClassPrice + ", " + mSeating.firstClassReserved + ", " +
+				mSeating.coachPrice + ", " + mSeating.coachReserved;
 	}
 
-	/**
-	 * Convert object to printable string of format "Code, (lat, lon), Name"
-	 *
-	 * @return the object formatted as String to display
-	 */
-	public String toJson() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("{");
-		sb.append("\"Number\":\"").append(mNumber).append("\",");
-		sb.append("\"Airplane\":\"").append(mAirplane).append("\",");
-		sb.append("\"DepartureCode\":\"").append(mDeparture.code).append("\",");
-		sb.append("\"DepartureTime\":\"").append(mDeparture.time).append("\",");
-		sb.append("\"ArrivalCode\":\"").append(mArrival.code).append("\",");
-		sb.append("\"ArrivalTime\":\"").append(mArrival.time).append("\"");
-		sb.append("}");
-
-		return sb.toString();
-	}
 
 	/**
 	 * get the airport name
@@ -393,27 +365,21 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 		
 		// if all fields are equal, the Airports are the same
 		ConnectingLeg rhs = (ConnectingLeg) obj;
-		if ((rhs.mAirplane.equalsIgnoreCase(mAirplane)) &&
+		return ((rhs.mAirplane.equalsIgnoreCase(mAirplane)) &&
 				(rhs.mFlightTime.equalsIgnoreCase(mFlightTime)) &&
 				(rhs.mNumber.equalsIgnoreCase(mNumber)) &&
 				(rhs.mDeparture.code.equalsIgnoreCase(mDeparture.code)) &&
 				(rhs.mDeparture.time.equalsIgnoreCase(mDeparture.time)) &&
 				(rhs.mArrival.code.equalsIgnoreCase(mArrival.code)) &&
-				(rhs.mArrival.time.equalsIgnoreCase(mArrival.time)))
-		{
-			return true;
-		}
-		
-		return false;	
+				(rhs.mArrival.time.equalsIgnoreCase(mArrival.time)));
 	}
 	
 	/**
 	 * Determine if object instance has valid attribute data
 	 * 
-	 * Verifies the name is not null and not an empty string. 
-	 * Verifies code is 3 characters in length.
-	 * Verifies latitude is between +90.0 north pole and -90.0 south pole.
-	 * Verifies longitude is between +180.0 east prime meridian and -180.0 west prime meridian.
+	 * Verifies the airplane model is not null and not an empty string.
+	 * Verifies number is 4 or 5 characters in length.
+	 * Verifies flight time is not null and not an empty string.
 	 * 
 	 * @return true if object passes above validation checks
 	 * 
@@ -427,7 +393,7 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 		if ((mFlightTime == null) || (mFlightTime.equals("")))
 			return false;
 
-		// If we don't have a 3 character code, object isn't valid
+		// If we don't have a 4 or 5 character code, object isn't valid
 		return (mNumber != null) && (mNumber.length() >= 4) && (mNumber.length() <= 5);
 	}
 	
@@ -500,7 +466,6 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	 * @return false if null or negative, else assume valid and return true
 	 */
 	public boolean isValidNumberReserved(Integer reserved) {
-		// If we don't have a 3 character code it can't be valid valid
 		return (reserved != null) && (reserved >= 0);
 	}
 
@@ -511,7 +476,7 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	 * @return false if null or is not 4 or 5 characters, else assume valid and return true
 	 */
 	public boolean isValidNumber(String number) {
-		// If we don't have a 3 character code it can't be valid valid
+		// If we don't have a 4 or 5 character number it can't be valid valid
 		return (number != null) && (number.length() >= 4) && (number.length() <= 5);
 	}
 
@@ -519,7 +484,7 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	 * Check if this leg has any seats that could still be reserved (coach or first class)
 	 *
 	 * @see SeatTypeEnum SeatTypeEnum for the possible seats that could be reserved that this function checks.
-	 * @pre This is a valid leg with a valid airplane model which has associated information in the WPI server.
+	 * @pre This is a valid leg with a valid airplane model which has associated information in the WPI server. This leg has recent reservation information updated for accurate results.
 	 * @inv Server flight information is only accessed, not modified during this function
 	 * @post It is determined whether this leg could be included in a set of available flights that could be reserved.
 	 * @return True if there is still at least one seat of any seat type that can be reserved, false otherwise.
