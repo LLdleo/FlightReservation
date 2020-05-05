@@ -1,9 +1,10 @@
 package leg;
 
 /**
- * @author Lidian Lin, Jackson
+ * @author Lidian Lin, Jackson Powell
  * @since 2020-04-23
  * Responsibilities: Store information about a connecting leg's departure event.
+ * Significant associations: The structure of the data in the WPI server for the departure event information of a connecting leg.
  */
 public class Departure {
     /** 3 character code of departing airport */
@@ -11,7 +12,8 @@ public class Departure {
 
 
 
-    /** Date and time of departure in GMT */
+    /** Date and time of departure in GMT
+     * @see utils.Saps TIME_FORMAT for the expected format of this varialbe*/
     String time;
 
     /**
@@ -19,9 +21,9 @@ public class Departure {
      *
      * @pre The airport code and time have already been validated.
      * @post A Departure object is instantiated to represent a leg's departure event by referring to keys, not objects.
-     * @see utils.Saps for the format of the time parameter in TIME_FORMAT
+     * @see utils.Saps TIME_FORMAT for the format of the time parameter in TIME_FORMAT
      * @param code The 3-letter code of the airport that the leg is departing from.
-     * @param time The string representation the time of this departure event.
+     * @param time The string representation of the time of this departure event.
      */
     public Departure(String code, String time) {
         this.code = code;

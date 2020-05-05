@@ -4,6 +4,7 @@ package leg;
  * @author Lidian Lin, Jackson Powell
  * @since 2020-04-24
  * Responsibilities: Store information about a connecting leg's arrival event.
+ * Significant associations: The data provided by the WPI server for a connecting leg's arrival information.
  */
 public class Arrival {
     /** 3 character code of arrival airport */
@@ -11,7 +12,9 @@ public class Arrival {
 
 
 
-    /** Date and time of arrival in GMT */
+    /** Date and time of arrival in GMT
+     * @see utils.Saps TIME_FORMAT for the format expected for this field.
+     * */
     String time;
     /**
      * Constructor for Arrival.

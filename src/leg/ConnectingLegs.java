@@ -12,16 +12,18 @@ import java.util.ArrayList;
  * Airports can be added to the aggregate using the ArrayList interface. Objects can 
  * be removed from the collection using the ArrayList interface.
  * 
- * @author blake
+ * @author blake, Jackson Powell
  * @version 1.0
  * @since 2016-02-24
- *
+ * Significant associations: ConnectingLeg for the objects contained and retrieved and arraylist for extended functionality.
  */
 public class ConnectingLegs extends ArrayList<ConnectingLeg> {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Get a connecting leg from a list of connecting leg using the id.
 	 *
+	 * @pre There is exactly one connecting leg in the server with a given id
+	 * @inv The list remains unchanged throughout this function.
 	 * @param connectingLegID The id of the connecting leg to get.
 	 * @return The connecting leg if found, null otherwise.
 	 */

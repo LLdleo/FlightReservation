@@ -10,12 +10,12 @@ import utils.Saps;
 import java.util.Comparator;
 
 /**
- * This class holds values pertaining to a single Airport. Class member attributes
+ * This class holds values pertaining to a single Connecting Leg. Class member attributes
  * are the same as defined by the CS509 server API and store values after conversion from
  * XML received from the server to Java primitives. Attributes are accessed via getter and 
  * setter methods.
  * 
- * @author PoLYmer
+ * @author Lidian Lin
  * @version 1.0 2020-02-12
  * @since 2020-02-12
  * 
@@ -245,48 +245,100 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 			throw new IllegalArgumentException (mAirplane);
 	}
 
+	/**
+	 * Get the String representation of this leg's flight time.
+	 *
+	 * @return the string representation of this leg's flight time.
+	 */
 	public String flightTime() {
 		return mFlightTime;
 	}
 
-	public void flightTime(String flightTime) {
+	/**
+	 * Set the flight time for this connecting leg.
+	 *
+	 * @param flightTime The flight time to set.
+	 * @throws IllegalArgumentException If flight time is not valid
+	 */
+	public void flightTime(String flightTime) throws IllegalArgumentException {
 		if (isValidFlightTime(flightTime))
 			mFlightTime = flightTime;
 		else
 			throw new IllegalArgumentException (flightTime);
 	}
 
+	/**
+	 * Get the identifying number for this connecting leg.
+	 *
+	 * @return the identifying number for this connecting leg.
+	 */
 	public String number() {
 		return mNumber;
 	}
 
-	public void number(String number) {
+	/**
+	 * Set the identifying number for this connecting leg.
+	 *
+	 * @param number The number to set as the identifier for this connecting leg.
+	 * @throws IllegalArgumentException If the given number is not valid.
+	 */
+	public void number(String number) throws IllegalArgumentException{
 		if (isValidNumber(number))
 			mNumber = number;
 		else
 			throw new IllegalArgumentException (number);
 	}
 
+	/**
+	 * Get the departure event information for this connecting leg.
+	 *
+	 * @return the departure event information for this connecting leg.
+	 */
 	public Departure departure() {
 		return mDeparture;
 	}
 
+	/**
+	 * Set the departure event info for this connecting leg.
+	 *
+	 * @param departure the departure event to set.
+	 */
 	public void departure(Departure departure) {
 		mDeparture = departure;
 	}
 
+	/**
+	 * Get the arrival event information for this connecting leg.
+	 *
+	 * @return the arrival event information for this connecting leg.
+	 */
 	public Arrival arrival() {
 		return mArrival;
 	}
 
+	/**
+	 * Set the arrival event information for this connecting leg.
+	 *
+	 * @param arrival the arrival event information for this connecting leg.
+	 */
 	public void arrival(Arrival arrival) {
 		mArrival = arrival;
 	}
 
+	/**
+	 * Get the seating information for this connecting leg.
+	 *
+	 * @return the seating information for this connecting leg.
+	 */
 	public Seating seating() {
 		return mSeating;
 	}
 
+	/**
+	 * Set the seating information for this connecting leg.
+	 *
+	 * @param seating the seating information to set for this connecting leg.
+	 */
 	public void seating(Seating seating) {
 		mSeating = seating;
 	}
@@ -390,15 +442,21 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 		return (code != null) && (code.length() == 3);
 	}
 
+	/**
+	 * Check for invalid string.
+	 *
+	 * @param name is the string to validate.
+	 * @return false if null or empty, else assume valid and return true.
+	 */
 	public boolean isValidName (String name) {
 		// If the name is null or empty it can't be valid
 		return (name != null) && (!name.equals(""));
 	}
 	
 	/**
-	 * Check for invalid airport name.
+	 * Check for invalid airplane model name.
 	 * 
-	 * @param airplane is the name of the airport to validate
+	 * @param airplane is the name of the airplane model to validate
 	 * @return false if null or empty string, else assume valid and return true
 	 */
 	public boolean isValidAirplane(String airplane) {
@@ -406,9 +464,9 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	}
 
 	/**
-	 * Check for invalid airport name.
+	 * Check for invalid flight time.
 	 *
-	 * @param flightTime is the name of the airport to validate
+	 * @param flightTime is the string representation of the flight time to validate
 	 * @return false if null or empty string, else assume valid and return true
 	 */
 	public boolean isValidFlightTime(String flightTime) {
@@ -416,9 +474,9 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	}
 
 	/**
-	 * Check for invalid airport name.
+	 * Check for invalid gmt time.
 	 *
-	 * @param time is the name of the airport to validate
+	 * @param time is the string representation of the gmt time to validate
 	 * @return false if null or empty string, else assume valid and return true
 	 */
 	public boolean isValidTime(String time) {
@@ -426,9 +484,9 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	}
 
 	/**
-	 * Check for invalid airport name.
+	 * Check for invalid price.
 	 *
-	 * @param price is the name of the airport to validate
+	 * @param price is the string representation of a seat's price to validate
 	 * @return false if null or empty string, else assume valid and return true
 	 */
 	public boolean isValidPrice(String price) {
@@ -436,10 +494,10 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	}
 
 	/**
-	 * Check for invalid airport name.
+	 * Check for invalid number of reserved seats.
 	 *
-	 * @param reserved is the name of the airport to validate
-	 * @return false if null or empty string, else assume valid and return true
+	 * @param reserved is the number of seats reserved for a certain seat type.
+	 * @return false if null or negative, else assume valid and return true
 	 */
 	public boolean isValidNumberReserved(Integer reserved) {
 		// If we don't have a 3 character code it can't be valid valid
@@ -447,10 +505,10 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	}
 
 	/**
-	 * Check for invalid airport name.
+	 * Check for invalid identifying number.
 	 *
 	 * @param number is the name of the airport to validate
-	 * @return false if null or empty string, else assume valid and return true
+	 * @return false if null or is not 4 or 5 characters, else assume valid and return true
 	 */
 	public boolean isValidNumber(String number) {
 		// If we don't have a 3 character code it can't be valid valid
@@ -460,11 +518,11 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	/**
 	 * Check if this leg has any seats that could still be reserved (coach or first class)
 	 *
-	 * @see SeatTypeEnum For the possible seats that could be reserved that this function checks.
+	 * @see SeatTypeEnum SeatTypeEnum for the possible seats that could be reserved that this function checks.
 	 * @pre This is a valid leg with a valid airplane model which has associated information in the WPI server.
 	 * @inv Server flight information is only accessed, not modified during this function
 	 * @post It is determined whether this leg could be included in a set of available flights that could be reserved.
-	 * @return True if there is still at least one seat of any seat type that can be reserved.
+	 * @return True if there is still at least one seat of any seat type that can be reserved, false otherwise.
 	 */
 	public boolean hasAnySeatsLeft(){
 		Airplane airplane = AirplaneCache.INSTANCE.getAirplaneByModel(this.airplane());
