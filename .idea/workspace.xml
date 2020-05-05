@@ -1,33 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3281749-cb24-47e7-929a-67d4845c01b7" name="Default Changelist" comment="Added documentation for dao and driver packages.">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_json_json_20190722.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/airport/Airport.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/airport/Airport.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/airport/Airports.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/airport/Airports.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dao/DaoAirport.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dao/DaoAirport.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dao/DaoConnectingLeg.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dao/DaoConnectingLeg.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/dao/ServerInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dao/ServerInterface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/driver/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/driver/Driver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/leg/Arrival.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/Arrival.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/leg/ConnectingLeg.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/ConnectingLeg.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/leg/ConnectingLegs.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/ConnectingLegs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/leg/Departure.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/Departure.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/leg/Seating.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/Seating.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/test/HTTPServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/test/HTTPServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/utils/QueryFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/utils/QueryFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/utils/Saps.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/utils/Saps.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/airport/Airports.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/airport/Airports.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/Arrival.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/Arrival.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/ConnectingLeg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/ConnectingLeg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/ConnectingLegs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/ConnectingLegs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/Departure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/Departure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/Flight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/Flight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/Flights.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/Flights.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/SeatTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/SeatTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/leg/Seating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/leg/Seating.java" afterDir="false" />
+    <list default="true" id="b3281749-cb24-47e7-929a-67d4845c01b7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reservation/ServerLockException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/reservation/ServerLockException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reservation/Trip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/reservation/Trip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/HTTPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entry/HTTPServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,11 +215,11 @@
       </method>
     </configuration>
     <configuration name="HTTPServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.HTTPServer" />
+      <option name="MAIN_CLASS_NAME" value="entry.HTTPServer" />
       <module name="FlightReservationSystem" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="entry.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -483,7 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588636771284</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Added documentation for leg package.">
+      <created>1588640053962</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1588640053962</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -512,7 +497,8 @@
     <MESSAGE value="Added airplane package docs" />
     <MESSAGE value="Added airport docs and inv to custom tags" />
     <MESSAGE value="Added documentation for dao and driver packages." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added documentation for dao and driver packages." />
+    <MESSAGE value="Added documentation for leg package." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added documentation for leg package." />
   </component>
   <component name="WindowStateProjectService">
     <state x="973" y="369" key="#Driver" timestamp="1583895300567">
@@ -561,10 +547,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1034" y="569" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.2560.1400@0.0.2560.1400" timestamp="1584041513209" />
-    <state x="425" y="8" key="CommitChangelistDialog2" timestamp="1588636769848">
+    <state x="425" y="8" key="CommitChangelistDialog2" timestamp="1588640051360">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588636769848" />
+    <state x="425" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588640051360" />
     <state x="277" y="66" key="DiffContextDialog" timestamp="1587743345777">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -681,13 +667,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/HTTPServer.java</url>
-          <line>131</line>
+          <url>file://$PROJECT_DIR$/src/entry/HTTPServer.java</url>
+          <line>138</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/HTTPServer.java</url>
-          <line>144</line>
+          <url>file://$PROJECT_DIR$/src/entry/HTTPServer.java</url>
+          <line>151</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
