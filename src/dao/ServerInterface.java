@@ -45,6 +45,8 @@ public enum ServerInterface {
      *
      * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
      *
+     * @pre System is connected to the internet and the WPI server is available
+     * @post A collection of airports is populated with some or no results or an exception is thrown and needs to be caught.
      * @throws ServerAccessException if there was an issue connecting with the WPI server
      * @param teamName identifies the name of the team requesting the collection of airports
      * @return collection of Airports from server or null if error.
@@ -115,6 +117,8 @@ public enum ServerInterface {
      *
      * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
      *
+     * @pre System is connected to the internet and the WPI server is available
+     * @post A collection of airplanes is populated with some or no results or an exception is thrown and needs to be caught.
      * @throws ServerAccessException if there was an issue connecting with the WPI server
      * @param teamName identifies the name of the team requesting the collection of airplanes
      * @return collection of Airplanes from server or null if error.
@@ -184,6 +188,8 @@ public enum ServerInterface {
      *
      * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
      *
+     * @pre System is connected to the internet and the WPI server is available
+     * @post A collection of connecting legs is populated with some or no results or an exception is thrown and needs to be caught.
      * @throws ServerAccessException if there is an issue connecting with the WPI server
      * @param teamName identifies the name of the team requesting the collection of airports
      * @return collection of Airports from server or null if error.
@@ -304,7 +310,7 @@ public enum ServerInterface {
      *
      * @post database unlocked if specified teamName was previously holding lock
      *
-     * @param teamName is the name of the team holding the lock
+     * @param teamName is the name of the team trying to unlock the database
      * @return true if the server was successfully unlocked.
      */
     public boolean unlock(String teamName) {
@@ -359,7 +365,7 @@ public enum ServerInterface {
      *
      * @pre Database is locked by this system.
      * @inv Database remains locked throughout this method.
-     * @post Database is unlocked and has received the data and should update the number of reservations if successful.
+     * @post Database is locked and has received the data and should update the number of reservations if successful. Caller should unlock if not reserving any more seats.
      *
      * @param teamName is the name of the team holding the lock
      * @param flightToReserve is the legs to reserve each with the specified seat type.
@@ -414,12 +420,13 @@ public enum ServerInterface {
 
     /**
      * Reset the database to the initial stage, no reservation is made
-     * team or if the server is not currently locked. If the lock is held be another team, the operation will fail.
      *
-     * The server interface to unlock the server interface uses HTTP POST protocol
+     * The server interface to reset the database uses HTTP GET protocol
      *
+     * @pre System is being used in testing.
+     * @post The data in the WPI server is reset to its initial state.
      * @param teamName is the name of the team holding the lock
-     * @return true if the server was successfully unlocked.
+     * @return true if the server was successfully reset.
      */
     public boolean reset(String teamName) {
         URL url;
@@ -469,6 +476,8 @@ public enum ServerInterface {
     /**
      * Convert a trip into the xml string needed to reserve a seat of the trip's seat type on each connecting leg.
      *
+     * @pre tripToConvert is a valid trip with valid flight(s) and seatType(s).
+     * @post A string is created that can be used as the query parameter for xml flights for reserving seats on the WPI server.
      * @param tripToConvert The trip to convert into XML so that it can be reserved.
      * @return The XML string needed to reserve the seats for the trip.
      */

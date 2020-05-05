@@ -4,6 +4,7 @@ package leg;
  * @author Lidian Lin, Jackson Powell
  * @since 2020-04-22
  * Responsibilities: Store information about a connecting leg's seating information
+ * Significant associations: WPI server for the structure of the data concerning seating information and how many seat types there are.
  */
 public class Seating {
     /** First class price as attribute */

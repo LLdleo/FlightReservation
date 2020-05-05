@@ -13,10 +13,10 @@ import utils.Saps;
  * XML received from the server to Java primitives. Attributes are accessed via getter and 
  * setter methods.
  * 
- * @author blake, Jackson Powell
+ * @author blake
  * @version 1.3 2019-01-21
  * @since 2016-02-24
- * 
+ * Significant associations: Airport and ArrayList for the objects being contained/retrieved and the extended functionality.
  */
 public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	
@@ -92,7 +92,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 * 
 	 * @pre the latitude and longitude are valid String representations of valid lat/lon values
 	 * @post member attributes are initialized with input parameter values
-	 * @throws IllegalArgumentException is any parameter is invalid
+	 * @throws IllegalArgumentException if any parameter is invalid
 	 */
 	public Airport (String name, String code, String latitude, String longitude) {
 		double tmpLatitude, tmpLongitude;
@@ -196,7 +196,12 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		else
 			throw new IllegalArgumentException (Double.toString(latitude));
 	}
-	
+	/**
+	 * Set the latitude for the airport
+	 *
+	 * @param latitude The north/south coordinate of the airport
+	 * @throws IllegalArgumentException if latitude is invalid
+	 */
 	public void latitude (String latitude) {
 		if (isValidLatitude(latitude))
 			mLatitude = Double.parseDouble(latitude);
@@ -225,7 +230,12 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		else
 			throw new IllegalArgumentException (Double.toString(longitude));
 	}
-	
+	/**
+	 * Set the longitude for the airport
+	 *
+	 * @param longitude The east/west coordinate of the airport
+	 * @throws IllegalArgumentException if longitude is invalid
+	 */
 	public void longitude (String longitude) {
 		if (isValidLongitude(longitude))
 			mLongitude = Double.parseDouble(longitude);

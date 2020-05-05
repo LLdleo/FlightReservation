@@ -1,4 +1,4 @@
-package test;
+package entry;
 
 import airport.Airport;
 import airport.Airports;
@@ -28,6 +28,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Lidian Lin, Jackson Powell
+ * Responsibilities: Entry point for browser-based user-interface through the use of sockets, buffered readers, and output streams
+ * Significant associations: Trip for reserving seats, searchOneWayTripFlights for searching flights, searchCriteria for what's
+ * needed to search for flights, search.flight and nested objects for the existence of getters to allow automatic json serialization,
+ * and the json format provided by the user-interface for parsing the input correctly.
+ */
 public class HTTPServer {
     public static void main(String[] args) {
         ServerSocket serverSocket = null;

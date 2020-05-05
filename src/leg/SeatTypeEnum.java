@@ -4,6 +4,7 @@ package leg;
  * @author Jackson Powell
  * @since 2020-04-21
  * Responsibilities: Enumerate possible seat types
+ * Significant associations: WPI server for the types of seats provided on their flights.
  */
 public enum SeatTypeEnum {
     /**

@@ -17,29 +17,29 @@ import java.io.IOException;
 import java.io.StringReader;
 
 /**
- * @author PoLYmer
+ * @author Lidian Lin
  * @version 1.0 2020-03-12
  * @since 2020-03-12
  *
  */
 public class DaoConnectingLeg {
 	/**
-	 * Builds a collection of airports from airports described in XML
+	 * Builds a collection of connecting legs from flights described in XML
 	 * 
-	 * Parses an XML string to read each of the airports and adds each valid airport 
+	 * Parses an XML string to read each of the connecting legs and adds each valid connecting leg
 	 * to the collection. The method uses Java DOM (Document Object Model) to convert
 	 * from XML to Java primitives. 
 	 * 
 	 * Method iterates over the set of Airport nodes in the XML string and builds
-	 * an Airport object from the XML node string and add the Airport object instance to
-	 * the Airports collection.
+	 * a ConnectingLeg object from the XML node string and add the ConnectingLeg object instance to
+	 * the ConnectingLegs collection.
 	 * 
-	 * @param xmlFlights XML string containing set of airports
-	 * @return [possibly empty] collection of Airports in the xml string
+	 * @param xmlFlights XML string containing set of ConnectingLegs
+	 * @return [possibly empty] collection of ConnectingLegs in the xml string
 	 * @throws NullPointerException included to keep signature consistent with other addAll methods
 	 * 
-	 * @pre the xmlAirports string adheres to the format specified by the server API
-	 * @post the [possibly empty] set of Airports in the XML string are added to collection
+	 * @pre the xmlFlights string adheres to the format specified by the server API
+	 * @post the [possibly empty] set of ConnectingLegs in the XML string are added to collection
 	 */
 	public static ConnectingLegs addAll (String xmlFlights) throws NullPointerException {
 		ConnectingLegs connectingLegs = new ConnectingLegs();
@@ -62,14 +62,14 @@ public class DaoConnectingLeg {
 	}
 
 	/**
-	 * Creates an Airport object from a DOM node
+	 * Creates a ConnectingLeg object from a DOM node
 	 * 
-	 * Processes a DOM Node that describes an Airport and creates an Airport object from the information
-	 * @param nodeFlight is a DOM Node describing an Airport
-	 * @return Airport object created from the DOM Node representation of the Airport
+	 * Processes a DOM Node that describes a ConnectingLeg and creates an Airport object from the information
+	 * @param nodeFlight is a DOM Node describing a ConnectingLeg
+	 * @return ConnectingLeg object created from the DOM Node representation of the ConnectingLeg
 	 * 
-	 * @pre nodeAirport is of format specified by CS509 server API
-	 * @post airport object instantiated. Caller responsible for deallocating memory.
+	 * @pre nodeFlight is of format specified by CS509 server API
+	 * @post ConnectingLeg object instantiated. Caller responsible for deallocating memory.
 	 */
 	static private ConnectingLeg buildFlight (Node nodeFlight) {
 		String airplane;

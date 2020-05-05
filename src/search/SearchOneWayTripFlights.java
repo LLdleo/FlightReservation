@@ -10,6 +10,7 @@ import java.util.List;
  * @author Jackson Powell
  * @since 2020-05-01
  * Responsibilities: Retrieve one-way flights matching search criteria
+ * Significant associations: CreatePossibleFlights to complete the search given searchCriteria and search.Flight for converting the Flight to get more information
  */
 public class SearchOneWayTripFlights {
     /**
@@ -37,7 +38,7 @@ public class SearchOneWayTripFlights {
      * Search for flights that meet the input search criteria.
      *
      * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
-     * @post Refreshes the list of available flights with the latest search results.
+     * @post Refreshes the list of available flights with the latest search results that match the given criteria by recalculating the search.
      * @return a list of flights that meet the input search criteria.
      */
     public List<search.Flight> search() throws ServerAccessException{

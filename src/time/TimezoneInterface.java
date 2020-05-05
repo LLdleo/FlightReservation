@@ -17,6 +17,7 @@ import java.net.URL;
  * @author Jackson Powell
  * Responsibilities: Interface with timezone service and convert from/to JSON
  * Uses org.json.simple for parsing JSON, imported using Maven.
+ * Significant associations: ipgeolocation for the api for determining timezone offsets based on latitude and longitude and airport for what information is provided for determining the timezone offset for an offset.
  */
 public enum TimezoneInterface {
     INSTANCE;
@@ -55,7 +56,7 @@ public enum TimezoneInterface {
     /**
      * Retrieve the GMT offset of a location from ipgeolocation
      * <p>
-     * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation
+     * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation using HTTP GET protocol
      *
      * @throws ServerAccessException if there was an issue connecting with ipgeolocation.
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180]. Location has not been cached.

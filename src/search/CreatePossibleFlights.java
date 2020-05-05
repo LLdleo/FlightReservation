@@ -23,6 +23,10 @@ import java.util.stream.Collectors;
  * @author Jackson Powell
  * @since 2020-04-23
  * Responsibilities: Calculate possible connecting leg combinations based on search criteria
+ * Significant associations: Search criteria for what criteria is available to make flights,
+ * leg.ConnectingLegs and leg.Flights for the objects to construct for the search,
+ * MyTime and TimezoneInterface for layover time comparisons and local date calculations,
+ * AirplaneCache for checking seat availability, and AirportCache for the getting the offsets for time calculation.
  */
 public class CreatePossibleFlights{
     /**
@@ -40,7 +44,7 @@ public class CreatePossibleFlights{
      *
      * Constructor to create an object that can search for flights based on some criteria.
      * Note: this object should not be re-used for the same searches over a long period of time as the cache won't be refreshed.
-     * TODO: maybe implement better caching technology that will eliminate stale entries.
+     *
      * @post CreatePossibleFlights object will be instantiated and ready to search for matching flights.
      * @param criteria Search criteria to search flights based on.
      */
@@ -52,10 +56,11 @@ public class CreatePossibleFlights{
     /**
      * Calculate all possible flight combinations matching search criteria
      *
-     * Calculate all possible flight combinations matching search criteria where layover times are between a half and 4 hours,
+     * Calculate all possible flight combinations matching search criteria where layover times are between a half hour and 4 hours,
      * the initial departure airport is not returned to, and flights have at most 3 connecting legs.
      *
      * @throws ServerAccessException If there was a problem access the server for flight information.
+     * @post memo will be populated by the results of each query needed for calculating the search results.
      * @return all possible flight combinations matching search criteria.
      */
     public Flights createPossibleConnectingLegCombinations() throws ServerAccessException {
@@ -194,7 +199,7 @@ public class CreatePossibleFlights{
 
     /**
      * Convert a date to the string format needed for querying the server.
-     * TODO: Maybe move this somewhere else
+     *
      * @param date The LocalDate to be converted.
      * @return The string representation of the given date in the string format of the date to query the WPI server with.
      */
@@ -206,6 +211,7 @@ public class CreatePossibleFlights{
      * Return the results for a query to the server, may be from cache
      *
      * @throws ServerAccessException If there was an issue connecting to either the WPI or time server for some information
+     * @post If query had not already been cached in the memo, then it is added with its results for future use.
      * @param airportCode The 3-letter string of the airport to query about connecting legs departing from or arriving at.
      * @param flightDate The GMT date to query about legs departing or arriving on.
      * @param isDeparture True if the query seeks the legs departing from an airport on a certain date, false if query is seeking legs arriving at an airport on a certain date.

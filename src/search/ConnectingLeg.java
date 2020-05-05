@@ -19,6 +19,7 @@ import java.util.Map;
  * @author Jackson Powell
  * @since 2020-05-01
  * Responsibilities: Contain all connecting leg flight information for passing to the frontend for self-contained filtering and sorting
+ * Significant associations: leg.ConnectingLeg which this object is based on, extending the information by finding the objects referenced by the keys for Airport, Airplane, and MyTime.
  */
 public class ConnectingLeg {
     /**

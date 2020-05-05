@@ -18,6 +18,7 @@ import static leg.SeatTypeEnum.FIRSTCLASS;
  * @author Jackson Powell
  * @since 2020-04-21
  * Responsibilities: Store sets of connecting legs as a flight
+ * Significant associations: leg.ConnectingLeg for the objects contained and the validity of their variables to determine if they form a valid flight. Also associate with seatType for calculating various aggregation functions for the properties of the flight, such as price and availability.
  */
 public class Flight {
     /**
@@ -28,6 +29,8 @@ public class Flight {
     /**
      * Constructor for Flight for building it up from one flight leg.
      *
+     * @pre firstLeg is valid ConnectingLeg.
+     * @post A Flight object is instantiated and populated with one ConnectingLeg since one-leg flights are always valid if the leg itself is valid.
      * @param firstLeg The first leg of the flight.
      */
     public Flight(ConnectingLeg firstLeg){
@@ -38,6 +41,8 @@ public class Flight {
     /**
      * Constructor for Flight if list of legs already created
      *
+     * @pre connectingLegs should be ordered to create a valid flight, otherwise an IllegalArgumentException will be thrown.
+     * @post If valid, then a flight object is instantiated and populated with connectingLegs. If invalid, a flight object will not be instantiated and an IllegalArgumentException will be thrown.
      * @param connectingLegs The list of legs to make into a flight.
      * @throws IllegalArgumentException If given connectingLegs are not ordered to constitute a valid Flight
      */
@@ -81,6 +86,7 @@ public class Flight {
     /**
      * Try to add new leg to the end of the current set of legs.
      *
+     * @pre newLeg is a valid ConnectingLeg.
      * @post If this method returns true, then this flight has added newleg to the end. If false, this flight's connecting legs remain unchanged.
      * @param newLeg The new connecting leg to append to the end of the flight
      * @return True if the leg was added to the flight, false if adding would not make a valid flight and so was not added.
@@ -97,7 +103,8 @@ public class Flight {
     /**
      * Try to add new leg to the end or start of the current set of legs.
      *
-     * @post If this method returns true, then this flight has added newleg to the end or start of its connecting legs based on addAtEnd. If false, this flight's connecting legs remain unchanged.
+     * @pre newLeg is a valid ConnectingLeg.
+     * @post If this method returns true, then this flight has added newleg to the end or start of its connecting legs based on addAtEnd (true if adding it to the end). If false, this flight's connecting legs remain unchanged.
      * @param newLeg The new connecting leg to append to the end or start of the flight.
      * @param addAtEnd True if newLeg should be appended at the end of the current list, false if newLeg should be appended at the start.
      * @return True if the leg was added to the flight, false if adding would not make a valid flight and so was not added.
@@ -139,6 +146,7 @@ public class Flight {
     /**
      * Get price of a type of seat on a connecting leg. Defaults to coach if illegal seatType given.
      *
+     * @pre leg is a valid ConnectingLeg with valid prices for each seat type.
      * @param leg The connecting leg to get the price of.
      * @param seatType The type of seat to check the price for.
      * @return The price of a seat of the seat type on the given leg.
@@ -152,9 +160,8 @@ public class Flight {
      * Checks if there are still seats for this flight available.
      *
      * @throws ServerAccessException If there was an issue connecting to the WPI server
-     * @pre The database is locked to guarantee consistent execution.
-     * @inv The database state is constant throughout execution.
-     * @post The database is still in th same state as when called.
+     * @inv All fields for this flight's connecting legs remain constant other than the number of reserved seats.
+     * @post This flight's connecting legs' number of reserved seats are refreshed with the latest information if the system can connect with the WPI server.
      * @return True if there are seats available on the trip's seat type for every leg of the trip's outgoing flight
      */
     public boolean allSeatsStillAvailable(SeatTypeEnum seatType) throws ServerAccessException{
@@ -209,8 +216,9 @@ public class Flight {
         return isDeparture ? this.getDepartureAirportCode() : this.getArrivalAirportCode();
     }
     /**
-     * Get the time for the arrival of the last connecting leg of this flight.
+     * Get the GMT time for the arrival of the last connecting leg of this flight.
      *
+     * @pre The arrival time for each leg is in the format specified in utils.Saps in TIME_FORMAT.
      * @return the time for the arrival of the last connecting leg of this flight.
      */
     public MyTime getArrivalTime(){
@@ -219,14 +227,16 @@ public class Flight {
     /**
      * Get the time for the departure of the first connecting leg of this flight.
      *
+     * @pre The departure time is in the format specified in utils.Saps in TIME_FORMAT.
      * @return the time for the departure of the first connecting leg of this flight.
      */
     public MyTime getDepartureTime(){
         return new MyTime(this.connectingLegs.get(0).departure().time);
     }
     /**
-     * Get the time of the arrival or departure of the last/first connecting leg of this flight.
+     * Get the gmt time of the arrival or departure of the last/first connecting leg of this flight.
      *
+     * @pre The arrival and departure times are in the format specified in utils.Saps in TIME_FORMAT.
      * @param isDeparture True if the departure time should be returned, false if the arrival time should be returned.
      * @return the time of the arrival or departure of the last/first connecting leg of this flight based on isDeparture.
      */
@@ -247,7 +257,7 @@ public class Flight {
     }
 
     /**
-     * Create a string representation of this flight's information.
+     * Create a string representation of this flight's information (Flight: \t departureCode arrivalCode depTime arrTime\n ...).
      *
      * @return a string representation of this flight's information.
      */
@@ -261,6 +271,7 @@ public class Flight {
 
     /**
      * Get an iterator for the legs that make up this flight.
+     *
      * @return an iterator for the legs that make up this flight.
      */
     public Iterator<ConnectingLeg> getLegs(){
