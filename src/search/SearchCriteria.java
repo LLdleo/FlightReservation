@@ -10,6 +10,7 @@ import java.util.Date;
  * @author Jackson Powell
  * @since 2020-04-23
  * Responsibilities: Encapsulate criteria for search for one flight and validate search criteria.
+ * Significant associations: User interface for what criteria is needed for searching flights.
  */
 public class SearchCriteria {
     /**
@@ -32,6 +33,7 @@ public class SearchCriteria {
 
     /**
      * Return the departure airport's code.
+     *
      * @return the departure airport's code.
      */
     public String getDepartureAirportCode() {
@@ -40,6 +42,7 @@ public class SearchCriteria {
 
     /**
      * Get the arrival airport's code.
+     *
      * @return the arrival airport's code.
      */
     public String getArrivalAirportCode() {
@@ -48,6 +51,7 @@ public class SearchCriteria {
 
     /**
      * Get the date criterion for the flight departing/arriving on.
+     *
      * @return The date criterion for the flight departing/arriving on.
      */
     public LocalDate getFlightDate() {
@@ -56,6 +60,7 @@ public class SearchCriteria {
 
     /**
      * Get whether the criterion is based on the flights arrival or departure.
+     *
      * @return True if the date is for the flights departure, false if arrival.
      */
     public boolean isSelectedDateForDeparture() {
@@ -76,6 +81,7 @@ public class SearchCriteria {
      * Constructor for search criteria to encapsulate different restrictions on returned flights.
      *
      * @throws InvalidParameterException If any parameter is null or if the two airport codes are the same.
+     * @pre The two airport codes are not the same and no parameter is null. If this is not the case, then an InvalidParameterException will be thrown.
      * @post A SearchCriteria object is instantiated which can be passed to CreatePossibleFlights as the criteria for the search.
      * @param departureAirportCode The 3-letter code for the departure airport criterion.
      * @param arrivalAirportCode The 3-letter code for the arrival airport criterion.
