@@ -23,7 +23,7 @@ public class ServerInterfaceTest {
         try{
             final long start = System.currentTimeMillis();
         LocalDate depDate = LocalDate.of(2020,5,10);
-        List<Flight> flights = new SearchOneWayTripFlights(new SearchCriteria("BOS","CLE",depDate, true)).search();
+        List<Flight> flights = new SearchOneWayTripFlights(new SearchCriteria("CLE","BOS",depDate, true)).search();
 //        for(search.Flight flight:flights){
 //            System.out.println(flight);
 //        }

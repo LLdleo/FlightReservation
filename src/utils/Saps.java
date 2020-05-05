@@ -47,5 +47,6 @@ public class Saps {
 	 * Exception messages
 	 */
 	public static final String CONNECTION_EXCEPTION_MESSAGE= "connection lost with external service";
+	public static final String LOCK_EXCEPTION_MESSAGE = "database cannot be locked";
 
 }

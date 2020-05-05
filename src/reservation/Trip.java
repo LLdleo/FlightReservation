@@ -105,15 +105,7 @@ public class Trip {
      * @return True if the reservation was successful, false otherwise
      */
     public boolean reserveSeats() throws ServerLockException, ServerAccessException {
-        boolean success = false;
-        long startLockTimer = System.currentTimeMillis();
-        long endLockTimer;
-        do {
-            success = ServerInterface.INSTANCE.lock(Saps.TEAMNAME);
-            endLockTimer = System.currentTimeMillis();
-        }while(!success && (endLockTimer - startLockTimer)/1000 < Saps.LOCK_TIMEOUT_SECONDS);
-        if(!success){throw new ServerLockException("System timed out after " + (endLockTimer - startLockTimer)/1000 + " seconds");}
-
+        boolean success;
         if(!this.outgoingFlight.allSeatsStillAvailable(this.seatType)){
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
@@ -122,6 +114,14 @@ public class Trip {
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }
+        long startLockTimer = System.currentTimeMillis();
+        long endLockTimer;
+        do {
+            success = ServerInterface.INSTANCE.lock(Saps.TEAMNAME);
+            endLockTimer = System.currentTimeMillis();
+        }while(!success && (endLockTimer - startLockTimer)/1000 < Saps.LOCK_TIMEOUT_SECONDS);
+
+        if(!success){throw new ServerLockException(Saps.LOCK_EXCEPTION_MESSAGE);}
         success = ServerInterface.INSTANCE.reserve(Saps.TEAMNAME,this);
         ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
         return success;
