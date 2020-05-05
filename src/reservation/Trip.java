@@ -110,7 +110,7 @@ public class Trip {
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }
-        if(this.returnFlight != null && this.returnFlight.allSeatsStillAvailable(this.returnSeatType)){
+        if(this.returnFlight != null && !this.returnFlight.allSeatsStillAvailable(this.returnSeatType)){
             ServerInterface.INSTANCE.unlock(Saps.TEAMNAME);
             return false;
         }

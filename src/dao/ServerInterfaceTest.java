@@ -21,19 +21,19 @@ import java.util.List;
 public class ServerInterfaceTest {
     public static void main(String[] args){
         // Search test
-//        try{
-//            final long start = System.currentTimeMillis();
-//        LocalDate depDate = LocalDate.of(2020,5,10);
-//        List<Flight> flights = new SearchOneWayTripFlights(new SearchCriteria("CLE","BOS",depDate, true)).search();
-//        ObjectMapper mapper = new ObjectMapper();
-//            System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(flights));
-//            final long end = System.currentTimeMillis();
-//            System.out.println((end-start)/1000.0);
-//            System.out.println(flights.size());
-//        }
-//        catch(Exception e){
-//            System.out.println(e.toString());
-//        }
+        try{
+            final long start = System.currentTimeMillis();
+        LocalDate depDate = LocalDate.of(2020,5,10);
+        List<search.Flight> flights = new SearchOneWayTripFlights(new SearchCriteria("CLE","BOS",depDate, true)).search();
+        ObjectMapper mapper = new ObjectMapper();
+            System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(flights));
+            final long end = System.currentTimeMillis();
+            System.out.println((end-start)/1000.0);
+            System.out.println(flights.size());
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
 
 
         // Reserve test
@@ -44,19 +44,19 @@ public class ServerInterfaceTest {
 //            ServerInterface.INSTANCE.getAirports("PoLYmer");
 //            ConnectingLeg leg = new ConnectingLeg("A320", "167", "3774", "BOS", "2020 May 10 00:12 GMT", "MSP", "2020 May 10 02:59 GMT",
 //                    "$1,053.50", "8", "$101.95", "100");
-//            new Trip(new Flight(leg), SeatTypeEnum.COACH).reserveSeats();
+//            System.out.println(new Trip(new Flight(leg), new Flight(leg), SeatTypeEnum.COACH, SeatTypeEnum.FIRSTCLASS).reserveSeats());
 //        }
 //        catch(Exception e){
 //            System.out.println(e.toString());
 //            System.out.println(e.getLocalizedMessage());
 //            System.out.println(e.getMessage());
 //        }
-        try{
-            ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
 
 
     }

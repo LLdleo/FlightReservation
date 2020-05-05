@@ -1,5 +1,6 @@
 package dao;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.Assert;
 import org.junit.Test;
 import utils.Saps;
@@ -13,8 +14,15 @@ import utils.Saps;
 public class ServerInterfaceTest {
 
     @Test
-    public void testReset() {
-        Assert.assertTrue(ServerInterface.INSTANCE.lock(Saps.TEAMNAME));
+    public void testResetAndLocking() {
         Assert.assertTrue(ServerInterface.INSTANCE.reset(Saps.TEAMNAME));
+        boolean success = ServerInterface.INSTANCE.lock(Saps.TEAMNAME);
+        Assert.assertTrue(success);
+        Assert.assertTrue(ServerInterface.INSTANCE.reset(Saps.TEAMNAME));
+        Assert.assertTrue(ServerInterface.INSTANCE.unlock(Saps.TEAMNAME));
+        Assert.assertTrue(ServerInterface.INSTANCE.unlock(Saps.TEAMNAME));
+        Assert.assertTrue(ServerInterface.INSTANCE.lock(Saps.TEAMNAME));
+        Assert.assertTrue(ServerInterface.INSTANCE.lock(Saps.TEAMNAME)); // Can't test lock conflicts on same system
+        Assert.assertTrue(ServerInterface.INSTANCE.unlock(Saps.TEAMNAME));
     }
 }
