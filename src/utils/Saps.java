@@ -1,7 +1,7 @@
 package utils;
 
 /**
- * @author blake
+ * @author blake, Jackson Powell
  * 
  * System Adaptive Parameters (SAPS)
  * 

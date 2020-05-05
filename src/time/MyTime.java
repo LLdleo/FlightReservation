@@ -11,12 +11,24 @@ import java.time.format.DateTimeFormatter;
  * @author Jackson Powell
  * @since 2020-04-23
  * Responsibilities: Convert between local/GMT and calculate timespans
+ * Significant associations: WPI server for the format of times and TimezoneInterface for getting the timezone offset to calculate local times.
  */
 public class MyTime {
+    /**
+     * Get the gmt time of this time.
+     *
+     * @return the gmt time of this time.
+     */
     public LocalDateTime getGmtTime() {
         return gmtTime;
     }
 
+    /**
+     * Get the local time of this time.
+     *
+     * @pre The MyTime object should have been instantiated with correct associated latitude and longitude to get an accurate local time.
+     * @return the local time of this time based on the associated latitude and longitude.
+     */
     public LocalDateTime getLocalTime() {
         return localTime;
     }
@@ -41,6 +53,8 @@ public class MyTime {
     /**
      * Constructor for MyTime object without knowing local time before-hand
      *
+     * @pre assocLatitude should be in [-90,90] and assocLongitude should be in [-180,180].
+     * @post MyTime object instantiated with the given gmtTime and localTime calculated using the offset based on the assoclatitude and assocLongitude.
      * @throws IllegalArgumentException If Latitude is not in range [-90,90] or longitude is not in range [-180, 180]
      * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time)
@@ -63,8 +77,9 @@ public class MyTime {
     /**
      * Constructor for MyTime where gmtTime is provided as a string in the format given by server.
      *
-     * @see Saps for latitude and longitude constraints
-     * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
+     * @see Saps Saps for latitude and longitude constraints and the expected format of gmtTime in TIME_FORMAT
+     * @pre Latitude is in range [-90,90] and longitude is in range [-180,180]. gmtTime should be in the format specified in Saps in TIME_FORMAT.
+     * @post If no exception is thrown, then a MyTime object is instantiated with a gmt LocalDateTime set based on gmtTime and local time calculated using the timezone offset based on the assocLatitude and assocLongitude.
      * @param gmtTime The time in the timezone of GMT (Greenwich Mean Time) in the string format of WPI server (YYYY MMM DD HH:MM)
      * @param assocLatitude The latitude coordinate of the location associated with this time.
      * @param assocLongitude The longitude coordinate of the location associated with this time.
@@ -87,6 +102,9 @@ public class MyTime {
     /**
      * Constructor for MyTime that only cares about GMT time and defaults latitude and longitude to 0
      *
+     * @see Saps Saps for the expected format of gmtTime in TIME_FORMAT.
+     * @pre gmtTime should be in the format specified in TIME_FORMAT in Saps.
+     * @post MyTime object is instantiated with the local time set to the gmtTime. Should only be used for comparing to other gmtTimes.
      * @param gmtTime The string representation of the GMT time as 'yyyy MMM dd HH:mm'
      */
     public MyTime(String gmtTime){
@@ -98,11 +116,12 @@ public class MyTime {
     /**
      * Calculate the local time given the GMT time and location information
      *
+     * @pre latitude should be in range [-90,90] and longitude should be in range [-180,180].
      * @throws ServerAccessException If there is an issue connecting to the timezone server.
      * @param gmtTime The GMT time to be converted.
      * @param latitude The latitude of the location in the local timezone to convert to.
      * @param longitude The longitude of the location in the local timezone to convert to.
-     * @return The converted time in the timezone of the location with latitude and longitude coordinates.
+     * @return The local time of the gmt time in the timezone of the location with latitude and longitude coordinates.
      */
     public static LocalDateTime calculateLocalTime(LocalDateTime gmtTime, double latitude, double longitude) throws ServerAccessException {
         double offset = TimezoneInterface.INSTANCE.getTimezoneOffset(latitude, longitude);
@@ -136,7 +155,6 @@ public class MyTime {
     /**
      * Calculate the time from this time to the end of the last GMT date in hours.
      *
-     *
      * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @return The number of hours from this gmt time to the end of the last GMT date. (Beginning of this date)
      */
@@ -146,7 +164,6 @@ public class MyTime {
     }
     /**
      * Parse the server GMT times to convert into LocalDateTimes
-     *
      *
      * @pre serverDateTime follows the format of "yyyy MMM dd HH:mm GMT".
      * @see Saps for the expected format of the string of TIME_FORMAT.
