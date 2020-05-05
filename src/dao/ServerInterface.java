@@ -433,35 +433,29 @@ public enum ServerInterface {
         HttpURLConnection connection;
 
         try {
-            url = new URL(mUrlBase);
+            url = new URL(mUrlBase + QueryFactory.resetDB(teamName));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            String params = QueryFactory.resetDB(teamName);
 
             connection.setDoOutput(true);
-            connection.setDoInput(true);
-
-            DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-            writer.writeBytes(params);
-            writer.flush();
-            writer.close();
+            //connection.setDoInput(true);
 
             int responseCode = connection.getResponseCode();
             System.out.println("\nSending 'GET' to reset database");
             System.out.println(("\nResponse Code : " + responseCode));
 
             if (responseCode >= HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                StringBuffer response = new StringBuffer();
+//                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                String line;
+//                StringBuffer response = new StringBuffer();
+//
+//                while ((line = in.readLine()) != null) {
+//                    response.append(line);
+//                }
+//                in.close();
 
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
-                in.close();
-
-                System.out.println(response.toString());
+                //System.out.println(response.toString());
             }
         } catch (IOException ex) {
             ex.printStackTrace();
