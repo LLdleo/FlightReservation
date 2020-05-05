@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package airport;
 
 import java.util.Comparator;
@@ -20,7 +18,7 @@ import utils.Saps;
  */
 public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	
-	/**
+	/*
 	 * Airport attributes as defined by the CS509 server interface XML
 	 */
 	/** Full name of the airport */
@@ -103,7 +101,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		}
 		
 		try {
-			tmpLongitude = Double.parseDouble(latitude);
+			tmpLongitude = Double.parseDouble(longitude);
 		} catch (NullPointerException | NumberFormatException ex) {
 			throw new IllegalArgumentException ("Longitude must be between -180.0 and +180.0", ex);
 		}
@@ -130,14 +128,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 * @return the object formatted as String to display
 	 */
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		
-		sb.append(mCode).append(", ");
-		sb.append("(").append(String.format("%1$.3f", mLatitude)).append(", ");
-		sb.append(String.format("%1$.3f", mLongitude)).append("), ");
-		sb.append(mName);
-
-		return sb.toString();
+		return mCode + ", (" + String.format("%1$.3f", mLatitude) + ", " + String.format("%1$.3f", mLongitude) + "), " + mName;
 	}
 	
 	/**
@@ -302,14 +293,10 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		
 		// if all fields are equal, the Airports are the same
 		Airport rhs = (Airport) obj;
-		if ((rhs.mName.equalsIgnoreCase(mName)) &&
+		return ((rhs.mName.equalsIgnoreCase(mName)) &&
 				(rhs.mCode.equalsIgnoreCase(mCode)) &&
 				(rhs.mLatitude == mLatitude) &&
-				(rhs.mLongitude == mLongitude)) {
-			return true;
-		}
-		
-		return false;	
+				(rhs.mLongitude == mLongitude));
 	}
 	
 	/**
@@ -326,7 +313,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	public boolean isValid() {
 		
 		// If the name isn't valid, the object isn't valid
-		if ((mName == null) || (mName == ""))
+		if ((mName == null) || (mName.equals("")))
 			return false;
 		
 		// If we don't have a 3 character code, object isn't valid
@@ -334,12 +321,8 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 			return false;
 		
 		// Verify latitude and longitude are within range
-		if ((mLatitude > Saps.MAX_LATITUDE) || (mLatitude < Saps.MIN_LATITUDE) ||
-			(mLongitude > Saps.MAX_LONGITUDE) || (mLongitude < Saps.MIN_LONGITUDE)) {
-			return false;
-		}
-		
-		return true;
+		return !((mLatitude > Saps.MAX_LATITUDE) || (mLatitude < Saps.MIN_LATITUDE) ||
+			(mLongitude > Saps.MAX_LONGITUDE) || (mLongitude < Saps.MIN_LONGITUDE));
 	}
 	
 	/**
@@ -350,9 +333,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 */
 	public boolean isValidCode (String code) {
 		// If we don't have a 3 character code it can't be valid valid
-		if ((code == null) || (code.length() != 3))
-			return false;
-		return true;
+		return !((code == null) || (code.length() != 3));
 	}
 	
 	/**
@@ -363,9 +344,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 */
 	public boolean isValidName (String name) {
 		// If the name is null or empty it can't be valid
-		if ((name == null) || (name == ""))
-			return false;
-		return true;
+		return !((name == null) || (name.equals("")));
 	}
 	
 	/**
@@ -376,9 +355,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 */
 	public boolean isValidLatitude (double latitude) {
 		// Verify latitude is within valid range
-		if ((latitude > Saps.MAX_LATITUDE) || (latitude < Saps.MIN_LATITUDE))
-			return false;
-		return true;
+		return !((latitude > Saps.MAX_LATITUDE) || (latitude < Saps.MIN_LATITUDE));
 	}
 	
 	/**
@@ -405,9 +382,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 */
 	public boolean isValidLongitude (double longitude) {
 		// Verify longitude is within valid range
-		if ((longitude > Saps.MAX_LONGITUDE) || (longitude < Saps.MIN_LONGITUDE))
-			return false;
-		return true;
+		return !((longitude > Saps.MAX_LONGITUDE) || (longitude < Saps.MIN_LONGITUDE));
 	}
 	
 	/**
