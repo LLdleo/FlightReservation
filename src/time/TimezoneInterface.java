@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.InvalidParameterException;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Jackson Powell
  * Responsibilities: Interface with timezone service and convert from/to JSON
@@ -37,13 +40,17 @@ public enum TimezoneInterface {
      * Retrieve the GMT offset of a location based on latitude and longitude from ipgeolocation or local cache
      *
      * @throws ServerAccessException if there was an issue connecting with ipgeolocation.
+     * @throws InvalidParameterException If latitude is not in [-90,90] or longitude is not in [-180,180]
      * @pre Latitude is in range [-90,90] and longitude is in range [-180,180].
      * @post Timezone offset for location is cached if not already cached.
      * @param latitude  The latitude of a location to get the timezone offset for.
      * @param longitude The longitude of a location to get the timezone offset for.
      * @return The GMT offset for the given latitude and longitude. Null is returned if there was a problem connecting
      */
-    public Double getTimezoneOffset(double latitude, double longitude) throws ServerAccessException {
+    public Double getTimezoneOffset(double latitude, double longitude) throws ServerAccessException, InvalidParameterException {
+        if(latitude < Saps.MIN_LATITUDE || latitude > Saps.MAX_LATITUDE || longitude < Saps.MIN_LONGITUDE || longitude > Saps.MAX_LONGITUDE){
+            throw new InvalidParameterException("Latitude or longitude not in ranges [-90,90] or [-180,180]");
+        }
         if(Timezones.INSTANCE.isLocationCached(latitude, longitude)){
             return Timezones.INSTANCE.getOffset(latitude, longitude);
         }
@@ -70,10 +77,9 @@ public enum TimezoneInterface {
         BufferedReader reader;
         String line;
         StringBuffer result = new StringBuffer();
-        boolean success = false;
         long startLockTimer = System.currentTimeMillis();
         long endLockTimer;
-        while(!success) {
+        while(true) {
             try {
                 // ipgeolocation doesn't work with either coordinate as zero, so get approximation.
                 if (latitude == 0) latitude += .0000001;
@@ -101,20 +107,30 @@ public enum TimezoneInterface {
                     reader.close();
                 }
                 JSONObject data = (JSONObject) new JSONParser().parse(result.toString());
-                success = true;
                 return Double.parseDouble(data.get("timezone_offset").toString());
             } catch (IOException e) {
                 e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
+                try{
+                    TimeUnit.SECONDS.sleep(1);
+                }
+                catch (Exception e2){
+                    e2.printStackTrace();
+                }
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("There was an issue connecting with the timezone service");
             } catch (ParseException e) {
                 e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
+                try{
+                    TimeUnit.SECONDS.sleep(1);
+                }
+                catch (Exception e2){
+                    e2.printStackTrace();
+                }
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("There was an issue interpreting the timezone for a request");
             }
         }
-        return 0.0; //Shouldn't reach here. Not sure why compiler requires it.
     }
 }
