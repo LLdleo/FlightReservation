@@ -51,10 +51,10 @@ public class SearchCriteriaTest {
         try{
             criteria = new SearchCriteria("BOS","CLE", LocalDate.of(2020,5,10),false);
             Assert.assertEquals(criteria.getSearchAirportCode(),"CLE");
-            Assert.assertEquals(criteria.getSearchAirportCode(),criteria.getDepartureAirportCode());
+            Assert.assertEquals(criteria.getSearchAirportCode(),criteria.getArrivalAirportCode());
             criteria = new SearchCriteria("BOS","CLE", LocalDate.of(2020,5,10),true);
             Assert.assertEquals(criteria.getSearchAirportCode(),"BOS");
-            Assert.assertEquals(criteria.getSearchAirportCode(),criteria.getArrivalAirportCode());
+            Assert.assertEquals(criteria.getSearchAirportCode(),criteria.getDepartureAirportCode());
 
         }catch(InvalidParameterException e){
             Assert.fail();
