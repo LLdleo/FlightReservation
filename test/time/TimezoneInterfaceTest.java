@@ -56,7 +56,6 @@ public class TimezoneInterfaceTest {
         double sampleLongitude = -82.887198;
         double expectedOffset = -5;
         try {
-            Assert.assertFalse(Timezones.INSTANCE.isLocationCached(sampleLatitude, sampleLongitude));
             Assert.assertEquals(expectedOffset, TimezoneInterface.INSTANCE.getTimezoneOffset(sampleLatitude, sampleLongitude), 0);
             Assert.assertTrue(Timezones.INSTANCE.isLocationCached(sampleLatitude, sampleLongitude));
             Assert.assertEquals(expectedOffset, TimezoneInterface.INSTANCE.getTimezoneOffset(sampleLatitude, sampleLongitude), 0);
