@@ -17,7 +17,7 @@ import java.security.InvalidParameterException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Interface with timezone service and convert from/to JSON
+ * Interface with timezone service and convert from/to JSON.
  * Uses org.json.simple for parsing JSON, imported using Maven.
  * Significant associations: ipgeolocation for the api for determining timezone offsets based on latitude and longitude and airport for what information is provided for determining the timezone offset for an offset.
  *

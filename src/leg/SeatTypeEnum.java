@@ -1,7 +1,7 @@
 package leg;
 
 /**
- * Enumerate possible seat types
+ * Enumerate possible seat types.
  * Significant associations: WPI server for the types of seats provided on their flights.
  *
  * @author Jackson Powell

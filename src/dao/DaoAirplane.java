@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 /**
- * Parse the xml returned for the airplane query
+ * Parse the xml returned for the airplane query.
  *
  * @author Jackson Powell
  * @version 1.0

@@ -1,7 +1,7 @@
 package leg;
 
 /**
- * Store information about a connecting leg's seating information
+ * Store information about a connecting leg's seating information.
  * Significant associations: WPI server for the structure of the data concerning seating information and how many seat types there are.
  *
  * @author Lidian Lin, Jackson Powell

@@ -1,26 +1,41 @@
 package utils;
 
 /**
- * System Adaptive Parameters (SAPS)
+ * System Adaptive Parameters (SAPS).
  *
- * Constants and values for limits, bounds and configuration of system
+ * Constants and values for limits, bounds and configuration of system.
  *
  * @author blake, Jackson Powell
  *
  */
 public class Saps {
 	/**
-	 * Constant values used for latitude and longitude range validation
+	 * Maximum latitude used for validation.
 	 */
 	public static final double MAX_LATITUDE = 90.0;
+	/**
+	 * Minimum latitude used for validation.
+	 */
 	public static final double MIN_LATITUDE = -90.0;
+	/**
+	 * Maximum longitude used for validation.
+	 */
 	public static final double MAX_LONGITUDE = 180.0;
+	/**
+	 * Minimum longitude used for validation.
+	 */
 	public static final double MIN_LONGITUDE = -180.0;
 	/**
-	 * Constant values used for flight validation
+	 * Maximum number of legs that a flight can consist of.
 	 */
 	public static final int MAX_LEGS = 3;
+	/**
+	 * Maximum number of hours from the scheduled arrival of one leg to the scheduled departure of the next leg in the flight.
+	 */
 	public static final int MAX_LAYOVER_TIME_HOURS = 4;
+	/**
+	 * Minimum number of hours from the scheduled arrival of one leg to the scheduled departure of the next leg in the flight.
+	 */
 	public static final double MIN_LAYOVER_TIME_HOURS = 0.5;
 	/**
 	 * Format string for times in WPI server (Y=year, M=month, D=day, H=hour, M=minute)
@@ -44,9 +59,12 @@ public class Saps {
 	 */
 	public static final int CONNECTION_TIMEOUT_SECONDS = 5;
 	/**
-	 * Exception messages
+	 * Connection exception message.
 	 */
 	public static final String CONNECTION_EXCEPTION_MESSAGE= "connection lost with external service";
+	/**
+	 * Exception message for being unable to acquire the database lock.
+	 */
 	public static final String LOCK_EXCEPTION_MESSAGE = "database cannot be locked";
 
 }

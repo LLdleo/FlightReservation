@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Entry point for browser-based user-interface through the use of sockets, buffered readers, and output streams
+ * Entry point for browser-based user-interface through the use of sockets, buffered readers, and output streams.
  * Significant associations: Trip for reserving seats, searchOneWayTripFlights for searching flights, searchCriteria for what's
  * needed to search for flights, search.flight and nested objects for the existence of getters to allow automatic json serialization,
  * and the json format provided by the user-interface for parsing the input correctly.
