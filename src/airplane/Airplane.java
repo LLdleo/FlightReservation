@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package airplane;
 
 import leg.SeatTypeEnum;
@@ -21,7 +19,7 @@ import java.util.Comparator;
  */
 public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 
-	/**
+	/*
 	 * Airport attributes as defined by the CS509 server interface XML
 	 */
 	/** Name of company that manufactures the airplane as an attribute */
@@ -144,7 +142,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * @param manufacturer The human readable name of the airport
 	 * @throws IllegalArgumentException if name is invalid
 	 */
-	public void manufacturer (String manufacturer) {
+	public void manufacturer (String manufacturer) throws IllegalArgumentException{
 		if (isValidString(manufacturer))
 			mManufacturer = manufacturer;
 		else
@@ -166,7 +164,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * @param model The 3 letter code for the airport
 	 * @throws IllegalArgumentException if code is invalid
 	 */
-	public void model(String model) {
+	public void model(String model) throws IllegalArgumentException{
 		if (isValidString(model))
 			mModel = model;
 		else
@@ -188,7 +186,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * @param firstClassSeats The max number of first class seats on a certain airplane.
 	 * @throws IllegalArgumentException if firstClassSeats is invalid, <= 0
 	 */
-	public void firstClassSeats(Integer firstClassSeats) {
+	public void firstClassSeats(Integer firstClassSeats) throws IllegalArgumentException{
 		if (firstClassSeats > 0)
 			mFirstClassSeats = firstClassSeats;
 		else
@@ -200,7 +198,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * @param firstClassSeats The max number of first class seats on a certain airplane.
 	 * @throws IllegalArgumentException if firstClassSeats is invalid, <= 0
 	 */
-	public void firstClassSeats(String firstClassSeats) {
+	public void firstClassSeats(String firstClassSeats) throws IllegalArgumentException{
 		try {
 			int tmp = Integer.parseInt(firstClassSeats);
 			if (tmp > 0) {
@@ -228,7 +226,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 */
 	public void coachSeats(Integer coachSeats) {
 		if (coachSeats > 0)
-			mFirstClassSeats = coachSeats;
+			mCoachSeats = coachSeats;
 		else
 			throw new IllegalArgumentException (Double.toString(coachSeats));
 	}

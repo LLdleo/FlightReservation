@@ -9,6 +9,25 @@ package leg;
 public class Seating {
     /** First class price as attribute */
     String firstClassPrice;
+
+    /**
+     * Get the number of first class seats reserved on this leg.
+     *
+     * @return the number of first class seats reserved on this leg.
+     */
+    public int getFirstClassReserved() {
+        return firstClassReserved;
+    }
+
+    /**
+     * Get the number of coach seats reserved on this leg.
+     *
+     * @return the number of coach seats reserved on this leg.
+     */
+    public int getCoachReserved() {
+        return coachReserved;
+    }
+
     /** Number of first class seats already reserved */
     int firstClassReserved;
     /** Coach price as attribute */

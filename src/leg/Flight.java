@@ -140,7 +140,7 @@ public class Flight {
      * @return The total cost of a seat of the given seat type on each leg in the flight.
      */
     public double getPrice(SeatTypeEnum seatType){
-        return this.connectingLegs.stream().map(leg -> getLegPrice(leg,seatType)).collect(Collectors.summingDouble(Double::valueOf));
+        return this.connectingLegs.stream().map(leg -> getLegPrice(leg, seatType)).mapToDouble(Double::valueOf).sum();
     }
 
     /**
@@ -167,8 +167,8 @@ public class Flight {
     public boolean allSeatsStillAvailable(SeatTypeEnum seatType) throws ServerAccessException{
         int totalLegsCount = this.connectingLegs.size();
         refresh();
-        int availableLegsCount = this.connectingLegs.stream().filter(leg ->
-                leg.seating().getNumReserved(seatType) < AirplaneCache.INSTANCE.getAirplaneByModel(leg.airplane()).getNumSeats(seatType)).collect(Collectors.toList()).size();
+        int availableLegsCount = (int) this.connectingLegs.stream().filter(leg ->
+                leg.seating().getNumReserved(seatType) < AirplaneCache.INSTANCE.getAirplaneByModel(leg.airplane()).getNumSeats(seatType)).count();
         return totalLegsCount == availableLegsCount;
     }
 
@@ -179,7 +179,7 @@ public class Flight {
      * @pre The connecting legs of this flight have been validated and still exist in the WPI server.
      * @post The connecting legs of this flight will have the latest reservation data.
      */
-    private void refresh() throws ServerAccessException{
+    public void refresh() throws ServerAccessException{
         ConnectingLegs newList = new ConnectingLegs();
         for(ConnectingLeg leg: this.connectingLegs){
             ConnectingLegs results =
@@ -262,11 +262,11 @@ public class Flight {
      * @return a string representation of this flight's information.
      */
     public String toString(){
-        String toReturn = "Flight: ";
+        StringBuilder toReturn = new StringBuilder("Flight: ");
         for(ConnectingLeg leg: this.connectingLegs){
-            toReturn += "\t" + leg.departure().code + " " + leg.arrival().code + " " + leg.departure().time + " " + leg.arrival().time + "\n";
+            toReturn.append("\t").append(leg.departure().code).append(" ").append(leg.arrival().code).append(" ").append(leg.departure().time).append(" ").append(leg.arrival().time).append("\n");
         }
-        return toReturn;
+        return toReturn.toString();
     }
 
     /**

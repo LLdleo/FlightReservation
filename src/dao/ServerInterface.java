@@ -1,6 +1,3 @@
-/**
- *
- */
 package dao;
 
 import java.io.BufferedReader;
@@ -57,7 +54,7 @@ public enum ServerInterface {
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         String xmlAirports;
         Airports airports;
@@ -66,7 +63,7 @@ public enum ServerInterface {
         long endLockTimer;
         while (!success) {
             try {
-                /**
+                /*
                  * Create an HTTP connection to the server for a GET
                  * QueryFactory provides the parameter annotations for the HTTP GET query string
                  */
@@ -75,15 +72,13 @@ public enum ServerInterface {
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("User-Agent", teamName);
 
-                /**
+                /*
                  * If response code of SUCCESS read the XML string returned
                  * line by line to build the full return string
                  */
                 int responseCode = connection.getResponseCode();
                 if (responseCode >= HttpURLConnection.HTTP_OK) {
                     InputStream inputStream = connection.getInputStream();
-                    String encoding = connection.getContentEncoding();
-                    encoding = (encoding == null ? "UTF-8" : encoding);
 
                     reader = new BufferedReader(new InputStreamReader(inputStream));
                     while ((line = reader.readLine()) != null) {
@@ -129,7 +124,7 @@ public enum ServerInterface {
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         String Airplanes;
         boolean success = false;
@@ -137,7 +132,7 @@ public enum ServerInterface {
         long endLockTimer;
         while (!success) {
             try {
-                /**
+                /*
                  * Create an HTTP connection to the server for a GET
                  * QueryFactory provides the parameter annotations for the HTTP GET query string
                  */
@@ -146,15 +141,13 @@ public enum ServerInterface {
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("User-Agent", teamName);
 
-                /**
+                /*
                  * If response code of SUCCESS read the XML string returned
                  * line by line to build the full return string
                  */
                 int responseCode = connection.getResponseCode();
                 if (responseCode >= HttpURLConnection.HTTP_OK) {
                     InputStream inputStream = connection.getInputStream();
-                    String encoding = connection.getContentEncoding();
-                    encoding = (encoding == null ? "UTF-8" : encoding);
 
                     reader = new BufferedReader(new InputStreamReader(inputStream));
                     while ((line = reader.readLine()) != null) {
@@ -200,7 +193,7 @@ public enum ServerInterface {
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         String xmlFlights;
         ConnectingLegs connectingLegs;
@@ -209,7 +202,7 @@ public enum ServerInterface {
         long endLockTimer;
         while (!success) {
             try {
-                /**
+                /*
                  * Create an HTTP connection to the server for a GET
                  * QueryFactory provides the parameter annotations for the HTTP GET query string
                  */
@@ -218,15 +211,13 @@ public enum ServerInterface {
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("User-Agent", teamName);
 
-                /**
+                /*
                  * If response code of SUCCESS read the XML string returned
                  * line by line to build the full return string
                  */
                 int responseCode = connection.getResponseCode();
                 if (responseCode >= HttpURLConnection.HTTP_OK) {
                     InputStream inputStream = connection.getInputStream();
-                    String encoding = connection.getContentEncoding();
-                    encoding = (encoding == null ? "UTF-8" : encoding);
 
                     reader = new BufferedReader(new InputStreamReader(inputStream));
                     while ((line = reader.readLine()) != null) {
@@ -287,7 +278,7 @@ public enum ServerInterface {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((line = in.readLine()) != null) {
                 response.append(line);
@@ -339,7 +330,7 @@ public enum ServerInterface {
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
 
                 while ((line = in.readLine()) != null) {
                     response.append(line);
@@ -348,9 +339,6 @@ public enum ServerInterface {
 
                 System.out.println(response.toString());
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -396,26 +384,14 @@ public enum ServerInterface {
             System.out.println("\nSending 'POST' to reserve on the database");
             System.out.println(("\nResponse Code : " + responseCode));
 
-            if (responseCode >= HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                StringBuffer response = new StringBuffer();
-
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
-                in.close();
-
-                System.out.println(response.toString());
+            if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+                return true;
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -433,44 +409,26 @@ public enum ServerInterface {
         HttpURLConnection connection;
 
         try {
-            url = new URL(mUrlBase);
+            url = new URL(mUrlBase + QueryFactory.resetDB(teamName));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            String params = QueryFactory.resetDB(teamName);
 
             connection.setDoOutput(true);
-            connection.setDoInput(true);
-
-            DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-            writer.writeBytes(params);
-            writer.flush();
-            writer.close();
+            //connection.setDoInput(true);
 
             int responseCode = connection.getResponseCode();
             System.out.println("\nSending 'GET' to reset database");
             System.out.println(("\nResponse Code : " + responseCode));
 
-            if (responseCode >= HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                StringBuffer response = new StringBuffer();
-
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
-                in.close();
-
-                System.out.println(response.toString());
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                return true;
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -482,19 +440,19 @@ public enum ServerInterface {
      * @return The XML string needed to reserve the seats for the trip.
      */
     private String tripToXML(Trip tripToConvert) {
-        String xmlString = "<Flights>";
+        StringBuilder xmlString = new StringBuilder("<Flights>");
         String seatTypeString = tripToConvert.getSeatType() == SeatTypeEnum.FIRSTCLASS ? "FirstClass" : "Coach";
         Iterator<ConnectingLeg> legs = tripToConvert.getOutgoingFlight().getLegs();
         while (legs.hasNext()) {
             ConnectingLeg thisLeg = legs.next();
-            xmlString += "<Flight number=\"" + thisLeg.number() + "\" seating=\"" + seatTypeString + "\"/>";
+            xmlString.append("<Flight number=\"").append(thisLeg.number()).append("\" seating=\"").append(seatTypeString).append("\"/>");
         }
         if(tripToConvert.getReturnFlight() != null){
             String returnSeatTypeString = tripToConvert.getReturnSeatType() == SeatTypeEnum.FIRSTCLASS ? "FirstClass" : "Coach";
             legs = tripToConvert.getReturnFlight().getLegs();
             while (legs.hasNext()) {
                 ConnectingLeg thisLeg = legs.next();
-                xmlString += "<Flight number=\"" + thisLeg.number() + "\" seating=\"" + returnSeatTypeString + "\"/>";
+                xmlString.append("<Flight number=\"").append(thisLeg.number()).append("\" seating=\"").append(returnSeatTypeString).append("\"/>");
             }
         }
         return xmlString + "</Flights>";

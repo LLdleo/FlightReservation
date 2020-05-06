@@ -114,6 +114,18 @@ public class MyTime {
         this.localTime = this.gmtTime;
     }
     /**
+     * Constructor for MyTime that only cares about GMT time and defaults latitude and longitude to 0
+     *
+     * @post MyTime object is instantiated with the local time set to the gmtTime. Should only be used for comparing to other gmtTimes.
+     * @param gmtTime The date and time of the gmt time.
+     */
+    public MyTime(LocalDateTime gmtTime){
+        this.gmtTime = gmtTime;
+        this.assocLongitude = 0;
+        this.assocLatitude = 0;
+        this.localTime = this.gmtTime;
+    }
+    /**
      * Calculate the local time given the GMT time and location information
      *
      * @pre latitude should be in range [-90,90] and longitude should be in range [-180,180].
@@ -145,21 +157,19 @@ public class MyTime {
     /**
      * Calculate the time from this time to the start of the next GMT date in hours.
      *
-     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @return The number of hours from this gmt time to the start of the next GMT date.
      */
-    public double getTimeToNextDay() throws ServerAccessException{
-        MyTime nextDayStart = new MyTime(this.gmtTime.toLocalDate().plusDays(1).atStartOfDay(),this.assocLatitude, this.assocLongitude);
+    public double getTimeToNextDay() {
+        MyTime nextDayStart = new MyTime(this.gmtTime.toLocalDate().plusDays(1).atStartOfDay());
         return this.timespan(nextDayStart);
     }
     /**
      * Calculate the time from this time to the end of the last GMT date in hours.
      *
-     * @throws ServerAccessException If there is an issue connecting to the timezone server when calculating the local time.
      * @return The number of hours from this gmt time to the end of the last GMT date. (Beginning of this date)
      */
-    public double getTimeToLastDay() throws ServerAccessException{
-        MyTime lastDayEnd = new MyTime(this.gmtTime.toLocalDate().atStartOfDay(),this.assocLatitude, this.assocLongitude);
+    public double getTimeToLastDay(){
+        MyTime lastDayEnd = new MyTime(this.gmtTime.toLocalDate().atStartOfDay());
         return lastDayEnd.timespan(this);
     }
     /**
