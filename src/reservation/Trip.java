@@ -72,6 +72,7 @@ public class Trip {
      * @pre outgoingFlight was already validated as a Flight by flight
      * @post A Trip object is instantiated representing a one-way trip that can be reserved for a certain seatType on each leg.
      * @param outgoingFlight The the outgoing flight for a trip.
+     * @param seatType The seatType that will be reserved on each leg of outgoingFlight.
      */
     public Trip(Flight outgoingFlight, SeatTypeEnum seatType){
         this.outgoingFlight = outgoingFlight;

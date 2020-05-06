@@ -177,15 +177,19 @@ public enum ServerInterface {
 
 
     /**
-     * Return a collection of all the airports from server
+     * Return a collection of all the connecting legs from server
      *
-     * Retrieve the list of airports available to the specified teamName via HTTPGet of the server
+     * Retrieve the list of legs available to the specified teamName via HTTPGet of the server that either depart or arrive at a specified airport on a specified GMT date.
      *
+     * @see Saps Saps::SERVER_DATE_FORMAT for the format expected for day.
      * @pre System is connected to the internet and the WPI server is available
      * @post A collection of connecting legs is populated with some or no results or an exception is thrown and needs to be caught.
      * @throws ServerAccessException if there is an issue connecting with the WPI server
-     * @param teamName identifies the name of the team requesting the collection of airports
-     * @return collection of Airports from server or null if error.
+     * @param teamName identifies the name of the team requesting the collection of connecting legs.
+     * @param airportCode The 3-letter code of the airport to get connecting legs departing from or arriving at.
+     * @param day The GMT date of when connecting legs are either departing or arriving. The format is specified in utils.Saps.SERVER_DATE_FORMAT
+     * @param listType arriving if getting connecting legs arriving at a given airport on a given date. departing if getting connecting legs departing a given airport on a given date.
+     * @return collection of ConnectingLegs from server or null if error.
      */
     public ConnectingLegs getLegs(String teamName, String listType, String airportCode, String day) throws ServerAccessException {
 

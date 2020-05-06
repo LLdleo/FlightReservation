@@ -184,7 +184,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * Set the firstClassSeats for the airplane
 	 * 
 	 * @param firstClassSeats The max number of first class seats on a certain airplane.
-	 * @throws IllegalArgumentException if firstClassSeats is invalid, <= 0
+	 * @throws IllegalArgumentException if firstClassSeats is invalid, less than or equal to 0
 	 */
 	public void firstClassSeats(Integer firstClassSeats) throws IllegalArgumentException{
 		if (firstClassSeats > 0)
@@ -196,7 +196,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * Set the firstClassSeats for the airplane
 	 *
 	 * @param firstClassSeats The max number of first class seats on a certain airplane.
-	 * @throws IllegalArgumentException if firstClassSeats is invalid, <= 0
+	 * @throws IllegalArgumentException if firstClassSeats is invalid, less than or equal to 0
 	 */
 	public void firstClassSeats(String firstClassSeats) throws IllegalArgumentException{
 		try {
@@ -222,7 +222,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * Set the coachSeats for the airplane
 	 *
 	 * @param coachSeats The maximum number of coach seats on this airplane.
-	 * @throws IllegalArgumentException if coachSeats is invalid, <= 0
+	 * @throws IllegalArgumentException if coachSeats is invalid, less than or equal to 0
 	 */
 	public void coachSeats(Integer coachSeats) {
 		if (coachSeats > 0)
@@ -234,7 +234,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	 * Set the coachSeats for the airplane
 	 *
 	 * @param coachSeats The maximum number of coach seats on this airplane.
-	 * @throws IllegalArgumentException if coachSeats is invalid, <= 0
+	 * @throws IllegalArgumentException if coachSeats is invalid, less than or equal to 0
 	 */
 	public void coachSeats(String coachSeats) {
 		try {

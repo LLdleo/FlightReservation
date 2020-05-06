@@ -54,7 +54,7 @@ public class Flight {
     }
 
     /**
-     * Determine if a list of connecting legs would constitute a valid flight (<=3 legs. reasonable layover times, and compatible airports)
+     * Determine if a list of connecting legs would constitute a valid flight (less than or equal to 3 legs. reasonable layover times, and compatible airports)
      *
      * @param connectingLegsToCheckIfValid The list of connnecting legs to check if they would make a valid flight.
      * @return True if the set of legs would constitute a valid flight, false otherwise.
@@ -162,6 +162,7 @@ public class Flight {
      * @throws ServerAccessException If there was an issue connecting to the WPI server
      * @inv All fields for this flight's connecting legs remain constant other than the number of reserved seats.
      * @post This flight's connecting legs' number of reserved seats are refreshed with the latest information if the system can connect with the WPI server.
+     * @param seatType The type of seat to check whether there's any seats left on each leg of the flight.
      * @return True if there are seats available on the trip's seat type for every leg of the trip's outgoing flight
      */
     public boolean allSeatsStillAvailable(SeatTypeEnum seatType) throws ServerAccessException{
