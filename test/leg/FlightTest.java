@@ -18,9 +18,21 @@ import java.util.Iterator;
  * Significant associations: leg.Flight for the functionality being tested.
  */
 public class FlightTest {
+    /**
+     * leg1 is the first leg of the valid flight combination used for testing. Goes from CLE to DCA.
+     */
     ConnectingLeg leg1;
+    /**
+     * leg2 is the second leg in the valid flight combination used for testing. Goes from DCA to JFK.
+     */
     ConnectingLeg leg2;
+    /**
+     * leg3 is the final leg in the valid flight combination used for testing. Goes from JFK to BOS.
+     */
     ConnectingLeg leg3;
+    /**
+     * sample is the valid flight combination used for testing of a valid flight. Goes from CLE to BOS through leg1, leg2, and then leg3.
+     */
     Flight sample;
 
     @Test
