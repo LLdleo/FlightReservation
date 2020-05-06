@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package leg;
 
 import airport.Airport;
@@ -11,11 +9,11 @@ import java.util.ArrayList;
  * This class aggregates a number of Airport. The aggregate is implemented as an ArrayList.
  * Airports can be added to the aggregate using the ArrayList interface. Objects can 
  * be removed from the collection using the ArrayList interface.
- * 
+ * Significant associations: ConnectingLeg for the objects contained and retrieved and arraylist for extended functionality.
+ *
  * @author blake, Jackson Powell
  * @version 1.0
  * @since 2016-02-24
- * Significant associations: ConnectingLeg for the objects contained and retrieved and arraylist for extended functionality.
  */
 public class ConnectingLegs extends ArrayList<ConnectingLeg> {
 	private static final long serialVersionUID = 1L;

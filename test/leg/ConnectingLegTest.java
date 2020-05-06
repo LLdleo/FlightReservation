@@ -5,10 +5,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test ConnectingLeg object.
+ * Significant associations: ConnectingLeg for the functionality being tested and WPI server for the structure of the data that ConnectingLeg is based on.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test ConnectingLeg object.
- * Significant associations: ConnectingLeg for the functionality being tested and WPI server for the structure of the data that ConnectingLeg is based on.
  */
 public class ConnectingLegTest {
 

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package dao;
 
 import leg.*;
@@ -17,10 +15,11 @@ import java.io.IOException;
 import java.io.StringReader;
 
 /**
+ * Parse the xml returned for ConnectingLegs query.
+ *
  * @author Lidian Lin
  * @version 1.0 2020-03-12
  * @since 2020-03-12
- *
  */
 public class DaoConnectingLeg {
 	/**
@@ -119,7 +118,7 @@ public class DaoConnectingLeg {
 
 
 		Seating seating = new Seating(firstClassPrice, firstClassReserved, coachPrice, coachReserved);
-		/**
+		/*
 		 * Instantiate an empty Airport object and initialize with data from XML node
 		 */
 		ConnectingLeg connectingLeg = new ConnectingLeg();
@@ -143,7 +142,7 @@ public class DaoConnectingLeg {
 	 * @return DOM tree from parsed XML or null if exception is caught
 	 */
 	static private Document buildDomDoc (String xmlString) {
-		/**
+		/*
 		 * load the xml string into a DOM document and return the Document
 		 */
 		try {

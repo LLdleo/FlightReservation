@@ -45,7 +45,7 @@ public class ConnectingLeg implements Comparable<ConnectingLeg>, Comparator<Conn
 	private Seating mSeating;
 	
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
 	 * Constructor without params. Requires object fields to be explicitly
 	 * set using setter methods

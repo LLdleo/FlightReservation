@@ -1,10 +1,11 @@
 package leg;
 
 /**
+ * Store information about a connecting leg's departure event.
+ * Significant associations: The structure of the data in the WPI server for the departure event information of a connecting leg.
+ *
  * @author Lidian Lin, Jackson Powell
  * @since 2020-04-23
- * Responsibilities: Store information about a connecting leg's departure event.
- * Significant associations: The structure of the data in the WPI server for the departure event information of a connecting leg.
  */
 public class Departure {
     /** 3 character code of departing airport */

@@ -7,10 +7,11 @@ import dao.ServerInterface;
 import utils.Saps;
 
 /**
+ * Hold a cache of airports to reduce repeated calls to the server for static information.
+ * Significant associations: Airport for the object being cached and retrieved and Airports for the cache's data structure.
+ *
  * @author Jackson Powell
  * @since 2020-05-03
- * Responsibilities: Hold a cache of airports to reduce repeated calls to the server for static information
- * Significant associations: Airport for the object being cached and retrieved and Airports for the cache's data structure.
  */
 public enum AirportCache {
     INSTANCE;

@@ -6,10 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test Airport class
+ * Significant associations: Airport for the functionality being tested and WPI server for the structure of the data available.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test Airport class
- * Significant associations: Airport for the functionality being tested and WPI server for the structure of the data available.
  */
 public class AirportTest {
     @Test

@@ -8,10 +8,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * Convert between local/GMT and calculate timespans.
+ * Significant associations: WPI server for the format of times and TimezoneInterface for getting the timezone offset to calculate local times.
+ *
  * @author Jackson Powell
  * @since 2020-04-23
- * Responsibilities: Convert between local/GMT and calculate timespans
- * Significant associations: WPI server for the format of times and TimezoneInterface for getting the timezone offset to calculate local times.
  */
 public class MyTime {
     /**

@@ -6,10 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test methods in Airplane class.
+ * Significant associations: Airplane for the functionality being tested and WPI server for what data is provided and needs to be checked.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test methods in Airplane class.
- * Significant associations: Airplane for the functionality being tested and WPI server for what data is provided and needs to be checked.
  */
 public class AirplaneTest {
 

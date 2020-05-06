@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
+ * Class used for manual testing entry point.
+ *
  * @author Jackson Powell, Lidian Lin
  * @deprecated This class is for manual testing during development.
  */

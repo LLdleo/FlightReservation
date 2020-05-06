@@ -1,9 +1,9 @@
-/**
- * 
- */
+
 package utils;
 
 /**
+ * Build strings used for querying external servers.
+ *
  * @author blake, Jackson Powell
  * @version 1.2
  * @since 2016-02-24

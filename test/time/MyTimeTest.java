@@ -8,9 +8,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
+ * Test time functions in MyTime, such as calculating timespan or local time.
+ *
  * @author Jackson Powell
  * @since 2020-04-22
- * Responsibilities: Test time functions in MyTime, such as calculating timespan or local time.
  */
 public class MyTimeTest {
 

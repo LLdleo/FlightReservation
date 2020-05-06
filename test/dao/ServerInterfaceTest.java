@@ -11,11 +11,12 @@ import reservation.Trip;
 import utils.Saps;
 
 /**
+ * Test the server interface methods by calling them and checking that something is returned and that the method does as is documented
+ * Significant associations: ServerInterface for the functionality being tested and wpi server for providing consistent information and responses for locking.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test the server interface methods by calling them and checking that something is returned and that the method does as is documented
- * Significant associations: ServerInterface for the functionality being tested and wpi server for providing consistent information and responses for locking.
- */
+  */
 public class ServerInterfaceTest {
 
     @Test

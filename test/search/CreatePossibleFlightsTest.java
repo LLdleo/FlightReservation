@@ -17,11 +17,12 @@ import java.time.LocalDate;
 import java.util.Iterator;
 
 /**
+ * Test CreatePossibleFlights for creating valid flights matching constraints (will not check that every combination is produced since getting the expected values and checking permutations is too time intensive.
+ * Significant associations: CreatePossibleFlights for the functionality to test. Flight for the constraints to check.
+ *
  * @author Jackson Powell
  * @since 2020-05-06
- * Responsibilities: Test CreatePossibleFlights for creating valid flights matching constraints (will not check that every combination is produced since getting the expected values and checking permutations is too time intensive.
- * Significant associations: CreatePossibleFlights for the functionality to test. Flight for the constraints to check.
- */
+  */
 public class CreatePossibleFlightsTest {
     /**
      * criteria is the criteria used to create available flights.

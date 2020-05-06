@@ -21,7 +21,7 @@ import utils.Saps;
 
 
 /**
- * This class provides an interface to the CS509 server. It provides sample methods to perform
+ * This class provides an interface to the CS509 server. It provides methods to perform
  * HTTP GET and HTTP POSTS
  *
  * @author blake, Lidian Lin, Jackson Powell

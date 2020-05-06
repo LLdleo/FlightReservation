@@ -8,10 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
+ * Test SearchOneWayTripFlights by testing more details of search results using information provided by extended connecting leg and flight
+ * Significant associations: SearchOneWayTripFlights for functionality, CreatePossibleFlights for implementing the search, and search.ConnectingLeg and search.Flight for the extended information used in testing.
+ *
  * @author Jackson Powell
  * @since 2020-05-06
- * Responsibilities: Test SearchOneWayTripFlights by testing more details of search results using information provided by extended connecting leg and flight
- * Significant associations: SearchOneWayTripFlights for functionality, CreatePossibleFlights for implementing the search, and search.ConnectingLeg and search.Flight for the extended information used in testing.
  */
 public class SearchOneWayTripFlightsTest {
 

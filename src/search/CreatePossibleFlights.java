@@ -20,13 +20,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author Jackson Powell
- * @since 2020-04-23
- * Responsibilities: Calculate possible connecting leg combinations based on search criteria
+ * Calculate possible connecting leg combinations based on search criteria.
  * Significant associations: Search criteria for what criteria is available to make flights,
  * leg.ConnectingLegs and leg.Flights for the objects to construct for the search,
  * MyTime and TimezoneInterface for layover time comparisons and local date calculations,
  * AirplaneCache for checking seat availability, and AirportCache for the getting the offsets for time calculation.
+ *
+ * @author Jackson Powell
+ * @since 2020-04-23
  */
 public class CreatePossibleFlights{
     /**
