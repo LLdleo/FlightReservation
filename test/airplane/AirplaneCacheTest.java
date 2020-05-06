@@ -4,10 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test AirplaneCache class's ability to get airports.
+ * Significant associations: AirplaneCache and Airplanes for functionality, WPI server for availability and unique variables.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test AirplaneCache class's ability to get airports.
- * Significant associations: AirplaneCache and Airplanes for functionality, WPI server for availability and unique variables.
  */
 public class AirplaneCacheTest {
     @Test

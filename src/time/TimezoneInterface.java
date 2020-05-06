@@ -17,10 +17,11 @@ import java.security.InvalidParameterException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Jackson Powell
- * Responsibilities: Interface with timezone service and convert from/to JSON
+ * Interface with timezone service and convert from/to JSON
  * Uses org.json.simple for parsing JSON, imported using Maven.
  * Significant associations: ipgeolocation for the api for determining timezone offsets based on latitude and longitude and airport for what information is provided for determining the timezone offset for an offset.
+ *
+ * @author Jackson Powell
  */
 public enum TimezoneInterface {
     INSTANCE;
@@ -76,7 +77,7 @@ public enum TimezoneInterface {
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         long startLockTimer = System.currentTimeMillis();
         long endLockTimer;
         while(true) {

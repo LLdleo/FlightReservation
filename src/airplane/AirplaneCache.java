@@ -7,10 +7,12 @@ import utils.Saps;
 import java.io.IOException;
 
 /**
+ * Hold a cache of airplanes to reduce repeated calls to the server for static information.
+ * Significant associations: Airplanes and Airplane since this is just a cache for those objects and needs to know how to lookup an airplane.
+ *
  * @author Jackson Powell
  * @since 2020-05-03
- * Responsibilities: Hold a cache of airplanes to reduce repeated calls to the server for static information
- * Significant associations: Airplanes and Airplane since this is just a cache for those objects and needs to know how to lookup an airplane.
+ * Responsibilities:
  */
 public enum AirplaneCache {
     INSTANCE;

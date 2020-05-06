@@ -4,10 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test that the queries are constructed correctly given strings
+ * Significant associations: QueryFactory for the functions tested and WPI server for what the format should be.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test that the queries are constructed correctly given strings
- * Significant associations: QueryFactory for the functions tested and WPI server for what the format should be.
  */
 public class QueryFactoryTest {
 

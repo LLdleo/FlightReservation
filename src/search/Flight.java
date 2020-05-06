@@ -9,10 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * Hold search.ConnectingLegs with extended information for searching flights
+ * Significant associations: search.ConnectingLeg for the objects that compose this flight and leg.ConnectingLeg for getting search.ConnectingLeg and calculating flight statistics.
+ *
  * @author Jackson Powell
  * @since 2020-05-01
- * Responsibilities: Hold search.ConnectingLegs with extended information for searching flights
- * Significant associations: search.ConnectingLeg for the objects that compose this flight and leg.ConnectingLeg for getting search.ConnectingLeg and calculating flight statistics.
  */
 public class Flight {
     /**

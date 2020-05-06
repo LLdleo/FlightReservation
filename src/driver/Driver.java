@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package driver;
 
 import java.util.Collections;
@@ -14,6 +12,8 @@ import dao.ServerInterface;
 import org.apache.commons.cli.*;
 
 /**
+ * Old command line entry point to the system used for the prototype. Does not work with added functionality.
+ *
  * @author Lidian Lin
  * @since 2020-03-12
  * @version 1.0

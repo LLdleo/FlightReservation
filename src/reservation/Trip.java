@@ -8,10 +8,11 @@ import reservation.ServerLockException;
 import utils.Saps;
 
 /**
+ * Store one or two selected flights as a one-way or round trip.
+ * Significant associations: WPI server for the needed information to reserve a seat and how many flights can be reserved at once by a customer. leg.Flight for the objects contained and for checking availability.
+ *
  * @author Jackson Powell
  * @since 2020-04-21
- * Responsibilities: Store one or two selected flights as a one-way or round trip.
- * Significant associations: WPI server for the needed information to reserve a seat and how many flights can be reserved at once by a customer. leg.Flight for the objects contained and for checking availability.
  */
 public class Trip {
     /**

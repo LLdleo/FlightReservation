@@ -1,11 +1,11 @@
 package utils;
 
 /**
- * @author blake, Jackson Powell
- * 
  * System Adaptive Parameters (SAPS)
- * 
+ *
  * Constants and values for limits, bounds and configuration of system
+ *
+ * @author blake, Jackson Powell
  *
  */
 public class Saps {

@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Cache the timezone offsets for locations
+ * Significant associations: ipgeolocation for the offsets to store in the cache and Airport for what information is provided to get timezone offsets based on.
+ *
  * @author Jackson Powell
  * @since 2020-20-04
- * Responsibilities: Cache the timezone offsets for locations
- * Significant associations: ipgeolocation for the offsets to store in the cache and Airport for what information is provided to get timezone offsets based on.
  */
 enum Timezones {
     INSTANCE;

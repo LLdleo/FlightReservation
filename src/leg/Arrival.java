@@ -1,10 +1,11 @@
 package leg;
 
 /**
+ * Store information about a connecting leg's arrival event.
+ * Significant associations: The data provided by the WPI server for a connecting leg's arrival information.
+ *
  * @author Lidian Lin, Jackson Powell
  * @since 2020-04-24
- * Responsibilities: Store information about a connecting leg's arrival event.
- * Significant associations: The data provided by the WPI server for a connecting leg's arrival information.
  */
 public class Arrival {
     /** 3 character code of arrival airport */

@@ -15,10 +15,11 @@ import utils.Saps;
 import java.util.Iterator;
 
 /**
+ * Test making a trip and trying to reserve it for both one-way and round trips.
+ * Significant associations: Trip for the functionality being tested and WPI server for the protocols needed for locking to check possible exceptions.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test making a trip and trying to reserve it for both one-way and round trips.
- * Significant associations: Trip for the functionality being tested and WPI server for the protocols needed for locking to check possible exceptions.
  */
 public class TripTest {
     /**

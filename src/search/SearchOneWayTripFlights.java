@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Retrieve one-way flights matching search criteria
+ * Significant associations: CreatePossibleFlights to complete the search given searchCriteria and search.Flight for converting the Flight to get more information
+ *
  * @author Jackson Powell
  * @since 2020-05-01
- * Responsibilities: Retrieve one-way flights matching search criteria
- * Significant associations: CreatePossibleFlights to complete the search given searchCriteria and search.Flight for converting the Flight to get more information
- */
+*/
 public class SearchOneWayTripFlights {
     /**
      * input is the search criteria that the available flights are based on.

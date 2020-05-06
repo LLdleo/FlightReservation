@@ -8,11 +8,12 @@ import java.security.InvalidParameterException;
 import java.time.LocalDate;
 
 /**
+ * Test SearchCriteria validation.
+ * Significant associations: SearchCriteria for functionality to test and CreatePossibleFlights for what criteria is needed to search for flights.
+ *
  * @author Jackson Powell
  * @since 2020-05-06
- * Responsibilities: Test SearchCriteria validation.
- * Significant associations: SearchCriteria for functionality to test and CreatePossibleFlights for what criteria is needed to search for flights.
- */
+*/
 public class SearchCriteriaTest {
 
     @Test

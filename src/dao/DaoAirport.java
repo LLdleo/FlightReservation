@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package dao;
 
 import java.io.IOException;
@@ -22,6 +20,8 @@ import org.xml.sax.SAXException;
 import airport.Airport;
 
 /**
+ * Parse the xml returned for the Airport query.
+ *
  * @author blake
  * @version 1.1 2019-01-21
  * @since 2016-02-24
@@ -95,7 +95,7 @@ public class DaoAirport {
 		elementLatLng = (Element)elementAirport.getElementsByTagName("Longitude").item(0);
 		longitude = Double.parseDouble(getCharacterDataFromElement(elementLatLng));
 
-		/**
+		/*
 		 * Instantiate an empty Airport object and initialize with data from XML node
 		 */
 		Airport airport = new Airport();
@@ -117,7 +117,7 @@ public class DaoAirport {
 	 * @return DOM tree from parsed XML or null if exception is caught
 	 */
 	static private Document buildDomDoc (String xmlString) {
-		/**
+		/*
 		 * load the xml string into a DOM document and return the Document
 		 */
 		try {

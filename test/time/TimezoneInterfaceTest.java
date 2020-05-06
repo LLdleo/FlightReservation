@@ -8,8 +8,9 @@ import java.security.InvalidParameterException;
 import java.sql.Time;
 
 /**
- * @author Jackson Powell
  * Testing class for junit tests on TimezoneInterface
+ *
+ * @author Jackson Powell
  */
 public class TimezoneInterfaceTest {
 

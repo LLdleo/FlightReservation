@@ -12,10 +12,11 @@ import utils.Saps;
 import java.util.Iterator;
 
 /**
+ * Test functionality in leg.Flight.
+ * Significant associations: leg.Flight for the functionality being tested.
+ *
  * @author Jackson Powell
  * @since 2020-05-05
- * Responsibilities: Test functionality in leg.Flight.
- * Significant associations: leg.Flight for the functionality being tested.
  */
 public class FlightTest {
     /**

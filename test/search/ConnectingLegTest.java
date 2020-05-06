@@ -9,11 +9,12 @@ import org.junit.Test;
 import time.MyTime;
 
 /**
+ * Test search.ConnectingLeg object and conversion from leg.ConnectingLeg
+ * Significant associations: search.ConnectingLeg for tested functionality, leg.ConnectingLeg for base data, and airports, airplanes, and MyTime for the objects with extended information.
+ *
  * @author Jackson Powell
  * @since 2020-05-06
- * Responsibilities: Test search.ConnectingLeg object and conversion from leg.ConnectingLeg
- * Significant associations: search.ConnectingLeg for tested functionality, leg.ConnectingLeg for base data, and airports, airplanes, and MyTime for the objects with extended information.
- */
+*/
 public class ConnectingLegTest {
     @Test
     public void testLegConversion() {

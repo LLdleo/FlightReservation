@@ -1,10 +1,11 @@
 package dao;
 
 /**
- * @author Jackson Powell
- * @since 2020-05-03
- * Responsibilities: Represent that an issue occurred when accessing the WPI server or the time service.
+ * Represent that an issue occurred when accessing the WPI server or the time service.
  * Associations: Does not rely on anything, but is used to represent and issue in the Server and timezone interfaces
+ *
+ * @author Jackson Powell
+ * @since 2020-05-0
  */
 public class ServerAccessException extends Exception{
     /**

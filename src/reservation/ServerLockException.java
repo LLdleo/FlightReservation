@@ -1,10 +1,11 @@
 package reservation;
 
 /**
+ * Indicate that the system was unable to obtain the server lock after some amount of time.
+ * Significant associations: WPI server for the need to lock the database and so cause this exception.
+ *
  * @author Jackson Powell
  * @since 2020-04-24
- * Responsibilities: Indicate that the system was unable to obtain the server lock after some amount of time.
- * Significant associations: WPI server for the need to lock the database and so cause this exception.
  */
 public class ServerLockException extends Exception {
     /**

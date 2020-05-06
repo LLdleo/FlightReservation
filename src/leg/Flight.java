@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 import static leg.SeatTypeEnum.FIRSTCLASS;
 
 /**
+ * Store sets of connecting legs as a flight
+ * Significant associations: leg.ConnectingLeg for the objects contained and the validity of their variables to determine if they form a valid flight. Also associate with seatType for calculating various aggregation functions for the properties of the flight, such as price and availability.
+ *
  * @author Jackson Powell
  * @since 2020-04-21
- * Responsibilities: Store sets of connecting legs as a flight
- * Significant associations: leg.ConnectingLeg for the objects contained and the validity of their variables to determine if they form a valid flight. Also associate with seatType for calculating various aggregation functions for the properties of the flight, such as price and availability.
  */
 public class Flight {
     /**

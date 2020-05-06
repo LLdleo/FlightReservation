@@ -7,10 +7,11 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
+ * Encapsulate criteria for search for one flight and validate search criteria.
+ * Significant associations: User interface for what criteria is needed for searching flights.
+ *
  * @author Jackson Powell
  * @since 2020-04-23
- * Responsibilities: Encapsulate criteria for search for one flight and validate search criteria.
- * Significant associations: User interface for what criteria is needed for searching flights.
  */
 public class SearchCriteria {
     /**
