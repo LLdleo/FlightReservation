@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3281749-cb24-47e7-929a-67d4845c01b7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reservation/ServerLockException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/reservation/ServerLockException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reservation/Trip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/reservation/Trip.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/HTTPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entry/HTTPServer.java" afterDir="false" />
+    <list default="true" id="fa94a2cd-02cf-4dfe-8f4e-45309b2c3fa2" name="Default Changelist" comment="Added black box testing for CreatePossibleFlights and SearchCriteria.">
+      <change afterPath="$PROJECT_DIR$/test/search/SearchOneWayTripFlightsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/airport/Airport.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/airport/Airport.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/airport/Airports.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/airport/Airports.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/dao/ServerInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/dao/ServerInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/driver/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/driver/Driver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/leg/Arrival.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/Arrival.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/leg/ConnectingLeg.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/ConnectingLeg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/leg/ConnectingLegs.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/ConnectingLegs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/leg/Departure.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/Departure.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/leg/Seating.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/leg/Seating.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/test/HTTPServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utils/Saps.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/utils/Saps.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +23,9 @@
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="233" />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
@@ -83,7 +95,7 @@
       <recent name="E:\WPI\COURSES\2020SPRING\CS509\sample\CS509.sample" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.HTTPServer">
+  <component name="RunManager" selected="JUnit.SearchOneWayTripFlightsTest.testSearchConstraintsMet">
     <configuration default="true" type="DjangoTestsConfigurationType">
       <module name="FlightReservationSystem" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -185,19 +197,6 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="DaoFlightTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dao.DaoFlightTest" />
-      <module name="FlightReservationSystem" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Driver" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="driver.Driver" />
       <module name="FlightReservationSystem" />
@@ -214,52 +213,78 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HTTPServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="entry.HTTPServer" />
+    <configuration name="CreatePossibleFlightsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FlightReservationSystem" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="entry.*" />
+          <option name="PATTERN" value="search.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="search" />
+      <option name="MAIN_CLASS_NAME" value="search.CreatePossibleFlightsTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerInterfaceTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dao.ServerInterfaceTest" />
+    <configuration name="SearchCriteriaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FlightReservationSystem" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dao.*" />
+          <option name="PATTERN" value="search.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="search" />
+      <option name="MAIN_CLASS_NAME" value="search.SearchCriteriaTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in FlightReservationSystem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="FlightReservationSystem" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MyTimeTest.testLongTimespan" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SearchOneWayTripFlightsTest.testNullSearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FlightReservationSystem" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="time.*" />
+          <option name="PATTERN" value="search.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="time" />
-      <option name="MAIN_CLASS_NAME" value="time.MyTimeTest" />
-      <option name="METHOD_NAME" value="testLongTimespan" />
+      <option name="PACKAGE_NAME" value="search" />
+      <option name="MAIN_CLASS_NAME" value="search.SearchOneWayTripFlightsTest" />
+      <option name="METHOD_NAME" value="testNullSearch" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SearchOneWayTripFlightsTest.testSearchConstraintsMet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FlightReservationSystem" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="search.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="search" />
+      <option name="MAIN_CLASS_NAME" value="search.SearchOneWayTripFlightsTest" />
+      <option name="METHOD_NAME" value="testSearchConstraintsMet" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="leg in FlightReservationSystem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FlightReservationSystem" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="leg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="leg" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -267,19 +292,19 @@
     <list>
       <item itemvalue="Application.Driver1" />
       <item itemvalue="Application.Driver" />
-      <item itemvalue="Application.DaoFlightTest" />
-      <item itemvalue="Application.HTTPServer" />
-      <item itemvalue="Application.ServerInterfaceTest" />
-      <item itemvalue="JUnit.All in FlightReservationSystem" />
-      <item itemvalue="JUnit.MyTimeTest.testLongTimespan" />
+      <item itemvalue="JUnit.leg in FlightReservationSystem" />
+      <item itemvalue="JUnit.SearchCriteriaTest" />
+      <item itemvalue="JUnit.CreatePossibleFlightsTest" />
+      <item itemvalue="JUnit.SearchOneWayTripFlightsTest.testSearchConstraintsMet" />
+      <item itemvalue="JUnit.SearchOneWayTripFlightsTest.testNullSearch" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.HTTPServer" />
-        <item itemvalue="Application.ServerInterfaceTest" />
-        <item itemvalue="Application.DaoFlightTest" />
-        <item itemvalue="JUnit.MyTimeTest.testLongTimespan" />
-        <item itemvalue="JUnit.All in FlightReservationSystem" />
+        <item itemvalue="JUnit.SearchOneWayTripFlightsTest.testSearchConstraintsMet" />
+        <item itemvalue="JUnit.SearchOneWayTripFlightsTest.testNullSearch" />
+        <item itemvalue="JUnit.CreatePossibleFlightsTest" />
+        <item itemvalue="JUnit.SearchCriteriaTest" />
+        <item itemvalue="JUnit.leg in FlightReservationSystem" />
       </list>
     </recent_temporary>
   </component>
@@ -288,7 +313,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b3281749-cb24-47e7-929a-67d4845c01b7" name="Default Changelist" comment="" />
+      <changelist id="fa94a2cd-02cf-4dfe-8f4e-45309b2c3fa2" name="Default Changelist" comment="Added testing for leg.ConnectingLeg constructors." />
       <created>1568755652630</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -468,22 +493,90 @@
       <option name="project" value="LOCAL" />
       <updated>1588640053962</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Added testing for time package.">
+      <created>1588689184536</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1588689184536</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Added testing for utils package.">
+      <created>1588690818278</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1588690818278</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Started testing for reservation package. Added examples of flights.">
+      <created>1588694362616</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1588694362616</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Fixed reset server.">
+      <created>1588696346998</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1588696346998</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Added more testing for reservation package.">
+      <created>1588702621059</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1588702621059</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Added testing for dao package.">
+      <created>1588704648785</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1588704648785</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Added testing for airplane package.">
+      <created>1588709549537</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1588709549537</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Added testing for airport package.">
+      <created>1588712016328</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1588712016328</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Added testing for leg.ConnectingLeg constructors.">
+      <created>1588714727985</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1588714727985</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Added testing for leg package.">
+      <created>1588776743141</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1588776743141</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Added black box testing for CreatePossibleFlights and SearchCriteria.">
+      <created>1588782015622</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1588782015622</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed Airplane parsing" />
-    <MESSAGE value="Added test to make sure duration covers more than one day." />
-    <MESSAGE value="Changed author tag" />
-    <MESSAGE value="Added quicker flight searcher without time conversion, verification, or clean code done." />
-    <MESSAGE value="Added search documentation and library dependencies for driver and JSON parsing." />
-    <MESSAGE value="Added local date consideration" />
-    <MESSAGE value="Finished creating Flight combinations" />
-    <MESSAGE value="Added flight reservation. Still need to test it and fix exception cases." />
-    <MESSAGE value="Finished flight reservation but haven't tested successfully." />
     <MESSAGE value="Added Flight and ConnectingLeg objects with extended information." />
     <MESSAGE value="Enabled json serialization and added documentation" />
     <MESSAGE value="Added filter on whether any seats were available for a flight." />
@@ -498,7 +591,18 @@
     <MESSAGE value="Added airport docs and inv to custom tags" />
     <MESSAGE value="Added documentation for dao and driver packages." />
     <MESSAGE value="Added documentation for leg package." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added documentation for leg package." />
+    <MESSAGE value="Added testing for time package." />
+    <MESSAGE value="Added testing for utils package." />
+    <MESSAGE value="Started testing for reservation package. Added examples of flights." />
+    <MESSAGE value="Fixed reset server." />
+    <MESSAGE value="Added more testing for reservation package." />
+    <MESSAGE value="Added testing for dao package." />
+    <MESSAGE value="Added testing for airplane package." />
+    <MESSAGE value="Added testing for airport package." />
+    <MESSAGE value="Added testing for leg.ConnectingLeg constructors." />
+    <MESSAGE value="Added testing for leg package." />
+    <MESSAGE value="Added black box testing for CreatePossibleFlights and SearchCriteria." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added black box testing for CreatePossibleFlights and SearchCriteria." />
   </component>
   <component name="WindowStateProjectService">
     <state x="973" y="369" key="#Driver" timestamp="1583895300567">
@@ -509,10 +613,14 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1143" y="397" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1584051099691" />
-    <state x="651" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1588545275121">
+    <state x="94" y="94" width="1349" height="637" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1588703796887">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="651" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1588545275121" />
+    <state x="94" y="94" width="1349" height="637" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1536.824@0.0.1536.824" timestamp="1588703796887" />
+    <state x="651" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1588693014907">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="651" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1588693014907" />
     <state x="1085" y="384" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1584048305883" />
     <state x="500" y="193" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1588604424911">
       <screen x="0" y="0" width="1536" height="824" />
@@ -531,10 +639,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="339" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1588631293489" />
-    <state x="566" y="273" width="404" height="286" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588604426654">
+    <state x="566" y="273" width="404" height="286" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588689234820">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="566" y="273" width="404" height="286" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1588604426654" />
+    <state x="566" y="273" width="404" height="286" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1588689234820" />
     <state x="759" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1584044980471">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -547,10 +655,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1034" y="569" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.2560.1400@0.0.2560.1400" timestamp="1584041513209" />
-    <state x="425" y="8" key="CommitChangelistDialog2" timestamp="1588640051360">
+    <state x="425" y="8" key="CommitChangelistDialog2" timestamp="1588782014646">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588640051360" />
+    <state x="425" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588782014646" />
     <state x="277" y="66" key="DiffContextDialog" timestamp="1587743345777">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -560,49 +668,49 @@
     </state>
     <state x="560" y="261" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1588187680559" />
     <state x="934" y="495" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1583941899740" />
-    <state width="1493" height="193" key="GridCell.Tab.0.bottom" timestamp="1588636744069">
+    <state width="1493" height="242" key="GridCell.Tab.0.bottom" timestamp="1588792532589">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="193" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588636744069" />
+    <state width="1493" height="242" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588792532589" />
     <state width="1859" height="226" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585259860101" />
     <state width="2517" height="350" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1585243309779" />
-    <state width="1493" height="193" key="GridCell.Tab.0.center" timestamp="1588636744069">
+    <state width="1493" height="242" key="GridCell.Tab.0.center" timestamp="1588792532588">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="193" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588636744069" />
+    <state width="1493" height="242" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588792532588" />
     <state width="1859" height="226" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585259860100" />
     <state width="2517" height="350" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1585243309779" />
-    <state width="1493" height="193" key="GridCell.Tab.0.left" timestamp="1588636744069">
+    <state width="1493" height="242" key="GridCell.Tab.0.left" timestamp="1588792532588">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="193" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588636744069" />
+    <state width="1493" height="242" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588792532588" />
     <state width="1859" height="226" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585259860100" />
     <state width="2517" height="350" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1585243309779" />
-    <state width="1493" height="193" key="GridCell.Tab.0.right" timestamp="1588636744069">
+    <state width="1493" height="242" key="GridCell.Tab.0.right" timestamp="1588792532589">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="193" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588636744069" />
+    <state width="1493" height="242" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588792532589" />
     <state width="1859" height="226" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585259860101" />
     <state width="2517" height="350" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1585243309779" />
-    <state width="1493" height="267" key="GridCell.Tab.1.bottom" timestamp="1588600822440">
+    <state width="1493" height="267" key="GridCell.Tab.1.bottom" timestamp="1588776459909">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="267" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588600822440" />
+    <state width="1493" height="267" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588776459909" />
     <state width="2517" height="492" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1584050397485" />
-    <state width="1493" height="267" key="GridCell.Tab.1.center" timestamp="1588600822440">
+    <state width="1493" height="267" key="GridCell.Tab.1.center" timestamp="1588776459909">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="267" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588600822440" />
+    <state width="1493" height="267" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588776459909" />
     <state width="2517" height="492" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1584050397485" />
-    <state width="1493" height="267" key="GridCell.Tab.1.left" timestamp="1588600822439">
+    <state width="1493" height="267" key="GridCell.Tab.1.left" timestamp="1588776459909">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="267" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588600822439" />
+    <state width="1493" height="267" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588776459909" />
     <state width="2517" height="492" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1584050397485" />
-    <state width="1493" height="267" key="GridCell.Tab.1.right" timestamp="1588600822440">
+    <state width="1493" height="267" key="GridCell.Tab.1.right" timestamp="1588776459909">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="267" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588600822440" />
+    <state width="1493" height="267" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588776459909" />
     <state width="2517" height="492" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1584050397485" />
     <state x="149" y="66" key="MergeDialog" timestamp="1587581606971">
       <screen x="0" y="0" width="1536" height="824" />
@@ -621,23 +729,27 @@
     </state>
     <state x="380" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588631557145" />
     <state x="634" y="315" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1585237496712" />
-    <state x="362" y="146" key="Vcs.Push.Dialog.v2" timestamp="1588636778428">
+    <state x="362" y="146" key="Vcs.Push.Dialog.v2" timestamp="1588776744962">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="362" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588636778428" />
+    <state x="362" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588776744962" />
     <state width="774" height="418" key="XDebugger.FullValuePopup" timestamp="1587773676971">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="774" height="418" key="XDebugger.FullValuePopup/0.0.1536.824@0.0.1536.824" timestamp="1587773676971" />
-    <state x="578" y="294" key="com.intellij.ide.util.TipDialog" timestamp="1588599403318">
+    <state x="578" y="294" key="com.intellij.ide.util.TipDialog" timestamp="1588772519519">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="578" y="294" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1588599403318" />
+    <state x="578" y="294" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1588772519519" />
     <state x="963" y="499" key="com.intellij.ide.util.TipDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1584023973619" />
     <state x="498" y="307" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1588360934979">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="498" y="307" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1588360934979" />
+    <state x="534" y="116" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1588773291497">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="534" y="116" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1536.824@0.0.1536.824" timestamp="1588773291497" />
     <state x="1007" y="353" width="647" height="801" key="find.popup" timestamp="1583686920037">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -658,9 +770,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="528" y="350" key="new project wizard/0.0.2560.1400@0.0.2560.1400" timestamp="1583708992742" />
-    <state x="936" y="353" width="670" height="676" key="search.everywhere.popup" timestamp="1584040779019">
-      <screen x="0" y="0" width="2560" height="1400" />
+    <state x="562" y="208" width="672" height="398" key="search.everywhere.popup" timestamp="1588708385970">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="562" y="208" width="672" height="398" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1588708385970" />
     <state x="936" y="353" width="670" height="676" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1584040779019" />
   </component>
   <component name="XDebuggerManager">
@@ -676,12 +789,98 @@
           <line>151</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/dao/ServerInterface.java</url>
+          <line>442</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/dao/ServerInterfaceTest.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="leg2" language="JAVA" />
+      </configuration>
       <configuration name="Application">
         <watch expression="line" language="JAVA" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlightReservation$AirportTest.ic" NAME="AirportTest Coverage Results" MODIFIED="1588711224856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>airport.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$FlightTest_testFlightStatistics.ic" NAME="FlightTest.testFlightStatistics Coverage Results" MODIFIED="1588774127161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$MyTimeTest_testParameterExceptions.ic" NAME="MyTimeTest.testParameterExceptions Coverage Results" MODIFIED="1588688983986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>time.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$QueryFactoryTest_testAllQueryBuilders.ic" NAME="QueryFactoryTest.testAllQueryBuilders Coverage Results" MODIFIED="1588690418742" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>utils.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$AirplaneTest.ic" NAME="AirplaneTest Coverage Results" MODIFIED="1588709136669" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>airplane.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$CreatePossibleFlightsTest.ic" NAME="CreatePossibleFlightsTest Coverage Results" MODIFIED="1588781866715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>search.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$TripTest.ic" NAME="TripTest Coverage Results" MODIFIED="1588702422957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>reservation.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$reservation_in_FlightReservationSystem.ic" NAME="reservation in FlightReservationSystem Coverage Results" MODIFIED="1588774480544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>reservation.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$AirplaneTest_testValidityMethods.ic" NAME="AirplaneTest.testValidityMethods Coverage Results" MODIFIED="1588707661018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>airplane.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$FlightTest_testValidConstructors.ic" NAME="FlightTest.testValidConstructors Coverage Results" MODIFIED="1588773247957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$MyTimeTest_testCalculateLocalTime.ic" NAME="MyTimeTest.testCalculateLocalTime Coverage Results" MODIFIED="1588688479858" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>time.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$ConnectingLegTest_testConstructorWithIntegers.ic" NAME="ConnectingLegTest.testConstructorWithIntegers Coverage Results" MODIFIED="1588714377483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$All_in_FlightReservationSystem.ic" NAME="All in FlightReservationSystem Coverage Results" MODIFIED="1588730267116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/FlightReservation$All_in_FlightReservationSystem__1_.ic" NAME="All in FlightReservationSystem (1) Coverage Results" MODIFIED="1588730336129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/FlightReservation$ServerInterfaceTest.ic" NAME="ServerInterfaceTest Coverage Results" MODIFIED="1588704620737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>dao.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$SearchOneWayTripFlightsTest_testSearchConstraintsMet.ic" NAME="SearchOneWayTripFlightsTest.testSearchConstraintsMet Coverage Results" MODIFIED="1588792532529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>search.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$TimezoneInterfaceTest.ic" NAME="TimezoneInterfaceTest Coverage Results" MODIFIED="1588685768269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>time.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$MyTimeTest.ic" NAME="MyTimeTest Coverage Results" MODIFIED="1588688535276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>time.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$leg_in_FlightReservationSystem.ic" NAME="leg in FlightReservationSystem Coverage Results" MODIFIED="1588776573238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$FlightTest.ic" NAME="FlightTest Coverage Results" MODIFIED="1588732155976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$SearchCriteriaTest.ic" NAME="SearchCriteriaTest Coverage Results" MODIFIED="1588778541975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>search.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$ConnectingLegTest.ic" NAME="ConnectingLegTest Coverage Results" MODIFIED="1588730225317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$FlightTest_testInvalidFlightConstruction.ic" NAME="FlightTest.testInvalidFlightConstruction Coverage Results" MODIFIED="1588772796815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>leg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$AirplaneCacheTest.ic" NAME="AirplaneCacheTest Coverage Results" MODIFIED="1588709428357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>airplane.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/FlightReservation$AirportCacheTest.ic" NAME="AirportCacheTest Coverage Results" MODIFIED="1588711523497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>airport.*</FILTER>
+    </SUITE>
   </component>
 </project>
