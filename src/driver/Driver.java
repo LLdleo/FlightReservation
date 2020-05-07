@@ -233,18 +233,6 @@ public class Driver {
     }
 
     private static Flights search() {
-//			System.out.println("Would you like to reserve a round trip(y/n). If not will provide one-way trips");
-//			String answer = scan.nextLine();
-//			if (answer.equalsIgnoreCase("y")) {
-//				isRoundTrip = true;
-//				System.out.println("Operating on round trips");
-//			} else if (answer.equalsIgnoreCase("n")) {
-//				isRoundTrip = false;
-//				System.out.println("Operating on one-way trips");
-//			} else {
-//				isRoundTrip = false;
-//				System.out.println("Incorrect option entered so defaulting to one-way trips");
-//			}
 			System.out.println("Available airports:");
 			try {
 				Airports airports = ServerInterface.INSTANCE.getAirports(Saps.TEAMNAME);
