@@ -130,7 +130,8 @@ public class Flight {
     public double calculateTravelTime(){
         MyTime firstDeparture = new MyTime(this.connectingLegs.get(0).departure().time);
         MyTime lastArrival = new MyTime(this.connectingLegs.get(this.connectingLegs.size()-1).arrival().time);
-        return firstDeparture.timespan(lastArrival);
+        double time = firstDeparture.timespan(lastArrival);
+        return Math.round(100 * time)/100.0;
     }
 
     /**

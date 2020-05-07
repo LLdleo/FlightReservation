@@ -131,9 +131,7 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 	public String toString() {
 
 		return mManufacturer + "," +
-				mModel + ", " +
-				"(" + String.format("%d", mFirstClassSeats) + ", " +
-				String.format("%d", mCoachSeats) + ")";
+				mModel;
 	}
 	
 	/**

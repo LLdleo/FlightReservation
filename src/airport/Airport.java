@@ -123,12 +123,12 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	}
 
 	/**
-	 * Convert object to printable string of format "Code, (lat, lon), Name"
+	 * Convert object to printable string of format "Code, Name"
 	 * 
 	 * @return the object formatted as String to display
 	 */
 	public String toString() {
-		return mCode + ", (" + String.format("%1$.3f", mLatitude) + ", " + String.format("%1$.3f", mLongitude) + "), " + mName;
+		return mCode + ", " + mName;
 	}
 	
 	/**

@@ -1,9 +1,13 @@
 package search;
 
+import airplane.AirplaneCache;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.ServerAccessException;
 import leg.SeatTypeEnum;
+import time.MyTime;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -100,5 +104,22 @@ public class Flight {
      */
     public double getFirstClassPrice() {
         return firstClassPrice;
+    }
+    public boolean allSeatsAvailable(SeatTypeEnum seatType){
+        int totalLegsCount = this.getConnectingLegList().size();
+        int availableLegsCount = (int) this.getConnectingLegList().stream().filter(leg ->
+                leg.getSeating().getNumReserved(seatType) < leg.getAirplane().getNumSeats(seatType)).count();
+        return totalLegsCount == availableLegsCount;
+    }
+    public MyTime getDepartureTime(){
+        return this.connectingLegList.get(0).getDepartureTime();
+    }
+    public MyTime getArrivalTime(){
+        return this.connectingLegList.get(numLegs-1).getArrivalTime();
+    }
+    public boolean inRange(LocalTime start, LocalTime end, boolean isDep){
+        MyTime dateTime = isDep ? getDepartureTime() : getArrivalTime();
+        LocalTime localTime = dateTime.getLocalTime().toLocalTime();
+        return localTime.isAfter(start) && localTime.isBefore(end);
     }
 }

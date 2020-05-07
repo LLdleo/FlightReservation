@@ -12,6 +12,8 @@ import leg.Seating;
 import time.MyTime;
 import utils.Saps;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,5 +165,16 @@ public class ConnectingLeg {
      */
     public String getFlightTime() {
         return flightTime;
+    }
+    public String toString(){
+        StringBuilder toReturn = new StringBuilder();
+        toReturn.append("Departs at ").append(this.departureAirport.name()).append(" at ").append(timeString(getDepartureTime().getLocalTime())).append("\n").
+                append("Arrives at ").append(this.arrivalAirport.name()).append(" at ").append(timeString(getArrivalTime().getLocalTime())).append("\n").
+                append("Airplane: ").append(airplane.toString()).append("\n\n");
+        return toReturn.toString();
+    }
+    public String timeString(LocalDateTime time){
+        return "" + time.getYear() + " " + time.getMonth().toString() + " " + time.getDayOfMonth() + " " +
+                String.format("%02d",time.getHour()) + ":" + String.format("%02d",time.getMinute());
     }
 }

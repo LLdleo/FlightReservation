@@ -21,7 +21,7 @@ public class SearchOneWayTripFlights {
     /**
      * availableFlights is the list of flights matching the input search criteria.
      */
-    private List<Flight> availableFlights;
+    private search.Flights availableFlights;
 
     /**
      * Constructor for SearchOneWayTripFlights control object given the criteria to search on.
@@ -32,7 +32,7 @@ public class SearchOneWayTripFlights {
      */
     public SearchOneWayTripFlights(SearchCriteria input){
         this.input = input;
-        this.availableFlights = new ArrayList<>();
+        this.availableFlights = new search.Flights();
     }
 
     /**
@@ -42,8 +42,8 @@ public class SearchOneWayTripFlights {
      * @post Refreshes the list of available flights with the latest search results that match the given criteria by recalculating the search.
      * @return a list of flights that meet the input search criteria.
      */
-    public List<search.Flight> search() throws ServerAccessException{
-        this.availableFlights = new ArrayList<>();
+    public search.Flights search() throws ServerAccessException{
+        this.availableFlights = new search.Flights();
         CreatePossibleFlights flightCreater = new CreatePossibleFlights(this.input);
         Flights flights = flightCreater.createPossibleConnectingLegCombinations();
         for(leg.Flight flight : flights){
