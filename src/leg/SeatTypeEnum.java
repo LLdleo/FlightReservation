@@ -15,5 +15,8 @@ public enum SeatTypeEnum {
     /**
      * FIRSTCLASS represents the seat type of first class seating.
      */
-    FIRSTCLASS
+    FIRSTCLASS;
+    public String toString(){
+        return this == SeatTypeEnum.COACH ? "coach" : "first class";
+    }
 }

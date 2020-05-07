@@ -168,7 +168,8 @@ public class ConnectingLeg {
     }
     public String toString(){
         StringBuilder toReturn = new StringBuilder();
-        toReturn.append("Departs at ").append(this.departureAirport.name()).append(" at ").append(timeString(getDepartureTime().getLocalTime())).append("\n").
+        toReturn.append("Flight number ").append(flightNumber).
+                append("\nDeparts at ").append(this.departureAirport.name()).append(" at ").append(timeString(getDepartureTime().getLocalTime())).append("\n").
                 append("Arrives at ").append(this.arrivalAirport.name()).append(" at ").append(timeString(getArrivalTime().getLocalTime())).append("\n").
                 append("Airplane: ").append(airplane.toString()).append("\n\n");
         return toReturn.toString();
@@ -176,5 +177,19 @@ public class ConnectingLeg {
     public String timeString(LocalDateTime time){
         return "" + time.getYear() + " " + time.getMonth().toString() + " " + time.getDayOfMonth() + " " +
                 String.format("%02d",time.getHour()) + ":" + String.format("%02d",time.getMinute());
+    }
+    public leg.ConnectingLeg convertBack(){
+        return new leg.ConnectingLeg(airplane.model(),flightTime,flightNumber,departureAirport.code(),
+                getGMTStringTime(departureTime),arrivalAirport.code(),getGMTStringTime(arrivalTime),
+                String.valueOf(seating.getFirstClassPrice()),seating.getFirstClassReserved(),String.valueOf(seating.getCoachPrice()),seating.getCoachReserved());
+    }
+    public String getGMTStringTime(MyTime time){
+        LocalDateTime gmtTime = time.getGmtTime();
+        String year = "" + gmtTime.getYear();
+        String month = gmtTime.getMonth().toString().substring(0,1) + gmtTime.getMonth().toString().substring(1,3).toLowerCase();
+        String day = String.format("%02d",gmtTime.getDayOfMonth() );
+        String hour = String.format("%02d",gmtTime.getHour());
+        String minute = String.format("%02d",gmtTime.getMinute());
+        return year + " " + month + " " + day + " " + hour + ":" + minute;
     }
 }

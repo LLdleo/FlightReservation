@@ -122,4 +122,23 @@ public class Flight {
         LocalTime localTime = dateTime.getLocalTime().toLocalTime();
         return localTime.isAfter(start) && localTime.isBefore(end);
     }
+    public leg.Flight convertBack(){
+        leg.ConnectingLegs legs = new leg.ConnectingLegs();
+        for(search.ConnectingLeg leg : connectingLegList){
+            legs.add(leg.convertBack());
+        }
+        return new leg.Flight(legs);
+    }
+    public String toString(){
+        StringBuilder toReturn = new StringBuilder();
+        toReturn.
+                append("Coach price: ").append(this.getCoachPrice()).append("\t").
+                append("First Class Price: ").append(this.getFirstClassPrice()).append("\n").
+                append("Travel time: ").append(this.getTravelTime()).append("\t").
+                append("Number of legs: ").append(this.getNumLegs()).append("\nLegs: \n");
+        for(ConnectingLeg leg: this.getConnectingLegList()){
+            toReturn.append(leg.toString());
+        }
+        return toReturn.toString();
+    }
 }

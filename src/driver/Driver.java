@@ -15,6 +15,8 @@ import dao.ServerInterface;
 
 import leg.SeatTypeEnum;
 import org.apache.commons.cli.*;
+import reservation.ServerLockException;
+import reservation.Trip;
 import search.*;
 import utils.Saps;
 
@@ -107,7 +109,7 @@ public class Driver {
 							}
 						}
 						availableFlights.sort(sortType,isAscending);
-						displayedFlights.sort(sortType,isAscending);
+						displayedFlights = availableFlights.filter(filterCriteria);
 						System.out.println(displayedFlights);
 					}
 					else{
@@ -115,7 +117,47 @@ public class Driver {
 					}
                     break;
                 case "reserve":
-
+					if(availableFlights != null){
+						System.out.println("Which flight would you like to reserve a seat on. Your seat setting is currently " +
+								filterCriteria.getSeatType().toString() + ". If you would like to change it, then enter anything outside the range of flights and " +
+								"then filter by a different seat type. To reserve a seat, enter the flight number displayed with each flight.");
+						System.out.println("Which flight would you like to reserve?");
+						String input = scan.nextLine();
+						Integer index = Integer.parseInt(input);
+						if(index == null || index < 0 || index >= displayedFlights.size()){
+							System.out.println("You did not enter a valid flight so it has not been reserved");
+						}
+						else{
+							search.Flight toReserve = displayedFlights.get(index);
+							System.out.println("Are you sure (y/n) you would like to reserve a " + filterCriteria.getSeatType().toString() +
+									" seat on each leg of the flight: \n" + toReserve.toString());
+							if(scan.nextLine().equalsIgnoreCase("y")) {
+								Trip toReserveTrip = new Trip(toReserve.convertBack(), filterCriteria.getSeatType());
+								boolean keepGoing = true;
+								while (keepGoing) {
+									try {
+										boolean success = toReserveTrip.reserveSeats();
+										keepGoing = false;
+										if (success) {
+											System.out.println("Your reservation was successful");
+										} else {
+											System.out.println("Your reservation was successful. Please search again to refresh your results for current availability.");
+										}
+									} catch (Exception e) {
+										System.out.println(e.toString());
+										System.out.println("Would you like to try again? (y/n)");
+										keepGoing = scan.nextLine().equalsIgnoreCase("y");
+									}
+								}
+							}
+							else{
+								System.out.println("You have stopped trying to reserve a flight");
+							}
+						}
+					}
+					else{
+						System.out.println("You must search first.");
+					}
                     break;
                 case "restart":
                     Driver.availableFlights = null;
@@ -252,8 +294,8 @@ public class Driver {
 						formatter.printHelp("utility-name", searchOptions);
 					}
 				}
-				String depAir = cmd.getOptionValue("depAirport");
-				String arrAir = cmd.getOptionValue("arrAirport");
+				String depAir = cmd.getOptionValue("depAirport").toUpperCase();
+				String arrAir = cmd.getOptionValue("arrAirport").toUpperCase();
 				String date = cmd.getOptionValue("date");
 				String listType = cmd.getOptionValue("listType");
 				Airport depAirport = airports.getAirportByCode(depAir);

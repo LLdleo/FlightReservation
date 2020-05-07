@@ -96,13 +96,7 @@ public class Flights extends ArrayList<search.Flight> {
         int num = 0;
         for(Flight flight : this){
             toReturn.append("\nFlight ").append(num).append("\n").
-                    append("Coach price: ").append(flight.getCoachPrice()).append("\t").
-                    append("First Class Price: ").append(flight.getFirstClassPrice()).append("\n").
-                    append("Travel time: ").append(flight.getTravelTime()).append("\t").
-                    append("Number of legs: ").append(flight.getNumLegs()).append("\nLegs: \n");
-            for(ConnectingLeg leg: flight.getConnectingLegList()){
-                toReturn.append(leg.toString());
-            }
+            append(flight.toString());
             num++;
         }
         return toReturn.toString();
