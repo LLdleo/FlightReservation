@@ -53,16 +53,34 @@ public class Driver {
             switch (answer.toLowerCase()) {
                 case "search":
                     availableFlights = search();
+                    if(isRoundTrip && hasOutgoingFlightBeenChosen){
+						Flights inter = availableFlights;
+						availableFlights = new Flights();
+						availableFlights.addAll(availableFlights.stream().filter(flight -> flight.getDepartureTime().getGmtTime().isAfter(selectedOutgoingFlight.getArrivalTime().getGmtTime())).collect(Collectors.toList()));
+					}
                     LocalTime start = LocalTime.of(0, 0);
                     LocalTime end = LocalTime.of(23, 59);
                     filterCriteria = new FilterCriteria(SeatTypeEnum.COACH, start, end, start, end);
                     displayedFlights = availableFlights.filter(filterCriteria);
-                    System.out.println(displayedFlights);
+                    if(displayedFlights.size() > 0)
+                    	System.out.println(displayedFlights);
+                    else{
+                    	if(availableFlights.size() > 0)
+                    		System.out.println("No flights match your search criteria that have coach seats available (some flights have first class seating available), please try again with different criteria or try filtering by first class seating.");
+						else{
+							System.out.println("No flights match your search criteria, please try again with different criteria");
+							availableFlights = null;
+						}
+                    }
                     break;
                 case "filter":
                     if (availableFlights != null) {
                         displayedFlights = filter();
-                        System.out.println(displayedFlights);
+                        if(displayedFlights.size() > 0)
+                        	System.out.println(displayedFlights);
+                        else{
+							System.out.println("No flights match your filter criteria, please try again with different criteria.");
+						}
                     } else {
                         System.out.println("You must search first.");
                     }
@@ -128,7 +146,7 @@ public class Driver {
 									search.Flight toReserve = displayedFlights.get(index);
 									System.out.println("Are you sure (y/n) you would like to reserve a " + filterCriteria.getSeatType().toString() +
 											" seat on each leg of the return flight: \n" + toReserve.toString() +
-											"\n and a " + outSeatType.toString() + "seat on each leg of the outgoing flight: \n" + selectedOutgoingFlight.toString());
+											"\n and a " + outSeatType.toString() + " seat on each leg of the outgoing flight: \n" + selectedOutgoingFlight.toString());
 									if (scan.nextLine().equalsIgnoreCase("y")) {
 										Trip toReserveTrip = new Trip(selectedOutgoingFlight.convertBack(),toReserve.convertBack(), outSeatType,filterCriteria.getSeatType());
 										boolean keepGoing = true;
@@ -168,6 +186,7 @@ public class Driver {
                                         hasOutgoingFlightBeenChosen = true;
                                         outSeatType = filterCriteria.getSeatType();
                                         selectedOutgoingFlight = toselect;
+                                        System.out.println("You have successfully selected the outgoing flight. The search for the return flight has begun and will take approximately 8 seconds");
                                         boolean keepGoing = true;
                                         while(keepGoing) {
 											try {
@@ -269,7 +288,7 @@ public class Driver {
             listTypeOption.setRequired(true);
             searchOptions.addOption(listTypeOption);
 
-            Option listTypeOption2 = new Option("rt", "returnListType", true, "departing|arriving for date 2");
+            Option listTypeOption2 = new Option("rl", "returnListType", true, "departing|arriving for date 2");
             listTypeOption2.setRequired(false);
             searchOptions.addOption(listTypeOption2);
 
@@ -299,14 +318,17 @@ public class Driver {
             LocalDate outDate = getDateFromString(date);
             boolean isOutDep = listType.equalsIgnoreCase("departing");
             if (cmd.hasOption("returnDate") && cmd.hasOption("returnListType")) {
-                String retDate = cmd.getOptionValue("returnType");
+                String retDate = cmd.getOptionValue("returnDate");
                 String retList = cmd.getOptionValue("returnListType");
                 LocalDate ret = getDateFromString(retDate);
                 isRetDep = retList.equalsIgnoreCase("departing");
+                isRoundTrip = true;
+                returnDate = ret;
             }
             if (depAirport != null && arrAirport != null && outDate != null) {
                 criteria = new SearchCriteria(depAir, arrAir, outDate, isOutDep);
                 SearchOneWayTripFlights search = new SearchOneWayTripFlights(criteria);
+                System.out.println("Your search has been started and should take around 8 seconds");
                 return search.search();
             }
             System.out.println("There was an issue processing your request. Please restart");
@@ -337,7 +359,7 @@ public class Driver {
         endArrivalOption.setRequired(false);
         filterOptions.addOption(endArrivalOption);
 
-        Option seatTypeOption = new Option("st", "seatType", true, "coach|first class");
+        Option seatTypeOption = new Option("st", "seatType", true, "coach|first_class");
         seatTypeOption.setRequired(false);
         filterOptions.addOption(seatTypeOption);
 
@@ -392,7 +414,7 @@ public class Driver {
         }
         if (cmd.hasOption("seatType")) {
             String st = cmd.getOptionValue("seatType");
-            seatTypeEnum = st.equalsIgnoreCase("first class") ? SeatTypeEnum.FIRSTCLASS : SeatTypeEnum.COACH;
+            seatTypeEnum = st.equalsIgnoreCase("first_class") ? SeatTypeEnum.FIRSTCLASS : SeatTypeEnum.COACH;
         } else {
             seatTypeEnum = SeatTypeEnum.COACH;
         }

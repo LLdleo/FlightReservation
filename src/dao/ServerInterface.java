@@ -277,19 +277,19 @@ public enum ServerInterface {
             writer.close();
 
             int responseCode = connection.getResponseCode();
-            System.out.println("\nSending 'POST' to lock database");
-            System.out.println(("\nResponse Code : " + responseCode));
+//            System.out.println("\nSending 'POST' to lock database");
+//            System.out.println(("\nResponse Code : " + responseCode));
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            StringBuilder response = new StringBuilder();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//            String line;
+//            StringBuilder response = new StringBuilder();
+//
+//            while ((line = in.readLine()) != null) {
+//                response.append(line);
+//            }
+//            in.close();
 
-            while ((line = in.readLine()) != null) {
-                response.append(line);
-            }
-            in.close();
-
-            System.out.println(response.toString());
+//            System.out.println(response.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -328,21 +328,21 @@ public enum ServerInterface {
             writer.close();
 
             int responseCode = connection.getResponseCode();
-            System.out.println("\nSending 'POST' to unlock database");
-            System.out.println(("\nResponse Code : " + responseCode));
+//            System.out.println("\nSending 'POST' to unlock database");
+//            System.out.println(("\nResponse Code : " + responseCode));
 
-            if (responseCode >= HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                StringBuilder response = new StringBuilder();
+//            if (responseCode >= HttpURLConnection.HTTP_OK) {
+//                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                String line;
+//                StringBuilder response = new StringBuilder();
+//
+//                while ((line = in.readLine()) != null) {
+//                    response.append(line);
+//                }
+//                in.close();
 
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
-                in.close();
-
-                System.out.println(response.toString());
-            }
+//                System.out.println(response.toString());
+//            }
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -385,8 +385,8 @@ public enum ServerInterface {
             writer.close();
 
             int responseCode = connection.getResponseCode();
-            System.out.println("\nSending 'POST' to reserve on the database");
-            System.out.println(("\nResponse Code : " + responseCode));
+//            System.out.println("\nSending 'POST' to reserve on the database");
+//            System.out.println(("\nResponse Code : " + responseCode));
 
             if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
                 return true;
@@ -422,8 +422,8 @@ public enum ServerInterface {
             //connection.setDoInput(true);
 
             int responseCode = connection.getResponseCode();
-            System.out.println("\nSending 'GET' to reset database");
-            System.out.println(("\nResponse Code : " + responseCode));
+//            System.out.println("\nSending 'GET' to reset database");
+//            System.out.println(("\nResponse Code : " + responseCode));
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 return true;

@@ -56,9 +56,9 @@ public class Flight {
             this.connectingLegList.add(search.ConnectingLeg.convertLeg(iter.next()));
         }
         this.numLegs = this.connectingLegList.size();
-        this.coachPrice = flightToConvert.getPrice(SeatTypeEnum.COACH);
-        this.firstClassPrice = flightToConvert.getPrice(SeatTypeEnum.FIRSTCLASS);
-        this.travelTime = flightToConvert.calculateTravelTime();
+        this.coachPrice = Math.round(100.0 * flightToConvert.getPrice(SeatTypeEnum.COACH)) / 100.0;
+        this.firstClassPrice = Math.round(100.0 * flightToConvert.getPrice(SeatTypeEnum.FIRSTCLASS)) / 100.0;
+        this.travelTime = Math.round(100.0 * flightToConvert.calculateTravelTime()) / 100.0;
     }
 
     /**
@@ -132,9 +132,9 @@ public class Flight {
     public String toString(){
         StringBuilder toReturn = new StringBuilder();
         toReturn.
-                append("Coach price: $").append(String.format("%02d",this.getCoachPrice())).append("\t").
-                append("First Class Price: $").append(String.format("%02d",this.getFirstClassPrice())).append("\n").
-                append("Travel time: ").append(String.format("%02d",this.getTravelTime())).append(" hours\t").
+                append("Coach price: $").append(this.getCoachPrice()).append("\t").
+                append("First Class Price: $").append(this.getFirstClassPrice()).append("\n").
+                append("Travel time: ").append(this.getTravelTime()).append(" hours\t").
                 append("Number of legs: ").append(this.getNumLegs()).append("\nLegs: \n");
         for(ConnectingLeg leg: this.getConnectingLegList()){
             toReturn.append(leg.toString());
