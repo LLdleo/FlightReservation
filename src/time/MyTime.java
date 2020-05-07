@@ -3,9 +3,12 @@ package time;
 import dao.ServerAccessException;
 import utils.Saps;
 
+import javax.xml.crypto.Data;
+import java.util.Locale;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * Convert between local/GMT and calculate timespans.
@@ -182,7 +185,8 @@ public class MyTime {
      * @return A LocalDateTime representing the same date and time as given.
      */
     public static LocalDateTime parseServerDateTimeString(String serverDateTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern(Saps.TIME_FORMAT).toFormatter(Locale.US);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Saps.TIME_FORMAT);
         return LocalDateTime.parse(serverDateTime.replaceAll(" GMT",""),formatter);
     }
 

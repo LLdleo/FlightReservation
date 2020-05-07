@@ -84,4 +84,13 @@ public class Seating {
         }
         return coachReserved;
     }
+
+    public String toJSON() {
+        return "{" +
+                "firstClassPrice:\"" + firstClassPrice +
+                "\", firstClassReserved:\"" + firstClassReserved +
+                "\", coachPrice:\"" + coachPrice  +
+                "\", coachReserved:\"" + coachReserved +
+                "\"}";
+    }
 }

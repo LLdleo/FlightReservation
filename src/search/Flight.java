@@ -101,4 +101,19 @@ public class Flight {
     public double getFirstClassPrice() {
         return firstClassPrice;
     }
+
+    public String toJSON() {
+        String connectingLegString = "[";
+        for (ConnectingLeg connectingLeg: connectingLegList){
+            connectingLegString += connectingLeg.toJSON();
+        }
+        connectingLegString += "]";
+        return "{" +
+                "numLegs:\"" + numLegs +
+                "\", connectingLegList:" + connectingLegString +
+                ", travelTime:\"" + travelTime +
+                "\", coachPrice:\"" + coachPrice +
+                "\", firstClassPrice:\"" + firstClassPrice +
+                "\"}";
+    }
 }

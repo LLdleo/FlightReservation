@@ -164,4 +164,17 @@ public class ConnectingLeg {
     public String getFlightTime() {
         return flightTime;
     }
+
+    public String toJSON() {
+        return "{" +
+                "departureAirport:" + departureAirport.toJSON() +
+                ", arrivalAirport:" + arrivalAirport.toJSON() +
+                ", airplane:" + airplane.toJSON() +
+                ", seating:" + seating.toJSON() +
+                ", departureTime:\"" + departureTime.getLocalTime() +
+                "\", arrivalTime:\"" + arrivalTime.getLocalTime() +
+                "\", flightNumber:\"" + flightNumber +
+                "\", flightTime:\"" + flightTime +
+                "\"},";
+    }
 }

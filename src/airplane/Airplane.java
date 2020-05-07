@@ -135,6 +135,19 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 				"(" + String.format("%d", mFirstClassSeats) + ", " +
 				String.format("%d", mCoachSeats) + ")";
 	}
+
+	/**
+	 * Convert object to printable string of format "{manufacturer:mManufacturer, model:mModel, seat:(mFirstClassSeats, mCoachSeats)}"
+	 *
+	 * @return the object formatted as JSON String to display
+	 */
+	public String toJSON() {
+
+		return "{manufacturer:\"" + mManufacturer +
+				"\", model:\"" + mModel +
+				"\", seat:\"" + "(" + String.format("%d", mFirstClassSeats) + ", " + String.format("%d", mCoachSeats) + ")" +
+				"\"}";
+	}
 	
 	/**
 	 * Set the airplane name

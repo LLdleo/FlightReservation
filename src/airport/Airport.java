@@ -130,6 +130,15 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	public String toString() {
 		return mCode + ", (" + String.format("%1$.3f", mLatitude) + ", " + String.format("%1$.3f", mLongitude) + "), " + mName;
 	}
+
+	/**
+	 * Convert object to printable JSON string of format "{code:mCode, loc:(lat, lon), name:mName}"
+	 *
+	 * @return the object formatted as JSON to display
+	 */
+	public String toJSON() {
+		return "{code:\"" + mCode + "\", loc:\"(" + String.format("%1$.3f", mLatitude) + ", " + String.format("%1$.3f", mLongitude) + ")\", name:\"" + mName+"\"}";
+	}
 	
 	/**
 	 * Set the airport name
