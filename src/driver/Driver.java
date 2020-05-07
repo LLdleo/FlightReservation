@@ -15,10 +15,7 @@ import dao.ServerInterface;
 
 import leg.SeatTypeEnum;
 import org.apache.commons.cli.*;
-import search.FilterCriteria;
-import search.Flights;
-import search.SearchCriteria;
-import search.SearchOneWayTripFlights;
+import search.*;
 import utils.Saps;
 
 /**
@@ -71,7 +68,47 @@ public class Driver {
                     break;
                 case "sort":
 					if(availableFlights != null){
-
+						System.out.println("Which sort would you like to perform? \nprice, travel time, arrival time, or departure time");
+						SortTypeEnum sortType = null;
+						while(sortType == null) {
+							String input = scan.nextLine();
+							switch (input.toLowerCase()) {
+								case "price":
+									sortType = filterCriteria.getSeatType() == SeatTypeEnum.COACH ? SortTypeEnum.COACH_PRICE : SortTypeEnum.FIRST_CLASS_PRICE;
+									break;
+								case "travel time":
+									sortType = SortTypeEnum.TRAVEL_TIME;
+									break;
+								case "arrival time":
+									sortType = SortTypeEnum.ARR_TIME;
+									break;
+								case "departure time":
+									sortType = SortTypeEnum.DEP_TIME;
+									break;
+								default:
+									System.out.println("Must input one of:\nprice, travel time, arrival time, or departure time");
+							}
+						}
+						boolean keepGoing = true;
+						boolean isAscending = true;
+						while(keepGoing) {
+							System.out.println("Would you like the list to be sorted in ascending order(y/n)");
+							String in = scan.nextLine();
+							if(in.equalsIgnoreCase("y")){
+								isAscending = true;
+								keepGoing = false;
+							}
+							else if (in.equalsIgnoreCase("n")){
+								isAscending = false;
+								keepGoing = false;
+							}
+							else{
+								System.out.println("You did not enter y or n. You entered: " + in);
+							}
+						}
+						availableFlights.sort(sortType,isAscending);
+						displayedFlights.sort(sortType,isAscending);
+						System.out.println(displayedFlights);
 					}
 					else{
 						System.out.println("You must search first.");

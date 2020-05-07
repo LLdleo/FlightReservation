@@ -25,6 +25,8 @@ public class Flights extends ArrayList<search.Flight> {
             @Override
             public int compare(Flight o1, Flight o2) {
                 int toReturn = 0;
+                boolean less;
+                boolean more;
                 switch (sortType){
                     case ARR_TIME:
                         boolean early = o1.getArrivalTime().getLocalTime().isBefore(o2.getArrivalTime().getLocalTime());
@@ -37,13 +39,34 @@ public class Flights extends ArrayList<search.Flight> {
                         }
                         break;
                     case COACH_PRICE:
-                        toReturn = (int) (o1.getCoachPrice() - o2.getCoachPrice());
+                        less = o1.getCoachPrice() < o2.getCoachPrice();
+                        more = o2.getCoachPrice() < o1.getCoachPrice();
+                        if(!less && !more){
+                            return 0;
+                        }
+                        else {
+                            toReturn = less ? -1 : 1;
+                        }
                         break;
                     case FIRST_CLASS_PRICE:
-                        toReturn = (int) (o1.getFirstClassPrice() - o2.getFirstClassPrice());
+                        less = o1.getFirstClassPrice() < o2.getFirstClassPrice();
+                        more = o2.getFirstClassPrice() < o1.getFirstClassPrice();
+                        if(!less && !more){
+                            return 0;
+                        }
+                        else {
+                            toReturn = less ? -1 : 1;
+                        }
                         break;
                     case TRAVEL_TIME:
-                        toReturn = (int) (o1.getTravelTime() - o2.getTravelTime());
+                        less = o1.getTravelTime() < o2.getTravelTime();
+                        more = o2.getTravelTime() < o1.getTravelTime();
+                        if(!less && !more){
+                            return 0;
+                        }
+                        else {
+                            toReturn = less ? -1 : 1;
+                        }
                         break;
                     case DEP_TIME:
                         boolean early2 = o1.getDepartureTime().getLocalTime().isBefore(o2.getDepartureTime().getLocalTime());

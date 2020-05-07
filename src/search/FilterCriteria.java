@@ -17,4 +17,8 @@ public class FilterCriteria {
         this.startArr = startArr;
         this.startDep = startDep;
     }
+
+    public SeatTypeEnum getSeatType() {
+        return seatType;
+    }
 }
