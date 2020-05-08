@@ -20,7 +20,7 @@ import java.util.List;
  * @author Jackson Powell, Lidian Lin
  * @deprecated This class is for manual testing during development.
  */
-public class ServerInterfaceTest {
+public class SeatConflictPrep {
     public static void main(String[] args){
         // Search test
 //        try{

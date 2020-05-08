@@ -215,6 +215,6 @@ public class ConnectingLeg {
         String day = String.format("%02d",gmtTime.getDayOfMonth() );
         String hour = String.format("%02d",gmtTime.getHour());
         String minute = String.format("%02d",gmtTime.getMinute());
-        return year + " " + month + " " + day + " " + hour + ":" + minute;
+        return year + " " + month + " " + day + " " + hour + ":" + minute ;
     }
 }

@@ -87,10 +87,10 @@ public class MyTimeTest {
             String gmtString = "2020 May 12 08:00";
             double sampleLatitude = 40.000158;
             double sampleLongitude = -82.887198;
-            // double expectedOffset = -5;
+            // double expectedOffset = -4;
             MyTime dateTime = new MyTime(gmtTime, sampleLatitude, sampleLongitude);
             MyTime stringTime = new MyTime(gmtString,sampleLatitude,sampleLongitude);
-            LocalDateTime expectedLocal = LocalDateTime.of(2020,5,12, 3,0);
+            LocalDateTime expectedLocal = LocalDateTime.of(2020,5,12, 4,0);
             Assert.assertTrue(dateTime.getGmtTime().isEqual(stringTime.getGmtTime()));
             Assert.assertTrue(dateTime.getLocalTime().isEqual(stringTime.getLocalTime()));
             Assert.assertTrue(dateTime.getLocalTime().isEqual(expectedLocal));

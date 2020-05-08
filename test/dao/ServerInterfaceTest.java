@@ -18,7 +18,6 @@ import utils.Saps;
  * @since 2020-05-05
   */
 public class ServerInterfaceTest {
-
     @Test
     public void testResetAndLocking() {
         Assert.assertTrue(ServerInterface.INSTANCE.reset(Saps.TEAMNAME));

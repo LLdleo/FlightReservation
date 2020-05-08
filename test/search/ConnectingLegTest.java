@@ -44,6 +44,19 @@ public class ConnectingLegTest {
             search.ConnectingLeg newLeg2 = search.ConnectingLeg.convertLeg(baseLeg);
             Assert.assertEquals(newLeg,newLeg2);
 
+            leg.ConnectingLeg oldLeg = newLeg.convertBack();
+            Assert.assertEquals(oldLeg,baseLeg);
+
+            String expectedGMTArrival = "2020 May 11 04:11";
+            String expectedGMTDeparture = "2020 May 11 03:36";
+
+            Assert.assertEquals(expectedGMTArrival,newLeg.getGMTStringTime(newLeg.getArrivalTime()));
+            Assert.assertEquals(expectedGMTDeparture,newLeg.getGMTStringTime(newLeg.getDepartureTime()));
+
+            String expectedGMTArrivalOther = "2020 MAY 11 04:11";
+            String expectedGMTDepartureOther = "2020 MAY 11 03:36";
+            Assert.assertEquals(expectedGMTArrivalOther,newLeg.timeString(newLeg.getArrivalTime().getGmtTime()));
+            Assert.assertEquals(expectedGMTDepartureOther,newLeg.timeString(newLeg.getDepartureTime().getGmtTime()));
         }catch (Exception e){
             e.printStackTrace();
             Assert.fail();
