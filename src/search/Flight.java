@@ -105,23 +105,57 @@ public class Flight {
     public double getFirstClassPrice() {
         return firstClassPrice;
     }
+
+    /**
+     * Check if there is at least one seat available of the given seat type on each connecting leg of the flight.
+     *
+     * @param seatType The seat type to check availability of.
+     * @return True if there is at least one seat of the given seat type available on each connecting leg of the flight.
+     */
     public boolean allSeatsAvailable(SeatTypeEnum seatType){
         int totalLegsCount = this.getConnectingLegList().size();
         int availableLegsCount = (int) this.getConnectingLegList().stream().filter(leg ->
                 leg.getSeating().getNumReserved(seatType) < leg.getAirplane().getNumSeats(seatType)).count();
         return totalLegsCount == availableLegsCount;
     }
+
+    /**
+     * Get departure time of the first leg of the flight.
+     *
+     * @return the departure time of the first leg of the flight.
+     */
     public MyTime getDepartureTime(){
         return this.connectingLegList.get(0).getDepartureTime();
     }
+
+    /**
+     * Get arrival time of the last leg of the flight.
+     *
+     * @return the arrival time of the last leg of the flight.
+     */
     public MyTime getArrivalTime(){
         return this.connectingLegList.get(numLegs-1).getArrivalTime();
     }
+
+    /**
+     * Check if a departure or arrival time fits within a given time window.
+     *
+     * @param start The start of the time window.
+     * @param end The end of the time window.
+     * @param isDep True if checking the departure time, false if checking the arrival time.
+     * @return True if a flight fits in the time window. False otherwise.
+     */
     public boolean inRange(LocalTime start, LocalTime end, boolean isDep){
         MyTime dateTime = isDep ? getDepartureTime() : getArrivalTime();
         LocalTime localTime = dateTime.getLocalTime().toLocalTime();
         return localTime.isAfter(start) && localTime.isBefore(end);
     }
+
+    /**
+     * Get the leg.Flight version of this object.
+     *
+     * @return the leg.Flight version of this object.
+     */
     public leg.Flight convertBack(){
         leg.ConnectingLegs legs = new leg.ConnectingLegs();
         for(search.ConnectingLeg leg : connectingLegList){
@@ -129,6 +163,12 @@ public class Flight {
         }
         return new leg.Flight(legs);
     }
+
+    /**
+     * Get the string representation of the flight including flight statistics and connecting leg information.
+     *
+     * @return the string representation of the flight including flight statistics and connecting leg information for the user to view.
+     */
     public String toString(){
         StringBuilder toReturn = new StringBuilder();
         toReturn.

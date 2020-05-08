@@ -166,23 +166,48 @@ public class ConnectingLeg {
     public String getFlightTime() {
         return flightTime;
     }
+
+    /**
+     * Return a string representation of this leg with departure, arrival, and airplane information.
+     *
+     * @return a string representation of this leg with departure, arrival, and airplane information.
+     */
     public String toString(){
-        StringBuilder toReturn = new StringBuilder();
-        toReturn.append("Flight number ").append(flightNumber).
-                append("\nDeparts at ").append(this.departureAirport.name()).append(" at ").append(timeString(getDepartureTime().getLocalTime())).append("\n").
-                append("Arrives at ").append(this.arrivalAirport.name()).append(" at ").append(timeString(getArrivalTime().getLocalTime())).append("\n").
-                append("Airplane: ").append(airplane.toString()).append("\n\n");
-        return toReturn.toString();
+        return "Flight number "+ flightNumber + "\nDeparts at "+ this.departureAirport.name() + " at " +
+                timeString(getDepartureTime().getLocalTime()) + "\n" + "Arrives at " +
+                this.arrivalAirport.name() + " at " + timeString(getArrivalTime().getLocalTime()) + "\n"+
+                "Airplane: " + airplane.toString() + "\n\n";
     }
+
+    /**
+     * Get a string representation of a dateTime.
+     *
+     * @param time The dateTime to convert to a string.
+     * @return a string representation of a dateTime.
+     */
     public String timeString(LocalDateTime time){
         return "" + time.getYear() + " " + time.getMonth().toString() + " " + time.getDayOfMonth() + " " +
                 String.format("%02d",time.getHour()) + ":" + String.format("%02d",time.getMinute());
     }
+
+    /**
+     * Get the leg.Connectingleg version of this object.
+     *
+     * @return the leg.ConnectingLeg version of this object.
+     */
     public leg.ConnectingLeg convertBack(){
         return new leg.ConnectingLeg(airplane.model(),flightTime,flightNumber,departureAirport.code(),
                 getGMTStringTime(departureTime),arrivalAirport.code(),getGMTStringTime(arrivalTime),
                 String.valueOf(seating.getFirstClassPrice()),seating.getFirstClassReserved(),String.valueOf(seating.getCoachPrice()),seating.getCoachReserved());
     }
+
+    /**
+     * Return a string representation of the gmt time.
+     *
+     * @see Saps Saps.TIME_FORMAT to see the format of the string returned.
+     * @param time Time to convert to match Saps.TIME_FORMAT.
+     * @return a string representation of the gmt time.
+     */
     public String getGMTStringTime(MyTime time){
         LocalDateTime gmtTime = time.getGmtTime();
         String year = "" + gmtTime.getYear();

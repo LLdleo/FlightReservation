@@ -22,9 +22,9 @@ import search.*;
 import utils.Saps;
 
 /**
- * Old command line entry point to the system used for the prototype. Does not work with added functionality.
+ * Old command line entry point to the system used for the prototype.
  *
- * @author Lidian Lin
+ * @author Jackson Powell
  * @version 1.0
  * @since 2020-03-12
  */
@@ -114,7 +114,6 @@ public class Driver {
                             System.out.println("Would you like the list to be sorted in ascending order(y/n)");
                             String in = scan.nextLine();
                             if (in.equalsIgnoreCase("y")) {
-                                isAscending = true;
                                 keepGoing = false;
                             } else if (in.equalsIgnoreCase("n")) {
                                 isAscending = false;
@@ -137,104 +136,109 @@ public class Driver {
                                 "then filter by a different seat type. To reserve a seat, enter the flight number displayed with each flight.");
                         System.out.println("Which flight would you like to reserve?");
                         String input = scan.nextLine();
-                        Integer index = Integer.parseInt(input);
-                        if (index == null || index < 0 || index >= displayedFlights.size()) {
-                            System.out.println("You did not enter a valid flight so it has not been reserved");
-                        } else {
-                            if (isRoundTrip) {
-                                if (hasOutgoingFlightBeenChosen) {
-									search.Flight toReserve = displayedFlights.get(index);
-									System.out.println("Are you sure (y/n) you would like to reserve a " + filterCriteria.getSeatType().toString() +
-											" seat on each leg of the return flight: \n" + toReserve.toString() +
-											"\n and a " + outSeatType.toString() + " seat on each leg of the outgoing flight: \n" + selectedOutgoingFlight.toString());
-									if (scan.nextLine().equalsIgnoreCase("y")) {
-										Trip toReserveTrip = new Trip(selectedOutgoingFlight.convertBack(),toReserve.convertBack(), outSeatType,filterCriteria.getSeatType());
-										boolean keepGoing = true;
-										while (keepGoing) {
-											try {
-												boolean success = toReserveTrip.reserveSeats();
-												keepGoing = false;
-												if (success) {
-													System.out.println("Your reservation was successful");
-													Driver.availableFlights = null;
-													Driver.displayedFlights = null;
-													Driver.hasOutgoingFlightBeenChosen = false;
-													Driver.isRoundTrip = false;
-													criteria = null;
-													filterCriteria = null;
-													returnDate = null;
-													isRetDep = false;
-													selectedOutgoingFlight = null;
-													outSeatType = null;
-												} else {
-													System.out.println("Your reservation was successful. Please search again to refresh your results for current availability.");
-												}
-											} catch (Exception e) {
-												System.out.println(e.toString());
-												System.out.println("Would you like to try again? (y/n)");
-												keepGoing = scan.nextLine().equalsIgnoreCase("y");
-											}
-										}
-									} else {
-										System.out.println("You have stopped trying to reserve a flight");
-									}
-                                } else {
-                                    search.Flight toselect = displayedFlights.get(index);
-                                    System.out.println("Are you sure (y/n) you would like to select a " + filterCriteria.getSeatType().toString() +
-                                            " seat on each leg for the outgoing flight: \n" + toselect.toString());
-                                    if (scan.nextLine().equalsIgnoreCase("y")) {
-                                        hasOutgoingFlightBeenChosen = true;
-                                        outSeatType = filterCriteria.getSeatType();
-                                        selectedOutgoingFlight = toselect;
-                                        System.out.println("You have successfully selected the outgoing flight. The search for the return flight has begun and will take approximately 8 seconds");
-                                        boolean keepGoing = true;
-                                        while(keepGoing) {
-											try {
-												criteria = new SearchCriteria(criteria.getArrivalAirportCode(), criteria.getDepartureAirportCode(), returnDate, isRetDep);
-												SearchOneWayTripFlights searcher = new SearchOneWayTripFlights(criteria);
-												availableFlights = new Flights();
-												availableFlights.addAll(searcher.search().stream().filter(flight -> flight.getDepartureTime().getGmtTime().isAfter(selectedOutgoingFlight.getArrivalTime().getGmtTime())).collect(Collectors.toList()));
-												LocalTime start2 = LocalTime.of(0, 0);
-												LocalTime end2 = LocalTime.of(23, 59);
-												filterCriteria = new FilterCriteria(SeatTypeEnum.COACH, start2, end2, start2, end2);
-												displayedFlights = availableFlights.filter(filterCriteria);
-												System.out.println(displayedFlights);
-												keepGoing = false;
-											} catch (Exception e) {
-												System.out.println("There was an issue searching for return flights. Would you like to try again (y/n)");
-												keepGoing = scan.nextLine().equalsIgnoreCase("y");
-											}
-										}
-                                    } else {
-                                        System.out.println("You have stopped trying to select a flight");
-                                    }
-                                }
+                        try {
+                            Integer index = Integer.parseInt(input);
+                            if (index < 0 || index >= displayedFlights.size()) {
+                                System.out.println("You did not enter a valid flight so it has not been reserved");
                             } else {
-                                search.Flight toReserve = displayedFlights.get(index);
-                                System.out.println("Are you sure (y/n) you would like to reserve a " + filterCriteria.getSeatType().toString() +
-                                        " seat on each leg of the flight: \n" + toReserve.toString());
-                                if (scan.nextLine().equalsIgnoreCase("y")) {
-                                    Trip toReserveTrip = new Trip(toReserve.convertBack(), filterCriteria.getSeatType());
-                                    boolean keepGoing = true;
-                                    while (keepGoing) {
-                                        try {
-                                            boolean success = toReserveTrip.reserveSeats();
-                                            keepGoing = false;
-                                            if (success) {
-                                                System.out.println("Your reservation was successful");
-                                            } else {
-                                                System.out.println("Your reservation was successful. Please search again to refresh your results for current availability.");
+                                if (isRoundTrip) {
+                                    if (hasOutgoingFlightBeenChosen) {
+                                        search.Flight toReserve = displayedFlights.get(index);
+                                        System.out.println("Are you sure (y/n) you would like to reserve a " + filterCriteria.getSeatType().toString() +
+                                                " seat on each leg of the return flight: \n" + toReserve.toString() +
+                                                "\n and a " + outSeatType.toString() + " seat on each leg of the outgoing flight: \n" + selectedOutgoingFlight.toString());
+                                        if (scan.nextLine().equalsIgnoreCase("y")) {
+                                            Trip toReserveTrip = new Trip(selectedOutgoingFlight.convertBack(), toReserve.convertBack(), outSeatType, filterCriteria.getSeatType());
+                                            boolean keepGoing = true;
+                                            while (keepGoing) {
+                                                try {
+                                                    boolean success = toReserveTrip.reserveSeats();
+                                                    keepGoing = false;
+                                                    if (success) {
+                                                        System.out.println("Your reservation was successful");
+                                                        Driver.availableFlights = null;
+                                                        Driver.displayedFlights = null;
+                                                        Driver.hasOutgoingFlightBeenChosen = false;
+                                                        Driver.isRoundTrip = false;
+                                                        criteria = null;
+                                                        filterCriteria = null;
+                                                        returnDate = null;
+                                                        isRetDep = false;
+                                                        selectedOutgoingFlight = null;
+                                                        outSeatType = null;
+                                                    } else {
+                                                        System.out.println("Your reservation was successful. Please search again to refresh your results for current availability.");
+                                                    }
+                                                } catch (Exception e) {
+                                                    System.out.println(e.toString());
+                                                    System.out.println("Would you like to try again? (y/n)");
+                                                    keepGoing = scan.nextLine().equalsIgnoreCase("y");
+                                                }
                                             }
-                                        } catch (Exception e) {
-                                            System.out.println(e.toString());
-                                            System.out.println("Would you like to try again? (y/n)");
-                                            keepGoing = scan.nextLine().equalsIgnoreCase("y");
+                                        } else {
+                                            System.out.println("You have stopped trying to reserve a flight");
+                                        }
+                                    } else {
+                                        search.Flight toselect = displayedFlights.get(index);
+                                        System.out.println("Are you sure (y/n) you would like to select a " + filterCriteria.getSeatType().toString() +
+                                                " seat on each leg for the outgoing flight: \n" + toselect.toString());
+                                        if (scan.nextLine().equalsIgnoreCase("y")) {
+                                            hasOutgoingFlightBeenChosen = true;
+                                            outSeatType = filterCriteria.getSeatType();
+                                            selectedOutgoingFlight = toselect;
+                                            System.out.println("You have successfully selected the outgoing flight. The search for the return flight has begun and will take approximately 8 seconds");
+                                            boolean keepGoing = true;
+                                            while (keepGoing) {
+                                                try {
+                                                    criteria = new SearchCriteria(criteria.getArrivalAirportCode(), criteria.getDepartureAirportCode(), returnDate, isRetDep);
+                                                    SearchOneWayTripFlights searcher = new SearchOneWayTripFlights(criteria);
+                                                    availableFlights = new Flights();
+                                                    availableFlights.addAll(searcher.search().stream().filter(flight -> flight.getDepartureTime().getGmtTime().isAfter(selectedOutgoingFlight.getArrivalTime().getGmtTime())).collect(Collectors.toList()));
+                                                    LocalTime start2 = LocalTime.of(0, 0);
+                                                    LocalTime end2 = LocalTime.of(23, 59);
+                                                    filterCriteria = new FilterCriteria(SeatTypeEnum.COACH, start2, end2, start2, end2);
+                                                    displayedFlights = availableFlights.filter(filterCriteria);
+                                                    System.out.println(displayedFlights);
+                                                    keepGoing = false;
+                                                } catch (Exception e) {
+                                                    System.out.println("There was an issue searching for return flights. Would you like to try again (y/n)");
+                                                    keepGoing = scan.nextLine().equalsIgnoreCase("y");
+                                                }
+                                            }
+                                        } else {
+                                            System.out.println("You have stopped trying to select a flight");
                                         }
                                     }
                                 } else {
-                                    System.out.println("You have stopped trying to reserve a flight");
+                                    search.Flight toReserve = displayedFlights.get(index);
+                                    System.out.println("Are you sure (y/n) you would like to reserve a " + filterCriteria.getSeatType().toString() +
+                                            " seat on each leg of the flight: \n" + toReserve.toString());
+                                    if (scan.nextLine().equalsIgnoreCase("y")) {
+                                        Trip toReserveTrip = new Trip(toReserve.convertBack(), filterCriteria.getSeatType());
+                                        boolean keepGoing = true;
+                                        while (keepGoing) {
+                                            try {
+                                                boolean success = toReserveTrip.reserveSeats();
+                                                keepGoing = false;
+                                                if (success) {
+                                                    System.out.println("Your reservation was successful");
+                                                } else {
+                                                    System.out.println("Your reservation was successful. Please search again to refresh your results for current availability.");
+                                                }
+                                            } catch (Exception e) {
+                                                System.out.println(e.toString());
+                                                System.out.println("Would you like to try again? (y/n)");
+                                                keepGoing = scan.nextLine().equalsIgnoreCase("y");
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("You have stopped trying to reserve a flight");
+                                    }
                                 }
                             }
+                        }
+                        catch (Exception e){
+                            System.out.println("There was an issue processing your request. Please try again with different input.");
                         }
                     } else {
                         System.out.println("You must search first.");
@@ -258,6 +262,11 @@ public class Driver {
         }
     }
 
+    /**
+     * Get user input for search parameters and return results.
+     *
+     * @return search results based on user input.
+     */
     private static Flights search() {
     	filterCriteria = null;
         System.out.println("Available airports:");
@@ -300,7 +309,7 @@ public class Driver {
             formatter.printHelp("utility-name", searchOptions);
             while (keepGoing) {
 
-                String args[] = scan.nextLine().split(" ");
+                String[] args= scan.nextLine().split(" ");
                 try {
                     cmd = parser.parse(searchOptions, args);
                     keepGoing = false;
@@ -328,7 +337,7 @@ public class Driver {
             if (depAirport != null && arrAirport != null && outDate != null) {
                 criteria = new SearchCriteria(depAir, arrAir, outDate, isOutDep);
                 SearchOneWayTripFlights search = new SearchOneWayTripFlights(criteria);
-                System.out.println("Your search has been started and should take around 8 seconds");
+                System.out.println("Your search has been started.");
                 return search.search();
             }
             System.out.println("There was an issue processing your request. Please restart");
@@ -340,6 +349,11 @@ public class Driver {
         return null;
     }
 
+    /**
+     * Get user input for filter criteria and return which flights match this criteria.
+     *
+     * @return flights that match the user-input filter criteria.
+     */
     private static Flights filter() {
         Options filterOptions = new Options();
 
@@ -370,7 +384,7 @@ public class Driver {
         formatter.printHelp("utility-name", filterOptions);
         boolean keepGoing = true;
         while (keepGoing) {
-            String args[] = scan.nextLine().split(" ");
+            String[] args = scan.nextLine().split(" ");
             try {
                 cmd = parser.parse(filterOptions, args);
                 keepGoing = false;
@@ -427,16 +441,24 @@ public class Driver {
         return LocalDate.parse(date, formatter);
     }
 
+    /**
+     * Return the LocalTime associated with a string in the form of hh:mm.
+     *
+     * @param time The string representation of the time in the form of hh:mm.
+     * @param defaultTime The time to default to if a string is not provided in the valid format.
+     * @return The localTime associated with a string or the defaultTime if a string is not valid.
+     */
     private static LocalTime getTimeFromString(String time, LocalTime defaultTime) {
-        String args[] = time.split(":");
+        String[] args = time.split(":");
         if (args.length != 2) {
             return defaultTime;
+        }try {
+            Integer hour = Integer.parseInt(args[0]);
+            Integer minute = Integer.parseInt(args[1]);
+            return LocalTime.of(hour, minute);
         }
-        Integer hour = Integer.parseInt(args[0]);
-        Integer minute = Integer.parseInt(args[1]);
-        if (hour == null || minute == null) {
+        catch (Exception e){
             return defaultTime;
         }
-        return LocalTime.of(hour, minute);
     }
 }
