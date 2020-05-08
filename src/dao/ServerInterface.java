@@ -15,6 +15,7 @@ import leg.ConnectingLeg;
 import leg.ConnectingLegs;
 
 import leg.SeatTypeEnum;
+import org.json.HTTP;
 import reservation.Trip;
 import utils.QueryFactory;
 import utils.Saps;
@@ -88,12 +89,12 @@ public enum ServerInterface {
                 }
                 success = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("System could not access the list of airports from the WPI Server");
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("System could not access the list of airports from the WPI Server for some other reason");
@@ -158,12 +159,12 @@ public enum ServerInterface {
                 }
                 success = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("System could not access the list of airplanes from the WPI Server");
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("System could not access the list of airplanes from the WPI Server for some other reason");
@@ -232,12 +233,12 @@ public enum ServerInterface {
                 }
                 success = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("System could not access the list of connecting legs from the WPI Server");
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 endLockTimer = System.currentTimeMillis();
                 if ((endLockTimer - startLockTimer) / 1000 > Saps.CONNECTION_TIMEOUT_SECONDS)
                     throw new ServerAccessException("System could not access the list of connecting legs from the WPI Server for some other reason");
@@ -277,24 +278,27 @@ public enum ServerInterface {
             writer.close();
 
             int responseCode = connection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_ACCEPTED){
+                return true;
+            }
 //            System.out.println("\nSending 'POST' to lock database");
-//            System.out.println(("\nResponse Code : " + responseCode));
-
-//            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//            String line;
-//            StringBuilder response = new StringBuilder();
+////            System.out.println(("\nResponse Code : " + responseCode));
 //
-//            while ((line = in.readLine()) != null) {
-//                response.append(line);
-//            }
-//            in.close();
-
-//            System.out.println(response.toString());
+////            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+////            String line;
+////            StringBuilder response = new StringBuilder();
+////
+////            while ((line = in.readLine()) != null) {
+////                response.append(line);
+////            }
+////            in.close();
+//
+////            System.out.println(response.toString());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return false;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -328,6 +332,9 @@ public enum ServerInterface {
             writer.close();
 
             int responseCode = connection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_ACCEPTED){
+                return true;
+            }
 //            System.out.println("\nSending 'POST' to unlock database");
 //            System.out.println(("\nResponse Code : " + responseCode));
 
@@ -344,10 +351,10 @@ public enum ServerInterface {
 //                System.out.println(response.toString());
 //            }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return false;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -392,7 +399,7 @@ public enum ServerInterface {
                 return true;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return false;
         }
         return false;
@@ -429,7 +436,7 @@ public enum ServerInterface {
                 return true;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return false;
         }
         return false;

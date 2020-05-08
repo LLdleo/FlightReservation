@@ -14,6 +14,7 @@ import time.MyTime;
 import utils.Saps;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Iterator;
 
 /**
@@ -66,9 +67,22 @@ public class FlightTest {
         Assert.assertTrue(expectedArrLocal.isEqual(convertSample.getArrivalTime().getLocalTime()));
         Assert.assertTrue(expectedDepGMT.isEqual(convertSample.getDepartureTime().getGmtTime()));
         Assert.assertTrue(expectedDepLocal.isEqual(convertSample.getDepartureTime().getLocalTime()));
+
     }
 
+    @Test
+    public void testInRange() {
+        LocalTime departure = LocalTime.of(19,38);
+        LocalTime arrival = LocalTime.of(2,53);
+        Assert.assertTrue(convertSample.inRange(departure,departure.plusHours(1),true));
+        Assert.assertTrue(convertSample.inRange(arrival,arrival.plusHours(1),false));
+        Assert.assertTrue(convertSample.inRange(departure.minusHours(1),departure.plusMinutes(1),true));
+        Assert.assertFalse(convertSample.inRange(departure.minusHours(1),departure.plusMinutes(1),false));
+        Assert.assertTrue(convertSample.inRange(arrival.minusHours(1),arrival.plusMinutes(1),false));
+        Assert.assertFalse(convertSample.inRange(arrival.minusHours(1),arrival.plusMinutes(1),true));
 
+
+    }
 
     @Before
     public void setUp() throws Exception {

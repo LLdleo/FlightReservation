@@ -148,7 +148,9 @@ public class Flight {
     public boolean inRange(LocalTime start, LocalTime end, boolean isDep){
         MyTime dateTime = isDep ? getDepartureTime() : getArrivalTime();
         LocalTime localTime = dateTime.getLocalTime().toLocalTime();
-        return localTime.isAfter(start) && localTime.isBefore(end);
+        boolean equal = localTime.getHour() == start.getHour() && localTime.getMinute() == start.getMinute();
+        equal = equal || localTime.getHour() == end.getHour() && localTime.getMinute() == end.getMinute();
+        return equal || (localTime.isAfter(start) && localTime.isBefore(end));
     }
 
     /**

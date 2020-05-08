@@ -53,24 +53,26 @@ public class Driver {
             switch (answer.toLowerCase()) {
                 case "search":
                     availableFlights = search();
-                    if(isRoundTrip && hasOutgoingFlightBeenChosen){
-						Flights inter = availableFlights;
-						availableFlights = new Flights();
-						availableFlights.addAll(availableFlights.stream().filter(flight -> flight.getDepartureTime().getGmtTime().isAfter(selectedOutgoingFlight.getArrivalTime().getGmtTime())).collect(Collectors.toList()));
-					}
-                    LocalTime start = LocalTime.of(0, 0);
-                    LocalTime end = LocalTime.of(23, 59);
-                    filterCriteria = new FilterCriteria(SeatTypeEnum.COACH, start, end, start, end);
-                    displayedFlights = availableFlights.filter(filterCriteria);
-                    if(displayedFlights.size() > 0)
-                    	System.out.println(displayedFlights);
-                    else{
-                    	if(availableFlights.size() > 0)
-                    		System.out.println("No flights match your search criteria that have coach seats available (some flights have first class seating available), please try again with different criteria or try filtering by first class seating.");
-						else{
-							System.out.println("No flights match your search criteria, please try again with different criteria");
-							availableFlights = null;
-						}
+                    if(availableFlights != null) {
+                        if (isRoundTrip && hasOutgoingFlightBeenChosen) {
+                            Flights inter = availableFlights;
+                            availableFlights = new Flights();
+                            availableFlights.addAll(availableFlights.stream().filter(flight -> flight.getDepartureTime().getGmtTime().isAfter(selectedOutgoingFlight.getArrivalTime().getGmtTime())).collect(Collectors.toList()));
+                        }
+                        LocalTime start = LocalTime.of(0, 0);
+                        LocalTime end = LocalTime.of(23, 59);
+                        filterCriteria = new FilterCriteria(SeatTypeEnum.COACH, start, end, start, end);
+                        displayedFlights = availableFlights.filter(filterCriteria);
+                        if (displayedFlights.size() > 0)
+                            System.out.println(displayedFlights);
+                        else {
+                            if (availableFlights.size() > 0)
+                                System.out.println("No flights match your search criteria that have coach seats available (some flights have first class seating available), please try again with different criteria or try filtering by first class seating.");
+                            else {
+                                System.out.println("No flights match your search criteria, please try again with different criteria");
+                                availableFlights = null;
+                            }
+                        }
                     }
                     break;
                 case "filter":
@@ -223,7 +225,7 @@ public class Driver {
                                                 if (success) {
                                                     System.out.println("Your reservation was successful");
                                                 } else {
-                                                    System.out.println("Your reservation was successful. Please search again to refresh your results for current availability.");
+                                                    System.out.println("Your reservation was not successful. Please search again to refresh your results for current availability.");
                                                 }
                                             } catch (Exception e) {
                                                 System.out.println(e.toString());
@@ -330,6 +332,10 @@ public class Driver {
                 String retDate = cmd.getOptionValue("returnDate");
                 String retList = cmd.getOptionValue("returnListType");
                 LocalDate ret = getDateFromString(retDate);
+                if(ret.isBefore(outDate)){
+                    System.out.println("Return date cannot occur before date of outgoing flight. Please try different search criteria");
+                    return null;
+                }
                 isRetDep = retList.equalsIgnoreCase("departing");
                 isRoundTrip = true;
                 returnDate = ret;
@@ -342,7 +348,7 @@ public class Driver {
             }
             System.out.println("There was an issue processing your request. Please restart");
         } catch (Exception e) {
-            System.out.println("There was an issue processing your request. Please restart");
+            System.out.println(e.toString());
             return null;
         }
 
