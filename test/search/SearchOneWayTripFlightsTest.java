@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class SearchOneWayTripFlightsTest {
 
+    /**
+     * Test that layover constraints are met in all search results.
+     */
     @Test
     public void testSearchConstraintsMet() {
         try {
@@ -41,6 +44,9 @@ public class SearchOneWayTripFlightsTest {
         }
     }
 
+    /**
+     * Test that bad searches can be handled.
+     */
     @Test
     public void testNullSearch() {
         SearchCriteria criteria = new SearchCriteria("BOS","CLE",LocalDate.of(2020,5,8),true);

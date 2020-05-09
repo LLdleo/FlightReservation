@@ -18,6 +18,9 @@ import utils.Saps;
  * @since 2020-05-05
   */
 public class ServerInterfaceTest {
+    /**
+     * Test correct responses for resetting and locking the database.
+     */
     @Test
     public void testResetAndLocking() {
         Assert.assertTrue(ServerInterface.INSTANCE.reset(Saps.TEAMNAME));
@@ -31,6 +34,9 @@ public class ServerInterfaceTest {
         Assert.assertTrue(ServerInterface.INSTANCE.unlock(Saps.TEAMNAME));
     }
 
+    /**
+     * Test that the Get methods don't return null except for getting legs outside the date bounds.
+     */
     @Test
     public void testNotNullGetMethods() {
         try{
@@ -55,6 +61,9 @@ public class ServerInterfaceTest {
         }
     }
 
+    /**
+     * Test reserving a flight on the server.
+     */
     @Test
     public void testServerReserve() {
         try {

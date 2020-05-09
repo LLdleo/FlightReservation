@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
  * @since 2020-04-22
  */
 public class MyTimeTest {
-
+    /**
+     * Test that a timespan between two datetimes are calculated correctly.
+     */
     @Test
     public void testTimespan() {
         MyTime time1 = new MyTime("2020 May 10 20:45");
@@ -28,6 +30,9 @@ public class MyTimeTest {
         Assert.assertEquals(0,noDiff,0);
     }
 
+    /**
+     * Test that a timespan is calculated correctly if it spans over more than a day.
+     */
     @Test
     public void testLongTimespan() {
         MyTime time1 = new MyTime("2020 May 10 20:45");
@@ -37,6 +42,9 @@ public class MyTimeTest {
         Assert.assertEquals(expectedDiff,actualDiff,0);
     }
 
+    /**
+     * Test that a string representation of the time in the format kept in the server is parsed into a datetime correctly.
+     */
     @Test
     public void testParseServerDate() {
         String parseString = "2020 May 10 20:12";
@@ -50,6 +58,9 @@ public class MyTimeTest {
         Assert.assertTrue(expected.isEqual(actual));
     }
 
+    /**
+     * Test calculations of timespans to the next/last day used when searching.
+     */
     @Test
     public void testDayTimespans() {
         String from = "2020 May 11 00:00";
@@ -80,6 +91,9 @@ public class MyTimeTest {
         Assert.assertEquals(expectedNext,actualNext,0);
     }
 
+    /**
+     * Test using timezone offsets to calculate local times.
+     */
     @Test
     public void testCalculateLocalTime() {
         try {
@@ -113,6 +127,10 @@ public class MyTimeTest {
         }
 
     }
+
+    /**
+     * Test giving out of bounds latitude/longitude.
+     */
     @Test
     public void testParameterExceptions() {
         boolean success = false;

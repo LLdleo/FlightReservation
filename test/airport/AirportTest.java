@@ -13,6 +13,9 @@ import org.junit.Test;
  * @since 2020-05-05
  */
 public class AirportTest {
+    /**
+     * Test the validity checkers in each constructor.
+     */
     @Test
     public void testConstructors() {
         String invalid = "";
@@ -130,6 +133,9 @@ public class AirportTest {
         Assert.assertTrue(success);
     }
 
+    /**
+     * Test the validity checkers in setters.
+     */
     @Test
     public void testValidityMethodAndSetters() {
         Airport empty = new Airport();
@@ -198,6 +204,9 @@ public class AirportTest {
         }
     }
 
+    /**
+     * Test setting valid attributes.
+     */
     @Test
     public void testValidSetters() {
         Airport empty = new Airport();
@@ -218,6 +227,9 @@ public class AirportTest {
         Assert.assertTrue(empty.isValid());
     }
 
+    /**
+     * Test equals and compareTo.
+     */
     @Test
     public void testComparisons() {
         Airport air1 = new Airport("Boston", "BOS", 1, 3);

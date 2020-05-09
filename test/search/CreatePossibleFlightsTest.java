@@ -46,6 +46,10 @@ public class CreatePossibleFlightsTest {
      */
     private static ConnectingLeg fullLeg;
 
+    /**
+     * Conduct two searches for all other tests in this class.
+     * @throws Exception If there is an exception when trying to search for flights.
+     */
     @BeforeClass
     public static void setUp() throws Exception {
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
@@ -70,11 +74,18 @@ public class CreatePossibleFlightsTest {
         availableFlights = flightCreator.createPossibleConnectingLegCombinations();
         returnAvailableFlights = flightCreator2.createPossibleConnectingLegCombinations();
     }
+
+    /**
+     * Reset the database.
+     */
     @AfterClass
-    public static void tearDown() throws Exception {
+    public static void tearDown(){
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
     }
 
+    /**
+     * Test that the constraints of departure date and airports for searching based on departure.
+     */
     @Test
     public void testConstraintsMetDeparture() {
         try{
@@ -100,6 +111,9 @@ public class CreatePossibleFlightsTest {
         }
 
     }
+    /**
+     * Test that the constraints of arrival date and airports for searching based on arrival.
+     */
     @Test
     public void testConstraintsMetArrival() {
         try{

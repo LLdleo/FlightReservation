@@ -12,7 +12,9 @@ import org.junit.Test;
  * @since 2020-05-05
  */
 public class ConnectingLegTest {
-
+    /**
+     * Test validity checkers in the constructor that takes integers for the number of reserved seats.
+     */
     @Test
     public void testConstructorWithIntegers() {
         String invalid = "";
@@ -159,6 +161,10 @@ public class ConnectingLegTest {
             Assert.fail();
         }
     }
+
+    /**
+     * Test validity checkers for the constructor that takes strings for the number of seats reserved,
+     */
     @Test
     public void testConstructorWithOutIntegers() {
         String invalid = "";
@@ -323,6 +329,9 @@ public class ConnectingLegTest {
         }
     }
 
+    /**
+     * Test validity checkers in setters and that getters return the correct data.
+     */
     @Test
     public void testSettersGetters() {
         ConnectingLeg empty = new ConnectingLeg();

@@ -13,7 +13,9 @@ import org.junit.Test;
  * @since 2020-05-05
  */
 public class AirplaneTest {
-
+    /**
+     * Test whether each constructor validates the arguments correctly.
+     */
     @Test
     public void testConstructors() {
         String invalid = "";
@@ -116,6 +118,9 @@ public class AirplaneTest {
         Assert.assertTrue(success);
     }
 
+    /**
+     * Test whether setters validate the correct value.
+     */
     @Test
     public void testValidityMethodAndSetters() {
         Airplane empty = new Airplane();
@@ -171,6 +176,9 @@ public class AirplaneTest {
         }
     }
 
+    /**
+     * Test argument checking on setters.
+     */
     @Test
     public void testValidSetters() {
         Airplane empty = new Airplane();
@@ -194,6 +202,9 @@ public class AirplaneTest {
         Assert.assertEquals(4, empty.getNumSeats(SeatTypeEnum.FIRSTCLASS));
     }
 
+    /**
+     * Test equals and compareTo methods.
+     */
     @Test
     public void testComparisons() {
         Airplane air1 = new Airplane("man", "A320", 1, 3);

@@ -15,7 +15,9 @@ import java.time.LocalDate;
  * @since 2020-05-06
 */
 public class SearchCriteriaTest {
-
+    /**
+     * Test validation checks when creating search criteria.
+     */
     @Test
     public void testValidation() {
         try{

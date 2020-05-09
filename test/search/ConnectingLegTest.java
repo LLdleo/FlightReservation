@@ -16,6 +16,9 @@ import time.MyTime;
  * @since 2020-05-06
 */
 public class ConnectingLegTest {
+    /**
+     * Test converting a leg,ConnectingLeg to a search.ConnectingLeg with the same, but extended information.
+     */
     @Test
     public void testLegConversion() {
         //Without exposing the cache, not sure how to test whether it's making use of it.

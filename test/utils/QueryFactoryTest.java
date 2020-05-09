@@ -11,7 +11,9 @@ import org.junit.Test;
  * @since 2020-05-05
  */
 public class QueryFactoryTest {
-
+    /**
+     * Test that the strings are used to build parts of http query strings correctly.
+     */
     @Test
     public void testAllQueryBuilders() {
         String team = Saps.TEAMNAME;

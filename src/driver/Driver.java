@@ -436,7 +436,12 @@ public class Driver {
             String st = cmd.getOptionValue("seatType");
             seatTypeEnum = st.equalsIgnoreCase("first_class") ? SeatTypeEnum.FIRSTCLASS : SeatTypeEnum.COACH;
         } else {
-            seatTypeEnum = SeatTypeEnum.COACH;
+            if (filterCriteria != null){
+                seatTypeEnum = filterCriteria.getSeatType();
+            }
+            else{
+                seatTypeEnum = SeatTypeEnum.COACH;
+            }
         }
         filterCriteria = new FilterCriteria(seatTypeEnum, sdt, edt, sat, eat);
         return availableFlights.filter(filterCriteria);

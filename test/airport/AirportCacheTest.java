@@ -13,6 +13,9 @@ import org.junit.Test;
  * @since 2020-05-05
  */
 public class AirportCacheTest {
+    /**
+     * Test being able to get an airport from the airport cache using the airport's code.
+     */
     @Test
     public void testGetAirportByCode() {
         Assert.assertNull(AirportCache.INSTANCE.getAirportByCode("not a code"));

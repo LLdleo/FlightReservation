@@ -36,6 +36,9 @@ public class FlightTest {
      */
     Flight sample;
 
+    /**
+     * Test that a shallow copy references the same connectingLegs, but is a different flight object.
+     */
     @Test
     public void testShallowCopy() {
         Flight copy = sample.shallowCopy();
@@ -49,6 +52,9 @@ public class FlightTest {
         Assert.assertFalse(legs2.hasNext());
     }
 
+    /**
+     * Test different ways to incorrectly try to build a flight.
+     */
     @Test
     public void testInvalidFlightConstruction() {
         ConnectingLegs badLegs = new leg.ConnectingLegs();
@@ -80,6 +86,9 @@ public class FlightTest {
 
     }
 
+    /**
+     * Test methods that aggregate statistics about flights such as price and travel time.
+     */
     @Test
     public void testFlightStatistics() {
         Flight sample = new Flight(leg1);
@@ -111,6 +120,9 @@ public class FlightTest {
 
     }
 
+    /**
+     * Test different ways of building a valid flight.
+     */
     @Test
     public void testValidConstructors() {
         ConnectingLegs legConst = new ConnectingLegs();
@@ -137,8 +149,11 @@ public class FlightTest {
 
     }
 
+    /**
+     * Create the valid flight used for testing flight statistics.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
         leg1 = (new ConnectingLeg("767", "39", "8543", "CLE", "2020 May 10 23:38", "DCA", "2020 May 11 00:17", "28.42", 2, "14.78", 129));
         leg2 = (new ConnectingLeg("A320", "29", "48382", "DCA", "2020 May 11 03:36", "JFK", "2020 May 11 04:11", "182.1", 7, "17.62", 108));
@@ -148,11 +163,17 @@ public class FlightTest {
         sample.addLeg(leg3);
     }
 
+    /**
+     * Reset the database to account for reservations done for testing availability.
+     */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
     }
 
+    /**
+     * Test that the method to check availability of the connecting legs in the flight refreshes for accurate information.
+     */
     @Test
     public void testAvailability() {
         try {

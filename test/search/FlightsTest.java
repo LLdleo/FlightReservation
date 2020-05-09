@@ -23,6 +23,11 @@ public class FlightsTest {
      * oldSize is the initial size of sampleFlights for checking the invariant that the size of this flight list does not change.
      */
     private static int oldSize;
+
+    /**
+     * Conduct a search to get the sample list of flights to test sorting and filtering.
+     * @throws Exception If there is an exception thrown when searching.
+     */
     @BeforeClass
     public static void beforeClass() throws Exception {
         SearchCriteria criteria = new SearchCriteria("CLE", "BOS", LocalDate.of(2020, 5, 10), true);
@@ -31,6 +36,9 @@ public class FlightsTest {
         oldSize = sampleFlights.size();
     }
 
+    /**
+     * Test sorting in ascending and descending order.
+     */
     @Test
     public void testSortingDepartureTimes() {
         sampleFlights.sort(SortTypeEnum.DEP_TIME,true);
@@ -47,6 +55,9 @@ public class FlightsTest {
         Assert.assertEquals(oldSize,sampleFlights.size());
     }
 
+    /**
+     * Test sorting by arrival time in ascending and descending order.
+     */
     @Test
     public void testSortingArrivalTime() {
         sampleFlights.sort(SortTypeEnum.ARR_TIME,true);
@@ -63,6 +74,9 @@ public class FlightsTest {
         Assert.assertEquals(oldSize,sampleFlights.size());
     }
 
+    /**
+     * Test sorting by travel time in ascending and descending order.
+     */
     @Test
     public void testSortingTravelTime() {
         sampleFlights.sort(SortTypeEnum.TRAVEL_TIME,true);
@@ -77,6 +91,9 @@ public class FlightsTest {
         Assert.assertEquals(oldSize,sampleFlights.size());
     }
 
+    /**
+     * Test sorting by coach price in ascending and descending order.
+     */
     @Test
     public void testSortingCoachPrice() {
         sampleFlights.sort(SortTypeEnum.COACH_PRICE,true);
@@ -90,6 +107,10 @@ public class FlightsTest {
         }
         Assert.assertEquals(oldSize,sampleFlights.size());
     }
+
+    /**
+     * Test sorting by first class price in ascending and descending order.
+     */
     @Test
     public void testSortingFirstClassPrice() {
         sampleFlights.sort(SortTypeEnum.FIRST_CLASS_PRICE,true);
@@ -104,6 +125,9 @@ public class FlightsTest {
         Assert.assertEquals(oldSize,sampleFlights.size());
     }
 
+    /**
+     * Test filtering flights by seat type and time windows.
+     */
     @Test
     public void testFiltering() {
         LocalTime startDeparture = LocalTime.of(4,12);

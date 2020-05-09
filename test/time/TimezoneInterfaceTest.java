@@ -14,6 +14,9 @@ import java.sql.Time;
  */
 public class TimezoneInterfaceTest {
 
+    /**
+     * Test edge cases for querying ipgeolocation where latitude or longitude is 0 or at edge of bounds.
+     */
     @Test
     public void testTimezoneOffsetAPIEdgeCases() {
         try{
@@ -35,6 +38,9 @@ public class TimezoneInterfaceTest {
 
     }
 
+    /**
+     * Test getting the timezone offset from ipgeolocation.
+     */
     @Test
     public void testTimezoneOffsetAPI() {
         // Test example given on ipgeolocation for brisbane, Australia having timezone offset of 10 hours
@@ -50,6 +56,9 @@ public class TimezoneInterfaceTest {
         }
     }
 
+    /**
+     * Test that the timezone offsets get cached to reduce calls to ipgeolocation.
+     */
     @Test
     public void testCachingPersistence() {
         // Test that cache does not have the timezone for Port Columbus International (CMH), and then does
@@ -67,6 +76,9 @@ public class TimezoneInterfaceTest {
         }
     }
 
+    /**
+     * Test when latitude or longitude are outside of valid bounds.
+     */
     @Test
     public void testParameterExceptions() {
         boolean success = false;

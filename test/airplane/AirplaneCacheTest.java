@@ -11,6 +11,9 @@ import org.junit.Test;
  * @since 2020-05-05
  */
 public class AirplaneCacheTest {
+    /**
+     * Test whether an airplane can be retrieved from the AirplaneCache by the model.
+     */
     @Test
     public void testGetAirplaneByModel() {
         Assert.assertNull(AirplaneCache.INSTANCE.getAirplaneByModel("not a model"));

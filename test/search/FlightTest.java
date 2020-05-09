@@ -46,7 +46,9 @@ public class FlightTest {
     search.Flight convertSample;
 
 
-
+    /**
+     * Test aggregation methods for flight statistics such as price and travel time.
+     */
     @Test
     public void testFlightStatistics() {
 
@@ -70,6 +72,9 @@ public class FlightTest {
 
     }
 
+    /**
+     * Test the function that checks whether an arrival or departure time is in a time window.
+     */
     @Test
     public void testInRange() {
         LocalTime departure = LocalTime.of(19,38);
@@ -84,6 +89,10 @@ public class FlightTest {
 
     }
 
+    /**
+     * Create the sample flight to test flight functions on.
+     * @throws Exception If there is an exception when converting the flight.
+     */
     @Before
     public void setUp() throws Exception {
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
@@ -96,11 +105,17 @@ public class FlightTest {
         convertSample = new search.Flight(sample);
     }
 
+    /**
+     * Reset the database.
+     */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
     }
 
+    /**
+     * Test the availability checker which does not automatically refresh for search.Flight.
+     */
     @Test
     public void testAvailability() {
         try {

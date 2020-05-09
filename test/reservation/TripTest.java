@@ -34,6 +34,10 @@ public class TripTest {
      * full is a sample trip that includes at least one flight that doesn't have any seats.
      */
     Trip full;
+
+    /**
+     * Test reserving a one way trip.
+     */
     @Test
     public void testReserveOneWay() {
         int numCoachReserved = oneWay.getOutgoingFlight().getLegs().next().seating().getCoachReserved();
@@ -52,8 +56,11 @@ public class TripTest {
 
     }
 
+    /**
+     * Create the flights for the trips to try and reserve.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
         // Max 737 is 28 first class and 100 coach
         // 767 104 first class and 200 coach
@@ -80,11 +87,17 @@ public class TripTest {
         full = new Trip(fullFlight, fullFlight2, SeatTypeEnum.FIRSTCLASS, SeatTypeEnum.FIRSTCLASS);
     }
 
+    /**
+     * Reset the database to account for any successful reservations
+     */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         ServerInterface.INSTANCE.reset(Saps.TEAMNAME);
     }
 
+    /**
+     * Test reserving a round trip.
+     */
     @Test
     public void testReserveRound() {
         int outNumCoachReserved = round.getOutgoingFlight().getLegs().next().seating().getCoachReserved();
@@ -131,6 +144,9 @@ public class TripTest {
         }
     }
 
+    /**
+     * Testing trying to reserve a trip that has no seats left on one of its legs.
+     */
     @Test
     public void testNoSeatsToReserve() {
         Iterator<ConnectingLeg> legs = full.getOutgoingFlight().getLegs();
